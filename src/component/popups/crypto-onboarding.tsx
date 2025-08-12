@@ -9,6 +9,10 @@ import { useEffect, useMemo, useState } from "react";
 import { PiThumbsDown, PiThumbsUp } from "react-icons/pi";
 import { toast } from "sonner";
 import BadgeIcon from "../icons/badge";
+import BlandFace from "../icons/bland-face";
+import FrownFace from "../icons/frown-face";
+import RayOfLight from "../icons/ray-of-light";
+import SmileyFace from "../icons/smiley-face";
 import VideoWrapper from "../icons/video-wrapper";
 import Banner from "../ui/banner";
 import Modal from "../ui/modal";
@@ -923,6 +927,10 @@ function Completed({ close }: { close: () => void }) {
     }, 5000);
   }, []);
 
+  const [review, setReview] = useState<"clear" | "okay" | "confusing" | null>(
+    null
+  );
+
   return (
     <div className="w-screen h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar">
       <Image
@@ -1064,23 +1072,80 @@ function Completed({ close }: { close: () => void }) {
 
         {step === 3 && (
           <div className="flex items-center justify-center flex-col gap-6 mb-10">
-            <Image
-              src={"/ray-of-light.png"}
-              alt="ray of light"
-              width={113}
-              height={385}
-              className="absolute -left-2/5 -translate-x-2/5 rotate-[128deg]"
-            />
+            <>
+              <RayOfLight className="absolute h-[385px] left-1/2 -translate-x-1/2 -top-10 rotate-[130deg]" />
+              <RayOfLight className="absolute h-[385px] left-2/5 -translate-x-2/5 -top-0 rotate-[80deg]" />
+              <RayOfLight className="absolute h-[385px] left-[35%] -translate-x-[35%] top-52" />
+              <RayOfLight className="absolute h-[385px] left-3/5 -translate-x-3/5 top-0 rotate-180" />
+              <RayOfLight className="absolute h-[385px] left-1/2 -translate-x-1/2 top-64 -rotate-[55deg]" />
+              <RayOfLight className="absolute h-[385px] left-[65%] -translate-x-[65%] top-44 -rotate-[120deg]" />
+            </>
 
             <Image
               src={"/stp-coin.png"}
               alt="stp reward illustration"
               width={210}
               height={210}
+              className="relative"
             />
-            <p className={`${baloo.className} text-[#F4E90E] text-[36px]`}>
+            <p
+              className={`${baloo.className} text-[#F4E90E] text-[36px] relative`}
+            >
               +250 Coins
             </p>
+          </div>
+        )}
+
+        {step === 4 && (
+          <div className="flex flex-col items-center justify-center gap-10">
+            <h4
+              className={`${baloo.className} text-[#F4E90E] text-[36px] relative drop-shadow-[#25251A80] drop-shadow-[0px_4px_4px]`}
+            >
+              Quick question
+            </h4>
+
+            <p className="font-semibold text-2xl">
+              How was this lesson for you?
+            </p>
+
+            <div className="flex items-center gap-7">
+              <div
+                onClick={() => setReview("clear")}
+                className={`${
+                  review === "clear" ? "bg-[#BDB51033]" : "bg-[#24222A99]"
+                } w-[93px] h-[96px] cursor-pointer rounded-[10px] flex flex-col gap-2 items-center justify-center`}
+              >
+                <SmileyFace />
+
+                <p className="font-semibold text-xs bg-gradient-to-r from-white to-white/30 bg-clip-text text-transparent">
+                  Clear
+                </p>
+              </div>
+              <div
+                onClick={() => setReview("okay")}
+                className={`${
+                  review === "okay" ? "bg-[#BDB51033]" : "bg-[#24222A99]"
+                } w-[93px] h-[96px] cursor-pointer rounded-[10px] flex flex-col gap-2 items-center justify-center`}
+              >
+                <BlandFace />
+
+                <p className="font-semibold text-xs bg-gradient-to-r from-white to-white/30 bg-clip-text text-transparent">
+                  Okay
+                </p>
+              </div>
+              <div
+                onClick={() => setReview("confusing")}
+                className={`${
+                  review === "confusing" ? "bg-[#BDB51033]" : "bg-[#24222A99]"
+                } w-[93px] h-[96px] cursor-pointer rounded-[10px] flex flex-col gap-2 items-center justify-center`}
+              >
+                <FrownFace />
+
+                <p className="font-semibold text-xs bg-gradient-to-r from-white to-white/30 bg-clip-text text-transparent">
+                  Confusing
+                </p>
+              </div>
+            </div>
           </div>
         )}
 
