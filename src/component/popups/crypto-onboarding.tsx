@@ -888,7 +888,7 @@ function CryptoTest({
 function Completed({ close }: { close: () => void }) {
   const [step, setStep] = useState(1);
   const next = () => {
-    if (step == 2) close();
+    if (step == 4) close();
     else setStep((prev) => prev + 1);
   };
 
@@ -911,7 +911,7 @@ function Completed({ close }: { close: () => void }) {
         const nextIndex = (currentIndex + 1) % lists.length;
         return lists[nextIndex];
       });
-    }, 1000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [lists]);
@@ -920,7 +920,7 @@ function Completed({ close }: { close: () => void }) {
   useEffect(() => {
     setTimeout(() => {
       setShowBadge(true);
-    }, 6000);
+    }, 5000);
   }, []);
 
   return (
@@ -1059,6 +1059,28 @@ function Completed({ close }: { close: () => void }) {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {step === 3 && (
+          <div className="flex items-center justify-center flex-col gap-6 mb-10">
+            <Image
+              src={"/ray-of-light.png"}
+              alt="ray of light"
+              width={113}
+              height={385}
+              className="absolute -left-2/5 -translate-x-2/5 rotate-[128deg]"
+            />
+
+            <Image
+              src={"/stp-coin.png"}
+              alt="stp reward illustration"
+              width={210}
+              height={210}
+            />
+            <p className={`${baloo.className} text-[#F4E90E] text-[36px]`}>
+              +250 Coins
+            </p>
           </div>
         )}
 
