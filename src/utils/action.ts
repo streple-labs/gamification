@@ -192,7 +192,6 @@ export const handleCryptoOnboarding = async (payload: {
   firstQuestion: string;
   secondQuestion: string;
   thirdQuestion: string;
-  hasAnswer: boolean;
 }) => {
   try {
     const res = await api.post("/gamified/onboarding", payload);

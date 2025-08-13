@@ -20,7 +20,7 @@ interface UserData {
 }
 
 interface GamificationData {
-  phase: "Phase 1" | "Phase 2" | "Phase 3" | null;
-  level: "Level 1" | "Level 2" | "Level 3" | null;
-  score: string | null;
+  phase: number;
+  level: number;
+  score: number;
 }

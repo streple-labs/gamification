@@ -7,7 +7,7 @@ import React, { createContext, ReactNode, useContext, useState } from "react";
 
 interface User {
   user_data: UserData | null;
-  game_data: GamificationData | null;
+  game_data: GamificationData;
 }
 
 interface AuthState {
@@ -29,7 +29,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, setState] = useState<AuthState>({
-    user: { user_data: null, game_data: null },
+    user: { user_data: null, game_data: { phase: 0, level: 0, score: 0 } },
     isAuthenticated: false,
     isLoading: true,
   });
@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await clearToken();
 
     setState({
-      user: { user_data: null, game_data: null },
+      user: { user_data: null, game_data: { phase: 0, level: 0, score: 0 } },
       isAuthenticated: false,
       isLoading: false,
     });

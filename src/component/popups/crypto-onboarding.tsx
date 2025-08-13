@@ -26,6 +26,7 @@ export default function CryptoOnboarding() {
 
   const close = () => {
     setStart(false);
+    setStage("welcome");
   };
 
   // const [courseSTartTime, setCourseStartTime] = useState<Date | null>(null);
@@ -45,8 +46,7 @@ export default function CryptoOnboarding() {
 
   const { mutate: handleCompleteCryptoOnboarding } = useMutation({
     mutationKey: ["crypto-onboarding"],
-    mutationFn: async () =>
-      await handleCryptoOnboarding({ ...formData, hasAnswer: true }),
+    mutationFn: async () => await handleCryptoOnboarding(formData),
     onSuccess: (res) => {
       if (res.success) {
         toast.success(res.message);
