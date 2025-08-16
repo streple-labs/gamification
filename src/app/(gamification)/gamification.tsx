@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa6";
 import { baloo } from "../fonts";
+import MissionChest from "@/component/popups/mission-chest";
+import { useState } from "react";
 
 export default function Gamification() {
   const { user, setUser } = useAuth();
@@ -29,8 +31,16 @@ export default function Gamification() {
     },
   });
 
+  const [showMissionChestModal, setShowMissionChestModal] = useState(false);
+
   return (
     <>
+      <MissionChest
+        isOpen={showMissionChestModal}
+        close={() => {
+          setShowMissionChestModal(false);
+        }}
+      />
       <div className="space-y-8 w-full">
         <Banner label="PHASE 1 : CALL TO DISCOVERY" />
 
@@ -69,7 +79,7 @@ export default function Gamification() {
             <div className="flex items-center gap-3">
               <Image
                 src={"/wallet.png"}
-                alt="wallet image"
+                alt="wallet illustration"
                 width={40}
                 height={40}
               />
@@ -93,7 +103,7 @@ export default function Gamification() {
             <div className="flex items-center gap-3">
               <Image
                 src={"/bitcoin-wallet.png"}
-                alt="wallet image"
+                alt="bitcoin wallet illustration"
                 width={40}
                 height={40}
               />
@@ -124,8 +134,8 @@ export default function Gamification() {
           >
             <div className="flex items-center gap-3">
               <Image
-                src={"/bitcoin-wallet.png"}
-                alt="wallet image"
+                src={"/what-is-copy-trading.png"}
+                alt="what is copy trading illustration"
                 width={40}
                 height={40}
               />
@@ -148,8 +158,8 @@ export default function Gamification() {
           >
             <div className="flex items-center gap-3">
               <Image
-                src={"/bitcoin-wallet.png"}
-                alt="wallet image"
+                src={"/choose-a-trader.png"}
+                alt="choose a trader illustration"
                 width={40}
                 height={40}
               />
@@ -172,8 +182,8 @@ export default function Gamification() {
           >
             <div className="flex items-center gap-3">
               <Image
-                src={"/bitcoin-wallet.png"}
-                alt="wallet image"
+                src={"/why-trades-work.png"}
+                alt="why trades work illustration"
                 width={40}
                 height={40}
               />
@@ -188,11 +198,14 @@ export default function Gamification() {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-6 [&>div]:bg-blend-luminosity mt-8">
+      <div className="grid grid-cols-3 gap-6 [&>div]:bg-blend-luminosity pt-4">
         <div
+          onClick={() => {
+            setShowMissionChestModal(true);
+          }}
           className={`bg-[#24222A99] ${
             baloo.className
-          } h-[85px] rounded-[10px] py-[22px] px-6 min- w-xs flex items-center justify-between gap-4 shadow-[inset_9px_-9px_0px_0px_#A082F9] ${
+          } h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 shadow-[inset_9px_-9px_0px_0px_#A082F9] ${
             user.game_data.phase >= 2
               ? "cursor-pointer"
               : "grayscale-100 && cursor-not-allowed"
