@@ -27,7 +27,7 @@ export default function VideoWrapper(props: React.SVGProps<SVGSVGElement>) {
           width="1468.91"
           height="809.387"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
           <feFlood flood-opacity="0" result="BackgroundImageFix" />
           <feBlend

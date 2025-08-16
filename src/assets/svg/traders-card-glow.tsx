@@ -17,7 +17,7 @@ export function TradersCardGlowPurple() {
           rx="77"
           ry="27"
           fill="url(#paint0_linear_2821_1602)"
-          fill-opacity="0.4"
+          fillOpacity="0.4"
         />
       </g>
       <defs>
@@ -28,7 +28,7 @@ export function TradersCardGlowPurple() {
           width="266.6"
           height="166.6"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend
