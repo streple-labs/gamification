@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   const {
-    user: { user_data },
+    user: { user_data, game_data },
   } = useAuth();
   return (
     <header className="py-4 w-full h-16 md:h-[85px] flex items-center justify-center">
@@ -32,7 +32,7 @@ export default function Navbar() {
         <div className="flex gap-4 items-center shrink-0">
           <div className="flex items-center gap-3">
             <Lightning />
-            <p className="text-xl/5 font-semibold">10 STP</p>
+            <p className="text-xl/5 font-semibold">{game_data.score} STP</p>
           </div>
 
           <Image
