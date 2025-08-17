@@ -23,6 +23,7 @@ export default function Page() {
     useState(false);
 
   useEffect(() => {
+    if (window && !localStorage.getItem("done_traders_tutorial")) return;
     setTimeout(() => {
       setAboutTradersTutorials((prev) => prev + 1);
     }, 8000);
@@ -38,6 +39,7 @@ export default function Page() {
         isOpen={showUnlockQuestRewardModal}
         close={() => {
           setShowUnlockQuestRewardModal(false);
+          localStorage.setItem("done_traders_tutorial", "true");
         }}
       />
 
