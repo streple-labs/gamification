@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import Modal from "../ui/modal";
+import { baloo } from "@/app/fonts";
 import PurpleSpotlight from "@/assets/svg/purple-spotlight";
 import Image from "next/image";
-import { baloo } from "@/app/fonts";
+import { useState } from "react";
+import chest from "../../../public/treasure-chest-quest.webp";
+import Modal from "../ui/modal";
 
 export default function UnlockedQuestHero({
   isOpen,
@@ -43,12 +44,7 @@ export default function UnlockedQuestHero({
               </p>
             </>
           ) : (
-            <Image
-              src={"/treasure-quest-chest.png"}
-              alt="treasure chest"
-              width={150}
-              height={196}
-            />
+            <Image src={chest} alt="treasure chest" width={150} height={196} />
           )}
 
           <div

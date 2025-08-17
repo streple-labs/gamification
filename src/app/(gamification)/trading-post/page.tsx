@@ -25,7 +25,7 @@ export default function Page() {
   useEffect(() => {
     if (window && localStorage.getItem("done_traders_tutorial")) return;
     setTimeout(() => {
-      setAboutTradersTutorials((prev) => prev + 1);
+      setAboutTradersTutorials(1);
     }, 8000);
   }, []);
 

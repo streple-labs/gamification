@@ -66,6 +66,8 @@ export default function Sidebar() {
       canvas.width = container.offsetWidth;
       canvas.height = container.offsetHeight;
 
+      if (!canvas.width || !canvas.height) return;
+
       const imageData = ctx.createImageData(canvas.width, canvas.height);
       const data = imageData.data;
 
@@ -99,16 +101,15 @@ export default function Sidebar() {
   });
 
   return (
-    <aside className="hidden hide-scrollbar lg:flex flex-col justify-between shrink-0 pt-8 w-full max-w-[248px] h-full overflow-y-auto rounded-[20px] relative">
+    <aside className="hidden hide-scrollbar lg:flex flex-col gap-10 shrink-0 pt-8 w-full max-w-[248px] h-full overflow-y-auto rounded-[20px] relative">
       <span className="absolute top-0 left-0">
         <Image src={"/nav-eclipse.svg"} alt="" width={490} height={258} />
       </span>
+      <canvas
+        className="absolute top-0 left-0 size-full opacity-100 mix-blend-overlay -mt-8"
+        id="noiseCanvas"
+      />
       <nav className="relative flex flex-col gap-4 w-full px-6">
-        <canvas
-          className="absolute top-0 left-0 size-full opacity-100 mix-blend-overlay -mt-8"
-          id="noiseCanvas"
-        />
-
         {learn_nav_items.map((item) => (
           <Link
             key={item.name}
@@ -143,8 +144,7 @@ export default function Sidebar() {
           </span>
         </button> */}
       </nav>
-
-      <div className="w-full rounded-[20px] px-8 py-5 flex items-center justify-center gap-4 bg-[#5A555C1A]">
+      <div className="w-full rounded-[20px] px-8 py-5 flex items-center justify-center gap-4 bg-[#5A555C1A] relative">
         <p
           className={`text-sm font-normal leading-3 tracking-normal text-white/50`}
         >
