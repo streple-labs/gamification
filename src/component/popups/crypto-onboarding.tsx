@@ -5,7 +5,7 @@ import { useAuth } from "@/context/auth-context";
 import { handleCryptoOnboarding } from "@/utils/action";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { PiThumbsDown, PiThumbsUp } from "react-icons/pi";
 import { toast } from "sonner";
 import BadgeIcon from "../icons/badge";
@@ -29,7 +29,7 @@ export default function CryptoOnboarding() {
     setStage("welcome");
   };
 
-  // const [courseSTartTime, setCourseStartTime] = useState<Date | null>(null);
+  const [courseStartTime, setCourseStartTime] = useState<number>(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -54,6 +54,11 @@ export default function CryptoOnboarding() {
           setUser({
             ...user,
             user_data: { ...user.user_data, ...formData, hasAnswer: true },
+            game_data: {
+              level: Math.max(user.game_data.level, 1),
+              phase: Math.max(user.game_data.phase, 1),
+              score: user.game_data.score + 250,
+            },
           });
         setStart(false);
       } else toast.error(res.message);
@@ -78,14 +83,18 @@ export default function CryptoOnboarding() {
     if (stage === "lesson")
       return (
         <CryptoLesson
-          // startTime={courseStartTime}
-          // setCourseStartTime={setCourseStartTime}
+          setCourseStartTime={setCourseStartTime}
           close={close}
           setStage={setStage}
         />
       );
     if (stage === "awards")
-      return <Completed close={handleCompleteCryptoOnboarding} />;
+      return (
+        <Completed
+          courseStartTime={courseStartTime}
+          close={handleCompleteCryptoOnboarding}
+        />
+      );
   };
 
   return (
@@ -407,11 +416,17 @@ function Onboarding({
 function CryptoLesson({
   setStage,
   close,
+  setCourseStartTime,
 }: {
   setStage: (stage: Stages) => void;
   close: () => void;
+  setCourseStartTime: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [step, setStep] = useState<"intro" | "course" | "test">("intro");
+
+  useEffect(() => {
+    setCourseStartTime(Date.now());
+  }, [setCourseStartTime]);
 
   return (
     <div className="w-screen h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar">
@@ -889,12 +904,28 @@ function CryptoTest({
   );
 }
 
-function Completed({ close }: { close: () => void }) {
+function Completed({
+  close,
+  courseStartTime,
+}: {
+  close: () => void;
+  courseStartTime: number;
+}) {
   const [step, setStep] = useState(1);
   const next = () => {
     if (step == 4) close();
     else setStep((prev) => prev + 1);
   };
+
+  const elapsedTime = useMemo(() => {
+    if (!courseStartTime) return "0:00";
+    const elapsedMs = Date.now() - courseStartTime;
+    const minutes = Math.floor(elapsedMs / (1000 * 60));
+    const seconds = Math.floor((elapsedMs % (1000 * 60)) / 1000);
+
+    if (minutes === 0) return `${seconds}s`;
+    else return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }, [courseStartTime]);
 
   const lists = useMemo(
     () => [
@@ -997,7 +1028,7 @@ function Completed({ close }: { close: () => void }) {
                     height={50}
                   />
                   <p className="text-base leading-8 tracking-[1px] text-white/80">
-                    50 STP
+                    250 STP
                   </p>
                 </div>
                 <div className="bg-[#24222A99] rounded-[10px] py-5 px-7 flex items-center flex-col justify-center gap-2">
@@ -1014,7 +1045,7 @@ function Completed({ close }: { close: () => void }) {
                     height={50}
                   />
                   <p className="text-base leading-8 tracking-[1px] text-white/80">
-                    2:00
+                    {elapsedTime}
                   </p>
                 </div>
               </div>
@@ -1071,28 +1102,30 @@ function Completed({ close }: { close: () => void }) {
         )}
 
         {step === 3 && (
-          <div className="flex items-center justify-center flex-col gap-6 mb-10">
+          <div className="flex items-center justify-center">
             <>
-              <RayOfLight className="absolute h-[385px] left-1/2 -translate-x-1/2 -top-10 rotate-[130deg]" />
-              <RayOfLight className="absolute h-[385px] left-2/5 -translate-x-2/5 -top-0 rotate-[80deg]" />
-              <RayOfLight className="absolute h-[385px] left-[35%] -translate-x-[35%] top-52" />
-              <RayOfLight className="absolute h-[385px] left-3/5 -translate-x-3/5 top-0 rotate-180" />
-              <RayOfLight className="absolute h-[385px] left-1/2 -translate-x-1/2 top-64 -rotate-[55deg]" />
-              <RayOfLight className="absolute h-[385px] left-[65%] -translate-x-[65%] top-44 -rotate-[120deg]" />
+              <RayOfLight className="absolute h-[340px] left-1/2 -translate-x-1/2 -top-10 rotate-[130deg]" />
+              <RayOfLight className="absolute h-[340px] left-2/5 -translate-x-2/5 -top-0 rotate-[80deg]" />
+              <RayOfLight className="absolute h-[340px] left-[35%] -translate-x-[35%] top-52" />
+              <RayOfLight className="absolute h-[340px] left-3/5 -translate-x-3/5 top-0 rotate-180" />
+              <RayOfLight className="absolute h-[340px] left-1/2 -translate-x-1/2 top-64 -rotate-[55deg]" />
+              <RayOfLight className="absolute h-[340px] left-[65%] -translate-x-[65%] top-44 -rotate-[120deg]" />
             </>
 
-            <Image
-              src={"/stp-coin.png"}
-              alt="stp reward illustration"
-              width={210}
-              height={210}
-              className="relative"
-            />
-            <p
-              className={`${baloo.className} text-[#F4E90E] text-[36px] relative`}
-            >
-              +250 Coins
-            </p>
+            <div className="flex items-center justify-center flex-col gap-6 mb-10 relative">
+              <Image
+                src={"/stp-coin.png"}
+                alt="stp reward illustration"
+                width={210}
+                height={210}
+                className="relative"
+              />
+              <p
+                className={`${baloo.className} text-[#F4E90E] text-[36px] relative`}
+              >
+                +250 Coins
+              </p>
+            </div>
           </div>
         )}
 
