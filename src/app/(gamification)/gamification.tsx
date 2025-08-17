@@ -1,35 +1,15 @@
 "use client";
 
+import MissionChest from "@/component/popups/mission-chest";
 import Banner from "@/component/ui/banner";
 import { useAuth } from "@/context/auth-context";
-import api from "@/utils/client-axios";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { baloo } from "../fonts";
-import MissionChest from "@/component/popups/mission-chest";
-import { useState } from "react";
 
 export default function Gamification() {
-  const { user, setUser } = useAuth();
-
-  const {} = useQuery({
-    queryKey: ["gamification-progress"],
-    queryFn: async () => {
-      const res = await api.get("/gamified/user-progress");
-
-      setUser({
-        ...user,
-        game_data: {
-          phase: Number(res.data.phase.split(" ")[1]) ?? 0,
-          level: Number(res.data.level.split(" ")[1]) ?? 0,
-          score: res.data.score,
-        },
-      });
-
-      return res.data;
-    },
-  });
+  const { user } = useAuth();
 
   const [showMissionChestModal, setShowMissionChestModal] = useState(false);
 

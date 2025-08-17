@@ -1,5 +1,6 @@
 "use client";
 
+import api from "@/utils/client-axios";
 import { clearToken, getSession } from "@/utils/queries";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
@@ -59,18 +60,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const token = getCookie("streple_auth_token");
       if (!token) return null;
       try {
-        const res = await getSession();
+        const [user, game] = await Promise.all([
+          getSession(),
+          api.get("/gamified/user-progress"),
+        ]);
 
-        if (res.success) {
+        if (user && game)
           setState((prev) => ({
             ...prev,
             isLoading: false,
             isAuthenticated: true,
-            user: { ...state.user, user_data: res.user_data },
+            user: {
+              user_data: user.user_data,
+              game_data: {
+                phase: Number(game.data.phase.split(" ")[1]) || 0,
+                level: Number(game.data.level.split(" ")[1]) || 0,
+                score: game.data.score,
+              },
+            },
           }));
-        } else setState((prev) => ({ ...prev, isLoading: false }));
+        else setState((prev) => ({ ...prev, isLoading: false }));
 
-        return res.user_data;
+        return null;
       } catch (error) {
         console.error("Auth initialization error:", error);
         await logout();

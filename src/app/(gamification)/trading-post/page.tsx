@@ -410,8 +410,10 @@ export default function Page() {
               >
                 <button
                   onClick={() => {
-                    setAboutTradersTutorials(0);
-                    setShowUnlockQuestRewardModal(true);
+                    if (aboutTradersTutorials) {
+                      setAboutTradersTutorials(0);
+                      setShowUnlockQuestRewardModal(true);
+                    }
                   }}
                   className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80"
                 >
