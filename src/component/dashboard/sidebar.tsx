@@ -17,7 +17,7 @@ import Switch from "../ui/switch";
 const learn_nav_items = [
   {
     name: "Crypto hustle",
-    href: "/learn",
+    href: "/",
     icon: PiBookBookmark,
   },
   {
