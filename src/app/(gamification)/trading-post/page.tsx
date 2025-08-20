@@ -386,38 +386,43 @@ export default function Page() {
                   </p>
                 </div>
               </div>
-
-              <Tooltip
-                isVisible={aboutTradersTutorials === 5}
-                position="right"
-                content={
-                  <div className="flex flex-col gap-2.5 w-full text-[#151021E5] text-xs/5 tracking-[1px] font-semibold">
-                    <p>Click on copy to copy your first trade</p>
-                    <div className="flex items-center justify-end">
-                      <button
-                        onClick={() => {
-                          setAboutTradersTutorials(0);
-                        }}
-                        className="text-[#4F4E51E5]"
-                      >
-                        Cancel
-                      </button>
+              {aboutTradersTutorials === 5 ? (
+                <Tooltip
+                  isVisible={aboutTradersTutorials === 5}
+                  position="right"
+                  content={
+                    <div className="flex flex-col gap-2.5 w-full text-[#151021E5] text-xs/5 tracking-[1px] font-semibold">
+                      <p>Click on copy to copy your first trade</p>
+                      <div className="flex items-center justify-end">
+                        <button
+                          onClick={() => {
+                            setAboutTradersTutorials(0);
+                          }}
+                          className="text-[#4F4E51E5]"
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                }
-              >
-                <button
-                  onClick={() => {
-                    if (aboutTradersTutorials) {
+                  }
+                >
+                  <button
+                    onClick={() => {
                       setAboutTradersTutorials(0);
                       setShowUnlockQuestRewardModal(true);
-                    }
-                  }}
-                  className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80"
-                >
-                  Copy now
-                </button>
-              </Tooltip>
+                    }}
+                    className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80"
+                  >
+                    Copy now
+                  </button>
+                </Tooltip>
+              ) : (
+                <Link href="/trading-post/traders/1">
+                  <button className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80">
+                    Copy now
+                  </button>
+                </Link>
+              )}
             </div>
 
             <span className="absolute -top-0 left-1/2 -translate-x-1/2">
@@ -513,9 +518,11 @@ export default function Page() {
                 </div>
               </div>
 
-              <button className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80">
-                Copy now
-              </button>
+              <Link href="/trading-post/traders/2">
+                <button className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80">
+                  Copy now
+                </button>
+              </Link>
             </div>
 
             <span className="absolute -top-0 left-1/2 -translate-x-1/2">
@@ -611,9 +618,11 @@ export default function Page() {
                 </div>
               </div>
 
-              <button className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80">
-                Copy now
-              </button>
+              <Link href="/trading-post/traders/3">
+                <button className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80">
+                  Copy now
+                </button>
+              </Link>
             </div>
 
             <span className="absolute -top-0 left-1/2 -translate-x-1/2">
@@ -684,7 +693,6 @@ export default function Page() {
                 className="size-auto"
               />
             </div>
-
             <div className="flex flex-col items-center gap-5 w-full">
               <div className="space-y-3 w-full">
                 <div className="space-y-1">
@@ -709,11 +717,12 @@ export default function Page() {
                 </div>
               </div>
 
-              <button className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80">
-                Copy now
-              </button>
+              <Link href="/trading-post/traders/4">
+                <button className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80">
+                  Copy now
+                </button>
+              </Link>
             </div>
-
             <span className="absolute -top-0 left-1/2 -translate-x-1/2">
               <TradersCardGlowYellow />
             </span>
