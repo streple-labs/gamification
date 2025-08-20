@@ -30,7 +30,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, setState] = useState<AuthState>({
-    user: { user_data: null, game_data: { phase: 0, level: 0, score: 0 } },
+    user: { user_data: null, game_data: { phase: 1, level: 0, score: 0 } },
     isAuthenticated: false,
     isLoading: true,
   });
@@ -73,7 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             user: {
               user_data: user.user_data,
               game_data: {
-                phase: Number(game.data.phase.split(" ")[1]) || 0,
+                phase: Number(game.data.phase.split(" ")[1]) || 1,
                 level: Number(game.data.level.split(" ")[1]) || 0,
                 score: game.data.score,
               },
