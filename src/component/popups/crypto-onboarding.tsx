@@ -8,7 +8,6 @@ import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { PiThumbsDown, PiThumbsUp } from "react-icons/pi";
 import { toast } from "sonner";
-import BadgeIcon from "../icons/badge";
 import BlandFace from "../icons/bland-face";
 import FrownFace from "../icons/frown-face";
 import RayOfLight from "../icons/ray-of-light";
@@ -70,7 +69,7 @@ export default function CryptoOnboarding() {
     },
   });
 
-  const returnStageComponent = () => {
+  const returnStageComponent = useMemo(() => {
     if (stage === "welcome") return <Welcome setStage={setStage} />;
     if (stage === "onboarding")
       return (
@@ -95,7 +94,7 @@ export default function CryptoOnboarding() {
           close={handleCompleteCryptoOnboarding}
         />
       );
-  };
+  }, [courseStartTime, formData, handleCompleteCryptoOnboarding, stage]);
 
   return (
     <Modal
@@ -104,7 +103,7 @@ export default function CryptoOnboarding() {
         setStart(false);
       }}
     >
-      {returnStageComponent()}
+      {returnStageComponent}
     </Modal>
   );
 }
@@ -526,15 +525,15 @@ function CryptoCourse({
 
             <div className="flex">
               <Image
-                src={"/mascot-6.png"}
+                src={"/mascot-4.png"}
                 alt=""
                 width={259}
                 height={195}
-                className="-ml-30"
+                className="-ml-30 h-[195px] size-auto"
               />
               <div className="space-y-4 mt-6">
                 <p className="text-base/8 tracking-[1px] font-semibold drop-shadow-sm drop-shadow-[#A082F966]">
-                  In this lesson, you will:
+                  In this lesson, you will learn :
                 </p>
                 <div className="flex items-center gap-4">
                   <svg
@@ -552,7 +551,7 @@ function CryptoCourse({
                   </svg>
 
                   <p className="text-[14px]/8 tracking-[1px] font-semibold text-white/80">
-                    Learn the basics of crypto
+                    What is Crypto
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
@@ -571,28 +570,34 @@ function CryptoCourse({
                   </svg>
 
                   <p className="text-[14px]/8 tracking-[1px] font-semibold text-white/80">
-                    Take a question and answer quiz
+                    Understanding wallets
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <svg
+                    width="19"
+                    height="11"
+                    viewBox="0 0 19 11"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.18359 10.2642V1.58252L16.9854 6.45459L1.18359 10.2642Z"
+                      fill="#F4E90E"
+                      stroke="#605F44"
+                    />
+                  </svg>
+
+                  <p className="text-[14px]/8 tracking-[1px] font-semibold text-white/80">
+                    Crypto in the market
                   </p>
                 </div>
                 <div className="pt-6 flex items-center gap-[52px] text-white/80">
-                  <div className="flex items-center gap-6">
-                    <Image
-                      src={"/coin-learn.png"}
-                      alt="coin"
-                      width={50}
-                      height={50}
-                    />
-                    <p className="text-base/8 tracking-[1px] font-semibold">
-                      250 STP
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-6">
-                    <BadgeIcon />
-
-                    <p className="text-base/8 tracking-[1px] font-semibold">
-                      Crypto Initiate Badge
-                    </p>
-                  </div>
+                  <p
+                    className={`${baloo.className} text-2xl/8 text-[#A082F9] tracking-[1px] font-normal`}
+                  >
+                    500 STP REWARD
+                  </p>
                 </div>
               </div>
             </div>
@@ -646,7 +651,7 @@ function CryptoCourse({
                 width={35}
                 height={35}
               />
-              <p className="text-2xl/6 font-semibold text-white/80">+25 STP</p>
+              <p className="text-2xl/6 font-semibold text-white/80">+500 STP</p>
             </div>
           </div>
 
@@ -774,7 +779,7 @@ function CryptoTest({
 
         <div className="flex items-center shrink-0 gap-3">
           <Image src={"/coin-learn.png"} alt="coin" width={35} height={35} />
-          <p className="text-2xl/6 font-semibold text-white/80">+25 STP</p>
+          <p className="text-2xl/6 font-semibold text-white/80">+500 STP</p>
         </div>
       </div>
 
@@ -1021,17 +1026,6 @@ function Completed({
 
               <div className="flex gap-9">
                 <div className="bg-[#24222A99] rounded-[10px] py-5 px-7 flex items-center flex-col justify-center gap-2">
-                  <Image
-                    src={"/coin-award.png"}
-                    alt=""
-                    width={50}
-                    height={50}
-                  />
-                  <p className="text-base leading-8 tracking-[1px] text-white/80">
-                    250 STP
-                  </p>
-                </div>
-                <div className="bg-[#24222A99] rounded-[10px] py-5 px-7 flex items-center flex-col justify-center gap-2">
                   <Image src={"/target.png"} alt="" width={50} height={50} />
                   <p className="text-base leading-8 tracking-[1px] text-white/80">
                     30 %
@@ -1123,7 +1117,7 @@ function Completed({
               <p
                 className={`${baloo.className} text-[#F4E90E] text-[36px] relative`}
               >
-                +250 Coins
+                +500 Coins
               </p>
             </div>
           </div>

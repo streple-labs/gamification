@@ -393,9 +393,7 @@ export default function Page() {
                 content={
                   <div className="flex flex-col gap-2.5 w-full text-[#151021E5] text-xs/5 tracking-[1px] font-semibold">
                     <p>Click on copy to copy your first trade</p>
-                    <div className="flex items-center justify-between">
-                      <p></p>
-
+                    <div className="flex items-center justify-end">
                       <button
                         onClick={() => {
                           setAboutTradersTutorials(0);

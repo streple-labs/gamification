@@ -13,7 +13,7 @@ export default function MissionChest({
   return (
     <Modal isOpen={isOpen} onClose={close}>
       <div className="relative bg-[url('/learn-bg.jpg')] bg-cover bg-center bg-no-repeat w-5xl rounded-[29px] overflow-hidden min-h-[587px]">
-        <div className="absolute size-full bg-[#141314] opacity-95" />
+        <div className="absolute inset-0 size-full bg-[#141314] opacity-95" />
 
         <div className="relative flex items-center justify-center flex-col gap-10 mt-10 w-fit mx-auto">
           <div className="flex items-center flex-col">

@@ -1,10 +1,12 @@
 "use client";
 
 import MissionChest from "@/component/popups/mission-chest";
+import Phase1Level1 from "@/component/popups/phase-1/level-1";
+import Phase1Level2 from "@/component/popups/phase-1/level-2";
 import Banner from "@/component/ui/banner";
 import { useAuth } from "@/context/auth-context";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { baloo } from "../fonts";
 
@@ -12,6 +14,32 @@ export default function Gamification() {
   const { user } = useAuth();
 
   const [showMissionChestModal, setShowMissionChestModal] = useState(false);
+
+  const [showSelectedCourse, setShowSelectedCourse] = useState<null | string>(
+    null
+  );
+  const UserCourses = useMemo(() => {
+    if (showSelectedCourse === "Phase1Level1")
+      return (
+        <Phase1Level1
+          isOpen={!!showSelectedCourse}
+          closeCourse={() => {
+            setShowSelectedCourse(null);
+          }}
+        />
+      );
+    if (showSelectedCourse === "Phase1Level2") {
+      return (
+        <Phase1Level2
+          isOpen={!!showSelectedCourse}
+          closeCourse={() => {
+            setShowSelectedCourse(null);
+          }}
+        />
+      );
+    }
+    return null;
+  }, [showSelectedCourse]);
 
   return (
     <>
@@ -21,14 +49,21 @@ export default function Gamification() {
           setShowMissionChestModal(false);
         }}
       />
+
+      {UserCourses}
+
       <div className="space-y-8 w-full">
         <Banner label="PHASE 1 : CALL TO DISCOVERY" />
 
-        <div className="grid grid-cols-3 gap-6 [&>div]:bg-blend-luminosity">
+        <div className="grid grid-cols-3 gap-6 [&>div]:bg-blend-luminosity [&>div]:active:scale-95">
           <div
+            onClick={() => {
+              if (user.game_data.phase >= 1 && user.game_data.level >= 0)
+                setShowSelectedCourse("Phase1Level1");
+            }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
               user.game_data.phase >= 1 && user.game_data.level >= 0
-                ? "cursor-pointer"
+                ? "cursor-pointer hover:border-4 hover:border-[#958F16]/50"
                 : "grayscale-100 && cursor-not-allowed"
             }`}
           >
@@ -50,9 +85,13 @@ export default function Gamification() {
           </div>
 
           <div
+            onClick={() => {
+              if (user.game_data.phase >= 1 && user.game_data.level >= 0)
+                setShowSelectedCourse("Phase1Level2");
+            }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
               user.game_data.phase >= 1 && user.game_data.level >= 1
-                ? "cursor-pointer"
+                ? "cursor-pointer hover:border-4 hover:border-[#A082F980]"
                 : "grayscale-100 && cursor-not-allowed"
             }`}
           >
@@ -104,7 +143,7 @@ export default function Gamification() {
           disabled={user.game_data?.phase < 2}
         />
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6 [&>div]:active:scale-95">
           <div
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
               user.game_data.phase >= 2 && user.game_data.level >= 0
@@ -178,7 +217,7 @@ export default function Gamification() {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-6 [&>div]:bg-blend-luminosity pt-4">
+      <div className="grid grid-cols-3 gap-6 [&>div]:bg-blend-luminosity pt-4 [&>div]:active:scale-95">
         <div
           onClick={() => {
             setShowMissionChestModal(true);

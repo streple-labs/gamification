@@ -1,4 +1,4 @@
-import { baloo } from "@/app/fonts";
+import { baloo, bazinga } from "@/app/fonts";
 import {
   LeftBig,
   LeftSmall,
@@ -38,12 +38,12 @@ export default function Banner({
     <div className="flex drop-shadow-[#EFEDF6B2] drop-shadow-xs">
       <LeftSmall className={disabled ? "grayscale-100" : ""} />
       <div
-        className={`flex items-center justify-center px-2.5 py-3 h-[48px] bg-gradient-to-b from-[#CDBEF9] to-[#503C8B] ${
+        className={`flex items-center justify-center px-2.5 py-3 h-[46px] bg-gradient-to-b from-[#CDBEF9] to-[#503C8B] ${
           disabled && "grayscale-100"
         }`}
       >
         <p
-          className={`${baloo.className} text-base tracking-[3%] bg-gradient-to-b from-[#130C26] to-[#262233] bg-clip-text text-transparent drop-shadow-[#6246B4] drop-shadow-[0px_4px_4px]`}
+          className={`${bazinga.className} text-base tracking-[3%] bg-gradient-to-b from-[#130C26] to-[#262233] bg-clip-text text-transparent drop-shadow-[#6246B4] drop-shadow-[0px_4px_4px]`}
         >
           {label}
         </p>

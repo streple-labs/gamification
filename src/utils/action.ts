@@ -196,11 +196,10 @@ export const handleCryptoOnboarding = async (payload: {
   try {
     const res = await api.post("/gamified/onboarding", payload);
 
-    console.log(res.data);
-
     return {
       success: true,
-      message: "Course completed",
+      user_data: res.data,
+      message: "Phase 1 Level 1 completed",
     };
   } catch (error: any) {
     let errorMessage = "Error updating your profile, Please try again later.";
@@ -213,5 +212,32 @@ export const handleCryptoOnboarding = async (payload: {
     else if (error?.message) errorMessage = error.message;
 
     return { success: false, message: errorMessage };
+  }
+};
+
+export const updateUserGameData = async (gameData: {
+  phase: number;
+  level: number;
+  score: number;
+}) => {
+  try {
+    const res = await api.post("/gamified/tracker", gameData);
+
+    return {
+      success: true,
+      message: `Phase ${gameData.phase} Level ${gameData.level} completed`,
+      user_data: res.data,
+    };
+  } catch (error: any) {
+    let errorMessage = "Error updating your game data, Please try again later.";
+
+    if (error?.response?.data?.message) {
+      if (Array.isArray(error.response.data.message))
+        errorMessage = error.response.data.message.join(", ");
+      else errorMessage = error.response.data.message;
+    } else if (error?.userMessage) errorMessage = error.userMessage;
+    else if (error?.message) errorMessage = error.message;
+
+    return { success: false, message: errorMessage, user_data: null };
   }
 };
