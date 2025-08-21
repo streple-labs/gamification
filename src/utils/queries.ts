@@ -35,7 +35,12 @@ export const getSession = async (): Promise<{
 export const getUserGameProgress = async (): Promise<{
   success: boolean;
   message: string;
-  game_data: { phase: string; level: string; score: number } | null;
+  game_data: {
+    phase: string;
+    level: string;
+    score: number;
+    hasAnswer: boolean;
+  } | null;
 }> => {
   try {
     const res = await api.get("/gamified/user-progress");

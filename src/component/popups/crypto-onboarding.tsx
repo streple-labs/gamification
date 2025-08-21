@@ -32,7 +32,7 @@ export default function CryptoOnboarding() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setStart(!user.user_data?.hasAnswer);
+      setStart(!user.game_data?.hasAnswer);
     }, 5000);
     return () => clearTimeout(timer);
   }, [user]);
@@ -41,6 +41,7 @@ export default function CryptoOnboarding() {
     firstQuestion: "",
     secondQuestion: "",
     thirdQuestion: "",
+    hasAnswer: true,
   });
 
   const { mutate: handleCompleteCryptoOnboarding } = useMutation({
@@ -57,6 +58,7 @@ export default function CryptoOnboarding() {
               level: Math.max(user.game_data.level, 1),
               phase: Math.max(user.game_data.phase, 1),
               score: user.game_data.score + 500,
+              hasAnswer: true,
             },
           });
         setStart(false);
@@ -154,7 +156,6 @@ function Onboarding({
   setFormData,
 }: {
   setStage: (stage: Stages) => void;
-
   formData: {
     firstQuestion: string;
     secondQuestion: string;
@@ -165,6 +166,7 @@ function Onboarding({
       firstQuestion: string;
       secondQuestion: string;
       thirdQuestion: string;
+      hasAnswer: boolean;
     }>
   >;
 }) {

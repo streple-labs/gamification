@@ -29,7 +29,10 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, setState] = useState<AuthState>({
-    user: { user_data: null, game_data: { phase: 1, level: 0, score: 0 } },
+    user: {
+      user_data: null,
+      game_data: { phase: 1, level: 0, score: 0, hasAnswer: false },
+    },
     isAuthenticated: false,
     isLoading: true,
   });
@@ -38,7 +41,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await clearToken();
 
     setState({
-      user: { user_data: null, game_data: { phase: 0, level: 0, score: 0 } },
+      user: {
+        user_data: null,
+        game_data: { phase: 0, level: 0, score: 0, hasAnswer: false },
+      },
       isAuthenticated: false,
       isLoading: false,
     });
@@ -54,7 +60,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const {} = useQuery({
-    queryKey: ["fetch-user"],
+    queryKey: ["fetch-user", getCookie("streple_auth_token")],
+    enabled: !!getCookie("streple_auth_token"),
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const token = getCookie("streple_auth_token");
       if (!token) return null;
@@ -75,6 +83,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 phase: Number(game.game_data?.phase.split(" ")[1]) || 1,
                 level: Number(game.game_data?.level.split(" ")[1]) || 0,
                 score: game.game_data?.score || 0,
+                hasAnswer: game.game_data?.hasAnswer || false,
               },
             },
           }));

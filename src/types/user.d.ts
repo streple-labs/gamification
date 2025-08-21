@@ -23,4 +23,5 @@ interface GamificationData {
   phase: number;
   level: number;
   score: number;
+  hasAnswer: boolean;
 }

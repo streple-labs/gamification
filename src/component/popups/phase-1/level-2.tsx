@@ -57,6 +57,7 @@ export default function Phase1Level2({
               level: Math.max(user.game_data.level, 1),
               phase: Math.max(user.game_data.phase, 1),
               score: user.game_data.score + 250,
+              hasAnswer: true,
             },
           });
         close();
