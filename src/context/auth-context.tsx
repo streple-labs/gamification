@@ -1,7 +1,6 @@
 "use client";
 
-import api from "@/utils/client-axios";
-import { clearToken, getSession } from "@/utils/queries";
+import { clearToken, getSession, getUserGameProgress } from "@/utils/queries";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import React, { createContext, ReactNode, useContext, useState } from "react";
@@ -62,7 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         const [user, game] = await Promise.all([
           getSession(),
-          api.get("/gamified/user-progress"),
+          getUserGameProgress(),
         ]);
 
         if (user && game)
@@ -73,9 +72,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             user: {
               user_data: user.user_data,
               game_data: {
-                phase: Number(game.data.phase.split(" ")[1]) || 1,
-                level: Number(game.data.level.split(" ")[1]) || 0,
-                score: game.data.score,
+                phase: Number(game.game_data?.phase.split(" ")[1]) || 1,
+                level: Number(game.game_data?.level.split(" ")[1]) || 0,
+                score: game.game_data?.score || 0,
               },
             },
           }));
