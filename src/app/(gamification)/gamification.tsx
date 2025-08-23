@@ -28,7 +28,7 @@ export default function Gamification() {
           }}
         />
       );
-    if (showSelectedCourse === "Phase1Level2") {
+    if (showSelectedCourse === "Phase1Level2")
       return (
         <Phase1Level2
           isOpen={!!showSelectedCourse}
@@ -37,7 +37,7 @@ export default function Gamification() {
           }}
         />
       );
-    }
+
     return null;
   }, [showSelectedCourse]);
 

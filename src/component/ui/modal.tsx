@@ -28,7 +28,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       />
 
       <div
-        className="overflow-y-auto hide-scrollbar"
+        className="w-full flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
