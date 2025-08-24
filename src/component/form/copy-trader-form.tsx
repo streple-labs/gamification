@@ -4,6 +4,7 @@ import { baloo } from "@/app/fonts";
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import Loader from "../ui/loader";
+import { useAuth } from "@/context/auth-context";
 
 export default function CopyTrader({
   handleCopyTrader,
@@ -12,6 +13,9 @@ export default function CopyTrader({
   handleCopyTrader: (amount: number) => void;
   loading: boolean;
 }) {
+  const {
+    user: { game_data },
+  } = useAuth();
   const [sliderValue, setSliderValue] = useState(50);
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +44,9 @@ export default function CopyTrader({
         <h4
           className={`pl-5 ${baloo.className} text-2xl/[30px] tracking-[4%] text-[#E6E2F066]`}
         >
-          Min of 50STP
+          {sliderValue > 50
+            ? `Copy trader with ${sliderValue} STP`
+            : "Min of 50STP"}
         </h4>
 
         <div className="flex flex-col gap-6">
@@ -50,7 +56,7 @@ export default function CopyTrader({
               name="stp-amount"
               id="amount"
               min="50"
-              max="500"
+              max={game_data.score}
               value={sliderValue}
               onChange={handleSliderChange}
               className="w-full"
