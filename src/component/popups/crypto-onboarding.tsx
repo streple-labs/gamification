@@ -21,11 +21,12 @@ type Stages = "welcome" | "onboarding" | "lesson" | "awards";
 export default function CryptoOnboarding() {
   const { setUser, user } = useAuth();
   const [start, setStart] = useState(false);
-  const [stage, setStage] = useState<Stages>("welcome");
+  const [stage, setStage] = useState<Stages>(
+    (localStorage.getItem("crypto-onboarding-stage") as Stages) || "welcome"
+  );
 
   const close = () => {
     setStart(false);
-    setStage("welcome");
   };
 
   const [courseStartTime, setCourseStartTime] = useState<number>(0);
@@ -62,6 +63,8 @@ export default function CryptoOnboarding() {
             },
           });
         setStart(false);
+        localStorage.removeItem("crypto-onboarding-stage");
+        localStorage.removeItem("crypto-onboarding-course-stage");
       } else toast.error(res.message);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -139,7 +142,10 @@ function Welcome({ setStage }: { setStage: (stage: Stages) => void }) {
 
         <div className="flex justify-end w-full pr-8">
           <button
-            onClick={() => setStage("onboarding")}
+            onClick={() => {
+              setStage("onboarding");
+              localStorage.setItem("crypto-onboarding-stage", "onboarding");
+            }}
             className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[138px]"
           >
             Continue
@@ -172,12 +178,16 @@ function Onboarding({
 }) {
   const [step, setStep] = useState(1);
   const Next = () => {
-    if (step === 3) setStage("lesson");
-    else setStep(step + 1);
+    if (step === 3) {
+      localStorage.setItem("crypto-onboarding-stage", "lesson");
+      setStage("lesson");
+    } else setStep(step + 1);
   };
   const Back = () => {
-    if (step === 1) setStage("welcome");
-    else setStep(step - 1);
+    if (step === 1) {
+      localStorage.setItem("crypto-onboarding-stage", "welcome");
+      setStage("welcome");
+    } else setStep(step - 1);
   };
 
   return (
@@ -414,6 +424,8 @@ function Onboarding({
   );
 }
 
+type CourseStages = "intro" | "course" | "test";
+
 function CryptoLesson({
   setStage,
   close,
@@ -423,7 +435,10 @@ function CryptoLesson({
   close: () => void;
   setCourseStartTime: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [step, setStep] = useState<"intro" | "course" | "test">("intro");
+  const [step, setStep] = useState<CourseStages>(
+    (localStorage.getItem("crypto-onboarding-course-stage") as CourseStages) ||
+      "intro"
+  );
 
   useEffect(() => {
     setCourseStartTime(Date.now());
@@ -442,6 +457,7 @@ function CryptoLesson({
 
           <button
             onClick={() => {
+              localStorage.setItem("crypto-onboarding-course-stage", "course");
               setStep("course");
             }}
             className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
@@ -454,6 +470,7 @@ function CryptoLesson({
       {step === "course" && (
         <CryptoCourse
           next={() => {
+            localStorage.setItem("crypto-onboarding-course-stage", "test");
             setStep("test");
           }}
           close={close}
@@ -463,9 +480,11 @@ function CryptoLesson({
       {step === "test" && (
         <CryptoTest
           review={() => {
+            localStorage.setItem("crypto-onboarding-course-stage", "course");
             setStep("course");
           }}
           next={() => {
+            localStorage.setItem("crypto-onboarding-stage", "awards");
             setStage("awards");
           }}
         />
@@ -920,7 +939,7 @@ function Completed({
 }) {
   const [step, setStep] = useState(1);
   const next = () => {
-    if (step == 4) close();
+    if (step === 4) close();
     else setStep((prev) => prev + 1);
   };
 
