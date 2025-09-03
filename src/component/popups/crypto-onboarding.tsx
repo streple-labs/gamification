@@ -23,10 +23,13 @@ export default function CryptoOnboarding() {
   const { setUser, user } = useAuth();
 
   const [start, setStart] = useState(false);
-  const [stage, setStage] = useState<Stages>(
-    (window && (localStorage.getItem("crypto-onboarding-stage") as Stages)) ||
-      "welcome"
-  );
+  const [stage, setStage] = useState<Stages>("welcome");
+
+  useEffect(() => {
+    setStage(
+      (localStorage.getItem("crypto-onboarding-stage") as Stages) || "welcome"
+    );
+  }, []);
 
   const close = () => {
     setStart(false);
