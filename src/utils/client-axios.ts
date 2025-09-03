@@ -27,10 +27,13 @@ let failedRequestsQueue: ((token: string) => void)[] = [];
 
 api.interceptors.request.use(
   (config: CustomAxiosRequestConfig) => {
-    const token = getCookie("streple_auth_token");
-    if (token && config.headers)
-      config.headers["Authorization"] = `Bearer ${token}`;
-
+    const path = config.url ? new URL(config.url, base_url).pathname : "";
+    const isAuthUrl = path.startsWith("/auth/");
+    if (!isAuthUrl) {
+      const token = getCookie("streple_auth_token");
+      if (token && config.headers)
+        config.headers["Authorization"] = `Bearer ${token}`;
+    }
     config.metadata = { startTime: new Date() };
 
     if (process.env.NODE_ENV === "development") {

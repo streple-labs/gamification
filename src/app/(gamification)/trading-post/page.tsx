@@ -396,7 +396,7 @@ export default function Page() {
           ].map((trader, i) => (
             <div
               key={i}
-              className="relative py-8 px-5 rounded-[15px] space-y-5 w-full bg-white/[3%] overflow-hidden"
+              className="relative py-8 px-5 rounded-[15px] flex flex-col gap-5 w-full bg-white/[3%] overflow-hidden"
             >
               <Link href={"/trading-post/traders/" + (i + 1)}>
                 <div className="flex items-center justify-between relative">
@@ -464,7 +464,7 @@ export default function Page() {
                 </div>
               </Link>
 
-              <div className="flex flex-col items-center gap-5 w-full">
+              <div className="flex flex-col gap-5 w-full">
                 <Link href={"/trading-post/traders/" + (i + 1)}>
                   <div className="space-y-3 w-full">
                     <div className="space-y-1">
@@ -492,7 +492,7 @@ export default function Page() {
 
                 <button
                   onClick={toggleCopyTraderModal}
-                  className="flex items-center justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80"
+                  className="flex items-center mx-auto justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80"
                 >
                   Copy now
                 </button>

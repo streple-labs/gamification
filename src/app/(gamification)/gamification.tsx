@@ -9,9 +9,12 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { baloo } from "../fonts";
+import useSoundEffects from "@/hooks/useSoundEffects";
 
 export default function Gamification() {
   const { user } = useAuth();
+
+  const { playSound } = useSoundEffects();
 
   const [showMissionChestModal, setShowMissionChestModal] = useState(false);
 
@@ -58,6 +61,7 @@ export default function Gamification() {
         <div className="grid grid-cols-3 gap-6 [&>div]:bg-blend-luminosity [&>div]:active:scale-95">
           <div
             onClick={() => {
+              playSound("lesson");
               if (user.game_data.phase >= 1 && user.game_data.level >= 0)
                 setShowSelectedCourse("Phase1Level1");
             }}
@@ -86,6 +90,8 @@ export default function Gamification() {
 
           <div
             onClick={() => {
+              playSound("lesson");
+
               if (user.game_data.phase >= 1 && user.game_data.level >= 0)
                 setShowSelectedCourse("Phase1Level2");
             }}
@@ -113,6 +119,9 @@ export default function Gamification() {
           </div>
 
           <div
+            onClick={() => {
+              playSound("lesson");
+            }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
               user.game_data.phase >= 1 && user.game_data.level >= 2
                 ? "cursor-pointer"
@@ -145,6 +154,9 @@ export default function Gamification() {
 
         <div className="grid grid-cols-3 gap-6 [&>div]:active:scale-95">
           <div
+            onClick={() => {
+              playSound("lesson");
+            }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
               user.game_data.phase >= 2 && user.game_data.level >= 0
                 ? "cursor-pointer"
@@ -169,6 +181,9 @@ export default function Gamification() {
           </div>
 
           <div
+            onClick={() => {
+              playSound("lesson");
+            }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
               user.game_data.phase >= 2 && user.game_data.level >= 1
                 ? "cursor-pointer"
@@ -193,6 +208,9 @@ export default function Gamification() {
           </div>
 
           <div
+            onClick={() => {
+              playSound("lesson");
+            }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
               user.game_data.phase >= 2 && user.game_data.level >= 2
                 ? "cursor-pointer"
@@ -220,6 +238,7 @@ export default function Gamification() {
       <div className="grid grid-cols-3 gap-6 [&>div]:bg-blend-luminosity pt-4 [&>div]:active:scale-95">
         <div
           onClick={() => {
+            playSound("modal");
             setShowMissionChestModal(true);
           }}
           className={`bg-[#24222A99] ${

@@ -3,6 +3,7 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
+import { setCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { base_url } from "./constants";
@@ -28,10 +29,14 @@ let failedRequestsQueue: ((token: string) => void)[] = [];
 
 api.interceptors.request.use(
   async (config: CustomAxiosRequestConfig) => {
-    const token = (await cookies()).get("streple_auth_token")?.value;
+    const path = config.url ? new URL(config.url, base_url).pathname : "";
+    const isAuthUrl = path.startsWith("/auth/");
+    if (!isAuthUrl) {
+      const token = (await cookies()).get("streple_auth_token")?.value;
 
-    if (token && config.headers)
-      config.headers["Authorization"] = `Bearer ${token}`;
+      if (token && config.headers)
+        config.headers["Authorization"] = `Bearer ${token}`;
+    }
 
     config.metadata = { startTime: new Date() };
 
@@ -116,7 +121,7 @@ api.interceptors.response.use(
 
             const { streple_auth_token: newAccessToken } = refreshResponse.data;
 
-            (await cookies()).set("streple_auth_token", newAccessToken, {
+            setCookie("streple_auth_token", newAccessToken, {
               // httpOnly: true,
               secure: process.env.NODE_ENV === "production",
               sameSite: "lax",

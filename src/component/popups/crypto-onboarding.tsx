@@ -15,14 +15,17 @@ import SmileyFace from "../icons/smiley-face";
 import VideoWrapper from "../icons/video-wrapper";
 import Banner from "../ui/banner";
 import Modal from "../ui/modal";
+import useSoundEffects from "@/hooks/useSoundEffects";
 
 type Stages = "welcome" | "onboarding" | "lesson" | "awards";
 
 export default function CryptoOnboarding() {
   const { setUser, user } = useAuth();
+
   const [start, setStart] = useState(false);
   const [stage, setStage] = useState<Stages>(
-    (localStorage.getItem("crypto-onboarding-stage") as Stages) || "welcome"
+    (window && (localStorage.getItem("crypto-onboarding-stage") as Stages)) ||
+      "welcome"
   );
 
   const close = () => {
@@ -114,6 +117,8 @@ export default function CryptoOnboarding() {
 }
 
 function Welcome({ setStage }: { setStage: (stage: Stages) => void }) {
+  const { playSound } = useSoundEffects();
+
   return (
     <div className="relative bg-[url('/learn-bg.jpg')] bg-cover bg-center bg-no-repeat w-5xl rounded-[29px] overflow-hidden">
       <div className="absolute size-full bg-[#141314] opacity-95" />
@@ -144,6 +149,7 @@ function Welcome({ setStage }: { setStage: (stage: Stages) => void }) {
           <button
             onClick={() => {
               setStage("onboarding");
+              playSound("lesson");
               localStorage.setItem("crypto-onboarding-stage", "onboarding");
             }}
             className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[138px]"
@@ -176,15 +182,19 @@ function Onboarding({
     }>
   >;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [step, setStep] = useState(1);
   const Next = () => {
     if (step === 3) {
+      playSound("lesson");
       localStorage.setItem("crypto-onboarding-stage", "lesson");
       setStage("lesson");
     } else setStep(step + 1);
   };
   const Back = () => {
     if (step === 1) {
+      playSound("lesson");
       localStorage.setItem("crypto-onboarding-stage", "welcome");
       setStage("welcome");
     } else setStep(step - 1);
@@ -435,6 +445,8 @@ function CryptoLesson({
   close: () => void;
   setCourseStartTime: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [step, setStep] = useState<CourseStages>(
     (localStorage.getItem("crypto-onboarding-course-stage") as CourseStages) ||
       "intro"
@@ -457,6 +469,7 @@ function CryptoLesson({
 
           <button
             onClick={() => {
+              playSound("lesson");
               localStorage.setItem("crypto-onboarding-course-stage", "course");
               setStep("course");
             }}
@@ -470,6 +483,7 @@ function CryptoLesson({
       {step === "course" && (
         <CryptoCourse
           next={() => {
+            playSound("lesson");
             localStorage.setItem("crypto-onboarding-course-stage", "test");
             setStep("test");
           }}
@@ -480,10 +494,12 @@ function CryptoLesson({
       {step === "test" && (
         <CryptoTest
           review={() => {
+            playSound("lesson");
             localStorage.setItem("crypto-onboarding-course-stage", "course");
             setStep("course");
           }}
           next={() => {
+            playSound("reward");
             localStorage.setItem("crypto-onboarding-stage", "awards");
             setStage("awards");
           }}
@@ -500,6 +516,8 @@ function CryptoCourse({
   next: () => void;
   close: () => void;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [courseStage, setCourseStage] = useState<"welcome" | "course">(
     "welcome"
   );
@@ -626,6 +644,7 @@ function CryptoCourse({
 
           <button
             onClick={() => {
+              playSound("lesson");
               setCourseStage("course");
             }}
             className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
@@ -937,10 +956,14 @@ function Completed({
   close: () => void;
   courseStartTime: number;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [step, setStep] = useState(1);
   const next = () => {
-    if (step === 4) close();
-    else setStep((prev) => prev + 1);
+    if (step === 4) {
+      playSound("level_complete");
+      close();
+    } else setStep((prev) => prev + 1);
   };
 
   const elapsedTime = useMemo(() => {
@@ -1002,7 +1025,10 @@ function Completed({
         <div className="fixed z-20 inset-0 flex items-center justify-center size-full">
           <div
             className="absolute inset-0 backdrop-blur-xl"
-            onClick={() => setShowBadge(false)}
+            onClick={() => {
+              playSound("lesson");
+              setShowBadge(false);
+            }}
           />
 
           <div className="flex relative flex-col items-center gap-10">

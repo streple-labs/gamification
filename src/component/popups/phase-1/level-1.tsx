@@ -12,6 +12,7 @@ import RayOfLight from "../../icons/ray-of-light";
 import VideoWrapper from "../../icons/video-wrapper";
 import Banner from "../../ui/banner";
 import Modal from "../../ui/modal";
+import useSoundEffects from "@/hooks/useSoundEffects";
 
 type Stages = "lesson" | "test" | "awards";
 
@@ -22,6 +23,8 @@ export default function Phase1Level1({
   isOpen: boolean;
   closeCourse: () => void;
 }) {
+  const { playSound } = useSoundEffects();
+
   const { setUser, user } = useAuth();
 
   const [stage, setStage] = useState<Stages>("lesson");
@@ -83,9 +86,11 @@ export default function Phase1Level1({
       return (
         <CryptoTest
           review={() => {
+            playSound("lesson");
             setStage("lesson");
           }}
           next={() => {
+            playSound("reward");
             setStage("awards");
           }}
           close={close}
@@ -95,10 +100,13 @@ export default function Phase1Level1({
       return (
         <Completed
           courseStartTime={courseStartTime}
-          close={handleCompletePhase1Level1}
+          close={() => {
+            playSound("level_complete");
+            handleCompletePhase1Level1();
+          }}
         />
       );
-  }, [stage, courseStartTime, close, handleCompletePhase1Level1]);
+  }, [stage, close, courseStartTime, handleCompletePhase1Level1, playSound]);
 
   return (
     <Modal isOpen={isOpen} onClose={close}>
@@ -116,6 +124,8 @@ function CryptoLesson({
   close: () => void;
   setCourseStartTime: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [step, setStep] = useState<"intro" | "course">("intro");
 
   useEffect(() => {
@@ -135,6 +145,7 @@ function CryptoLesson({
 
           <button
             onClick={() => {
+              playSound("lesson");
               setStep("course");
             }}
             className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
@@ -147,6 +158,7 @@ function CryptoLesson({
       {step === "course" && (
         <CryptoCourse
           next={() => {
+            playSound("lesson");
             setStage("test");
           }}
           close={close}
@@ -163,6 +175,8 @@ function CryptoCourse({
   next: () => void;
   close: () => void;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [courseStage, setCourseStage] = useState<"welcome" | "course">(
     "welcome"
   );
@@ -289,6 +303,7 @@ function CryptoCourse({
 
           <button
             onClick={() => {
+              playSound("lesson");
               setCourseStage("course");
             }}
             className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
@@ -366,6 +381,8 @@ function CryptoTest({
   review: () => void;
   close: () => void;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [courseStage, setCourseStage] = useState(5);
   const [timer, setTimer] = useState(40);
 
@@ -489,6 +506,7 @@ function CryptoTest({
 
               <button
                 onClick={() => {
+                  playSound("lesson");
                   setCourseStage((prev) => prev + 1);
                 }}
                 className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
@@ -604,10 +622,15 @@ function Completed({
   close: () => void;
   courseStartTime: number;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [step, setStep] = useState(1);
   const next = () => {
     if (step == 3) close();
-    else setStep((prev) => prev + 1);
+    else {
+      playSound("lesson");
+      setStep((prev) => prev + 1);
+    }
   };
 
   const elapsedTime = useMemo(() => {
@@ -665,7 +688,10 @@ function Completed({
         <div className="fixed z-20 inset-0 flex items-center justify-center size-full">
           <div
             className="absolute inset-0 backdrop-blur-xl"
-            onClick={() => setShowBadge(false)}
+            onClick={() => {
+              playSound("lesson");
+              setShowBadge(false);
+            }}
           />
 
           <div className="flex relative flex-col items-center gap-10">
@@ -794,8 +820,8 @@ function Completed({
               <Image
                 src={"/stp-coin.png"}
                 alt="stp reward illustration"
-                width={210}
-                height={210}
+                width={250}
+                height={250}
                 className="relative"
               />
               <p

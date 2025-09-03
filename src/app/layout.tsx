@@ -2,6 +2,7 @@ import Providers from "@/providers/providers";
 import type { Metadata, Viewport } from "next";
 import { openSans } from "./fonts";
 import "./globals.css";
+import BackgroundMusic from "@/component/ui/bg-music";
 
 export const metadata: Metadata = {
   title: "Streple | Copy Top Traders and Earn Smarter",
@@ -60,7 +61,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <body className={`${openSans.className} antialiased`}>{children}</body>
+        <body className={`${openSans.className} antialiased`}>
+          <BackgroundMusic />
+          {children}
+        </body>
       </Providers>
     </html>
   );
