@@ -3,6 +3,8 @@ import Modal from "../ui/modal";
 import Link from "next/link";
 import Banner from "../ui/banner";
 import useSoundEffects from "@/hooks/useSoundEffects";
+import Image from "next/image";
+import mascot from "../../../public/mascot-3.png";
 
 export default function MissionChest({
   isOpen,
@@ -20,9 +22,8 @@ export default function MissionChest({
 
         <div className="relative flex items-center justify-center flex-col gap-10 mt-10 w-fit mx-auto">
           <div className="flex items-center flex-col">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={"/mascot-3.png"}
+            <Image
+              src={mascot}
               alt="welcome mascot"
               width={217}
               height={215}

@@ -5,13 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { BiCandles } from "react-icons/bi";
-import {
-  PiBookBookmark,
-  PiCoinVertical,
-  PiCrownSimple,
-  PiMountains,
-  PiTrophy,
-} from "react-icons/pi";
+import { PiBookBookmark, PiCoinVertical } from "react-icons/pi";
+import ReferralIcon from "../icons/referral-icon";
 import Switch from "../ui/switch";
 
 const learn_nav_items = [
@@ -20,16 +15,16 @@ const learn_nav_items = [
     href: "/",
     icon: PiBookBookmark,
   },
-  {
-    name: "Quests",
-    href: "",
-    icon: PiMountains,
-  },
-  {
-    name: "Trophy hut",
-    href: "",
-    icon: PiTrophy,
-  },
+  // {
+  //   name: "Quests",
+  //   href: "",
+  //   icon: PiMountains,
+  // },
+  // {
+  //   name: "Trophy hut",
+  //   href: "",
+  //   icon: PiTrophy,
+  // },
   {
     name: "Trading post",
     href: "/trading-post",
@@ -41,10 +36,15 @@ const learn_nav_items = [
     icon: PiCoinVertical,
   },
   {
-    name: "Leaderboard",
-    href: "",
-    icon: PiCrownSimple,
+    name: "Referral",
+    href: "/referral",
+    icon: ReferralIcon,
   },
+  // {
+  //   name: "Leaderboard",
+  //   href: "",
+  //   icon: PiCrownSimple,
+  // },
 ];
 
 export default function Sidebar() {
@@ -101,15 +101,15 @@ export default function Sidebar() {
   });
 
   return (
-    <aside className="hidden hide-scrollbar lg:flex flex-col gap-10 shrink-0 pt-8 w-full max-w-[248px] h-full overflow-y-auto rounded-[20px] relative">
-      <span className="absolute top-0 left-0">
-        <Image src={"/nav-eclipse.svg"} alt="" width={490} height={258} />
-      </span>
-      <canvas
-        className="absolute top-0 left-0 size-full opacity-100 mix-blend-overlay -mt-8"
-        id="noiseCanvas"
-      />
-      <nav className="relative flex flex-col gap-4 w-full px-6">
+    <aside className="hidden hide-scrollbar lg:flex flex-col gap-10 shrink-0 w-full max-w-[248px] h-full overflow-y-auto relative">
+      <nav className="relative overflow-hidden flex flex-col gap-4 w-full px-6 py-8 rounded-[20px]">
+        <span className="absolute top-0 left-0">
+          <Image src={"/nav-eclipse.svg"} alt="" width={490} height={258} />
+        </span>
+        <canvas
+          className="absolute top-0 left-0 opacity-100 mix-blend-overlay -mt-8"
+          id="noiseCanvas"
+        />
         {learn_nav_items.map((item) => (
           <Link
             key={item.name}
@@ -122,7 +122,7 @@ export default function Sidebar() {
                 : "text-[#F8F5FF80]"
             }`}
           >
-            <item.icon className="fill-[#F8F5FF80]" />
+            <item.icon className="text-[#F8F5FF80]" />
             <span className="text-sm font-normal leading-[100%] tracking-normal">
               {item.name}
             </span>

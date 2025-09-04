@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, setState] = useState<AuthState>({
     user: {
       user_data: null,
-      game_data: { phase: 1, level: 0, score: 0, hasAnswer: false },
+      game_data: { phase: 1, level: 0, score: 0, hasAnswer: true },
     },
     isAuthenticated: false,
     isLoading: true,
@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setState({
       user: {
         user_data: null,
-        game_data: { phase: 0, level: 0, score: 0, hasAnswer: false },
+        game_data: { phase: 0, level: 0, score: 0, hasAnswer: true },
       },
       isAuthenticated: false,
       isLoading: false,
