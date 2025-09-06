@@ -10,11 +10,6 @@ import ReferralIcon from "../icons/referral-icon";
 import Switch from "../ui/switch";
 
 const learn_nav_items = [
-  {
-    name: "Crypto hustle",
-    href: "/",
-    icon: PiBookBookmark,
-  },
   // {
   //   name: "Quests",
   //   href: "",
@@ -32,7 +27,7 @@ const learn_nav_items = [
   },
   {
     name: "Coin pouch",
-    href: "",
+    href: "/#",
     icon: PiCoinVertical,
   },
   {
@@ -110,6 +105,23 @@ export default function Sidebar() {
           className="absolute top-0 left-0 opacity-100 mix-blend-overlay -mt-8"
           id="noiseCanvas"
         />
+        <Link
+          key={"Crypto hustle"}
+          href={"/"}
+          title={"Crypto hustle"}
+          aria-label={"Crypto hustle"}
+          className={`flex rounded-[10px] h-[43px] p-3 gap-3 items-center relative ${
+            pathname === "/"
+              ? "text-[#E3E3E8] bg-[#A082F926] border border-[#A082F9]"
+              : "text-[#F8F5FF80]"
+          }`}
+        >
+          <PiBookBookmark className="text-[#F8F5FF80]" />
+          <span className="text-sm font-normal leading-[100%] tracking-normal">
+            {"Crypto hustle"}
+          </span>
+        </Link>
+
         {learn_nav_items.map((item) => (
           <Link
             key={item.name}
@@ -117,7 +129,7 @@ export default function Sidebar() {
             title={item.name}
             aria-label={item.name}
             className={`flex rounded-[10px] h-[43px] p-3 gap-3 items-center relative ${
-              pathname === item.href
+              pathname.startsWith(item.href)
                 ? "text-[#E3E3E8] bg-[#A082F926] border border-[#A082F9]"
                 : "text-[#F8F5FF80]"
             }`}

@@ -3,8 +3,45 @@ import Image from "next/image";
 import React from "react";
 import PerformanceChart from "../_components/performance-chart";
 import DrawdownCurve from "../_components/drawdown-curve";
+import {
+  getProtraderDrawdownCurve,
+  getProtraderPerformanceCurve,
+  getProtraderProfilePerformance,
+  getProtraderProfileStat,
+} from "@/utils/queries";
+import PerformanceTab from "../_components/performance-tab";
 
-export default function page() {
+export default async function page({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const { id } = await params;
+
+  const [
+    { trader: traderProfileStat, error: traderProfileStatError },
+    { trader: traderProfilePerformance, error: traderProfilePerformanceError },
+    { trader: traderDrawdownCurve, error: traderDrawdownCurveError },
+    { trader: traderPerformanceCurve, error: traderPerformanceCurveError },
+  ] = await Promise.all([
+    getProtraderProfileStat(id),
+    getProtraderProfilePerformance(
+      id,
+      (
+        await searchParams
+      ).performanceTabPeriod
+    ),
+    getProtraderDrawdownCurve(id, (await searchParams)?.drawdownChartPeriod),
+    getProtraderPerformanceCurve(
+      id,
+      (
+        await searchParams
+      ).performanceChartPeriod
+    ),
+  ]);
+
   return (
     <div className="flex flex-col gap-8 w-full relative min-h-screen">
       <span className="absolute inset-x-0 w-full -top-[120px]">
@@ -143,101 +180,78 @@ export default function page() {
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
-              <p className="font-semibold text-xs tracking-[2px] text-white/40">
-                Total win positions
-              </p>
-              <p className="font-semibold text-base tracking-[2px] text-white/80">
-                340
-              </p>
+
+          {traderProfileStatError ? (
+            <p className="w-full text-center text-red-500">
+              {traderProfileStatError}
+            </p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
+                <p className="font-semibold text-xs tracking-[2px] text-white/40">
+                  Total win positions
+                </p>
+                <p className="font-semibold text-base tracking-[2px] text-white/80">
+                  {traderProfileStat?.winningPosition}
+                </p>
+              </div>
+              <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
+                <p className="font-semibold text-xs tracking-[2px] text-white/40">
+                  Total positions
+                </p>
+                <p className="font-semibold text-base tracking-[2px] text-white/80">
+                  {traderProfileStat?.totalPosition}
+                </p>
+              </div>
+              <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
+                <p className="font-semibold text-xs tracking-[2px] text-white/40">
+                  Win rate (%)
+                </p>
+                <p className="font-semibold text-base tracking-[2px] text-white/80">
+                  {traderProfileStat?.winRate}%
+                </p>
+              </div>
+              <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
+                <p className="font-semibold text-xs tracking-[2px] text-white/40">
+                  Profit to loss ratio
+                </p>
+                <p className="font-semibold text-base tracking-[2px] text-white/80">
+                  {traderProfileStat?.profitToLossRatio}
+                </p>
+              </div>
             </div>
-            <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
-              <p className="font-semibold text-xs tracking-[2px] text-white/40">
-                Total positions
-              </p>
-              <p className="font-semibold text-base tracking-[2px] text-white/80">
-                450
-              </p>
-            </div>
-            <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
-              <p className="font-semibold text-xs tracking-[2px] text-white/40">
-                Win rate (%)
-              </p>
-              <p className="font-semibold text-base tracking-[2px] text-white/80">
-                75.6%
-              </p>
-            </div>
-            <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
-              <p className="font-semibold text-xs tracking-[2px] text-white/40">
-                Profit to loss ratio
-              </p>
-              <p className="font-semibold text-base tracking-[2px] text-white/80">
-                2.8:1
-              </p>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
       <div className="flex items-center gap-6 relative">
         <div className="w-2/5 h-[379px] border border-[#FFFFFF1A] bg-[#6151911A] rounded-[20px] p-6 flex flex-col gap-4">
-          <div className="grid grid-cols-4 gap-3">
-            <div className="h-6 min-w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] border border-white/5 bg-[#5A58254D] text-white/5 py-1 px-2">
-              <p className="text-xs text-white/60">Daily</p>
-            </div>
-            <div className="h-6 min-w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] border border-white/5 bg-white/5 text-white/5 py-1 px-2">
-              <p className="text-xs text-white/60">7D</p>
-            </div>
-            <div className="h-6 min-w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] border border-white/5 bg-white/5 text-white/5 py-1 px-2">
-              <p className="text-xs text-white/60">30D</p>
-            </div>
-            <div className="h-6 min-w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] border border-white/5 bg-white/5 text-white/5 py-1 px-2">
-              <p className="text-xs text-white/60">90D</p>
-            </div>
-          </div>
-          <p
-            className={`${baloo.className} font-base text-white/80 font-normal`}
-          >
-            Performance tab
-          </p>
-          <div className="space-y-4 w-full text-base/[22px] font-normal">
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-white/50">Max drawdown</p>
-              <p className="text-white/80">5%</p>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-white/50">Average trade duration</p>
-              <p className="text-white/80">3h20m</p>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-white/50">Sharpe ratio</p>
-              <p className="text-white/80">1.8</p>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-white/50">Leverage used</p>
-              <p className="text-white/80">5x</p>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-white/50">Average lot size</p>
-              <p className="text-white/80">0.5 - 1.2</p>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-white/50">Risk per trade</p>
-              <p className="text-white/80">1.2%</p>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-white/50">Profit sharing</p>
-              <p className="text-white/80">15%</p>
-            </div>
-          </div>
+          {traderProfilePerformanceError ? (
+            <p className="w-full text-center text-red-500">
+              {traderProfilePerformanceError}
+            </p>
+          ) : (
+            <PerformanceTab data={traderProfilePerformance!} />
+          )}
         </div>
         <div className="w-3/5">
-          <DrawdownCurve />
+          {traderDrawdownCurveError ? (
+            <p className="w-full text-center text-red-500">
+              {traderDrawdownCurveError}
+            </p>
+          ) : (
+            <DrawdownCurve data={traderDrawdownCurve!} />
+          )}
         </div>
       </div>
       <div className="pb-10 relative">
-        <PerformanceChart />
+        {traderPerformanceCurveError ? (
+          <p className="w-full text-center text-red-500">
+            {traderPerformanceCurveError}
+          </p>
+        ) : (
+          <PerformanceChart data={traderPerformanceCurve!} />
+        )}
       </div>
     </div>
   );

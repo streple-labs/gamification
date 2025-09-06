@@ -137,3 +137,10 @@ export const formatFileSize = (bytes: number) => {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 };
+
+export const formatChartDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  return `${month}/${day}`;
+};

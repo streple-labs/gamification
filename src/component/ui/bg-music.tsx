@@ -16,7 +16,7 @@ export default function BackgroundMusic() {
           .catch((error) => {
             console.error("Autoplay was prevented:", error);
 
-            alert("Tap anywhere to enable sound 🔊");
+            // alert("Tap anywhere to enable sound 🔊");
             const onUserInteract = () => {
               if (audioRef.current) {
                 audioRef.current

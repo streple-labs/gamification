@@ -1,6 +1,9 @@
 "use client";
 
 import { baloo } from "@/app/fonts";
+import { formatChartDate } from "@/utils/utils";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import {
   CartesianGrid,
@@ -12,45 +15,37 @@ import {
   YAxis,
 } from "recharts";
 
-const data = [
-  {
-    name: "01/12",
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "06/12",
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "11/12",
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "16/12",
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "21/12",
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "26/12",
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "31/12",
-    pv: 4300,
-    amt: 2100,
-  },
-];
+export default function PerformanceChart({
+  data,
+}: {
+  data: ProtraderPerformanceCurve;
+}) {
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-export default function PerformanceChart() {
+  const setParams = (value: string) => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("performanceChartPeriod") === value)
+      params.delete("performanceChartPeriod");
+    else params.set("performanceChartPeriod", value);
+
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
+
+  const periods = [
+    { label: "7D", value: "7" },
+    { label: "30D", value: "30" },
+    { label: "90D", value: "90" },
+  ];
+
+  const currentPeriod = searchParams.get("performanceChartPeriod") || "7";
+  const currentPeriodLabel =
+    periods.find((p) => p.value === currentPeriod)?.label || "7D";
+
   return (
     <div className="w-full h-[441px] rounded-[20px] border border-[#FFFFFF1A] bg-[#6151911A] px-6 py-8 flex flex-col justify-between gap-8">
       <div className="w-full flex items-center justify-between ">
@@ -58,9 +53,42 @@ export default function PerformanceChart() {
           Performance chart
         </p>
 
-        <div className="h-6 w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] bg-white/5 border border-white/5 text-white/5 py-1 px-2">
-          <p className="text-xs text-white/60">7D</p>
-          <FaChevronDown width={10} height={5} fill="#FFFFFF99" />
+        <div className="relative">
+          <div
+            className="h-6 w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] bg-white/5 border border-white/5 text-white/5 py-1 px-2"
+            onClick={() => setShowPeriodDropdown(!showPeriodDropdown)}
+          >
+            <p className="text-xs text-white/60">{currentPeriodLabel}</p>
+            <FaChevronDown
+              width={10}
+              height={5}
+              fill="#FFFFFF99"
+              className={`transition-transform duration-200 ${
+                showPeriodDropdown ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+
+          {showPeriodDropdown && (
+            <div className="absolute top-8 right-0 z-10 w-[72px] bg-[#6151911A] border border-[#FFFFFF1A] rounded-[5px] shadow-lg">
+              {periods.map((period) => (
+                <div
+                  key={period.value}
+                  className={`px-2 py-1 text-xs cursor-pointer hover:bg-white/5 transition-colors ${
+                    currentPeriod === period.value
+                      ? "text-white bg-white/10"
+                      : "text-white/60"
+                  }`}
+                  onClick={() => {
+                    setParams(period.value);
+                    setShowPeriodDropdown(false);
+                  }}
+                >
+                  {period.label}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -68,17 +96,18 @@ export default function PerformanceChart() {
         <LineChart width={500} height={300} data={data}>
           <CartesianGrid vertical={false} stroke="#FFFFFF1A" />
           <XAxis
-            dataKey="name"
+            dataKey="date"
             tickMargin={16}
             axisLine={false}
             tickLine={false}
+            tickFormatter={formatChartDate}
           />
           <YAxis tickMargin={16} axisLine={false} tickLine={false} />
           <Tooltip />
 
           <Line
             type="monotone"
-            dataKey="pv"
+            dataKey="cumulative"
             stroke="#8884d8"
             activeDot={<span className="size-3 bg-[#A082F9] rounded-full" />}
           />

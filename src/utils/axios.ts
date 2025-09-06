@@ -3,10 +3,9 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
-import { setCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { base_url } from "./constants";
+import { base_url, dev_url, live_url } from "./constants";
 import { createNetworkError } from "./utils";
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -98,51 +97,29 @@ api.interceptors.response.use(
         originalRequest._retry = true;
 
         if (!isRefreshing) {
+          const cookieStore = await cookies();
           isRefreshing = true;
           if (process.env.NODE_ENV === "development")
             console.log("Attempting to refresh access token...");
           try {
-            const refreshToken = (await cookies()).get(
-              "streple_refresh_token"
-            )?.value;
-
-            if (!refreshToken) {
-              (await cookies()).delete("streple_auth_token");
-              (await cookies()).delete("streple_refresh_token");
-              return redirect("/login");
-            }
-
-            const refreshResponse = await axios.post(
-              `${base_url}/auth/refresh`,
-              {
-                token: refreshToken,
-              }
+            const res = await axios.post(
+              `${
+                process.env.NODE_ENV === "development" ? dev_url : live_url
+              }/api/auth/refresh`
             );
 
-            const { streple_auth_token: newAccessToken } = refreshResponse.data;
+            const { token } = await res.data;
 
-            setCookie("streple_auth_token", newAccessToken, {
-              // httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "lax",
-              expires: new Date(Date.now() + 60 * 60 * 1000),
-              path: "/",
-            });
-
-            axios.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${newAccessToken}`;
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
             // Re-run all the requests that were queued up
-            failedRequestsQueue.forEach((callback) => callback(newAccessToken));
+            failedRequestsQueue.forEach((callback) => callback(token));
             failedRequestsQueue = []; // Clear the queue
 
             isRefreshing = false;
 
             // Re-try the original failed request with the new token
-            originalRequest.headers[
-              "Authorization"
-            ] = `Bearer ${newAccessToken}`;
+            originalRequest.headers["Authorization"] = `Bearer ${token}`;
             return api(originalRequest);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (refreshError: any) {
@@ -151,8 +128,8 @@ api.interceptors.response.use(
             failedRequestsQueue = [];
             isRefreshing = false;
 
-            (await cookies()).delete("streple_auth_token");
-            (await cookies()).delete("streple_refresh_token");
+            cookieStore.delete("streple_auth_token");
+            cookieStore.delete("streple_refresh_token");
             return redirect("/login");
           }
         }
