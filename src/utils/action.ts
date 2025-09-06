@@ -256,3 +256,25 @@ export const updateUserGameData = async (gameData: {
     return { success: false, message: errorMessage, user_data: null };
   }
 };
+
+export const followTrader = async (trader_id: string) => {
+  try {
+    await api.post("/follow-trader", { followingId: trader_id });
+
+    return {
+      success: true,
+      message: "You have successfully followed the trader",
+    };
+  } catch (error: any) {
+    let errorMessage = "Error following pro trader, Please try again later.";
+
+    if (error?.response?.data?.message) {
+      if (Array.isArray(error.response.data.message))
+        errorMessage = error.response.data.message.join(", ");
+      else errorMessage = error.response.data.message;
+    } else if (error?.userMessage) errorMessage = error.userMessage;
+    else if (error?.message) errorMessage = error.message;
+
+    return { success: false, message: errorMessage };
+  }
+};
