@@ -14,9 +14,8 @@ interface UserData {
   performanceHistory: Record<string, unknown> | null;
   followerCount: number;
   demoFundingBalance: string;
-  phase: string;
-  level: string;
   hasAnswer: boolean;
+  refercode: null | string;
 }
 
 interface GamificationData {

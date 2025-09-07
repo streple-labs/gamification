@@ -1,6 +1,7 @@
 import { baloo } from "@/app/fonts";
 import Image from "next/image";
 import mascot from "../../../../public/mascot-3.png";
+import ReferralCode from "./referral-code";
 
 export default function page() {
   return (
@@ -128,19 +129,8 @@ export default function page() {
             </div>
           </div>
           <div className="flex items-center justify-center gap-[45px] w-full">
-            <div className="max-w-xs w-full space-y-3">
-              <h6 className={`${baloo.className} text-white/60 text-base`}>
-                Your referral code
-              </h6>
-              <div className="flex items-center justify-between w-full h-[51px] p-4 border border-[#A082F9] rounded-[10px] bg-[#FFFFFF0D]">
-                <p className={`${baloo.className} text-xs`}>OL47JR0U123</p>
-                <button
-                  className={`${baloo.className} rounded-[20px] py-2 px-3 bg-[#A082F9] text-[#1B191C] text-xs`}
-                >
-                  COPY
-                </button>
-              </div>
-            </div>
+            <ReferralCode />
+
             <Image
               src={mascot}
               alt="welcome mascot"
