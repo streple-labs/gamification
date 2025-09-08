@@ -38,7 +38,7 @@ export const getUserGameProgress = async (): Promise<{
   game_data: {
     phase: string;
     level: string;
-    score: number;
+    totalScore: number;
     hasAnswer: boolean;
   } | null;
 }> => {

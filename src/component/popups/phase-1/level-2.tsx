@@ -2,6 +2,8 @@
 
 import { anton, baloo } from "@/app/fonts";
 import { useAuth } from "@/context/auth-context";
+import { useBackgroundMusic } from "@/context/bg-music-context";
+import useSoundEffects from "@/hooks/useSoundEffects";
 import { updateUserGameData } from "@/utils/action";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
@@ -22,6 +24,8 @@ export default function Phase1Level2({
   isOpen: boolean;
   closeCourse: () => void;
 }) {
+  const { playSound } = useSoundEffects();
+
   const { setUser, user } = useAuth();
 
   const [stage, setStage] = useState<Stages>("lesson");
@@ -33,10 +37,10 @@ export default function Phase1Level2({
 
   const [courseStartTime, setCourseStartTime] = useState<number>(0);
 
-  const { mutate: handleCompletePhase1Level1 } = useMutation({
-    mutationKey: ["phase-2-level-2-complete"],
+  const { mutate: handleCompletePhase1Level2 } = useMutation({
+    mutationKey: ["phase-1-level-2-complete"],
     mutationFn: async () => {
-      if (user.game_data.phase >= 1 && user.game_data.level >= 2) {
+      if (user.game_data.phase >= 1 && user.game_data.level >= 3) {
         close();
         return {
           success: false,
@@ -44,19 +48,24 @@ export default function Phase1Level2({
             "Great job refreshing your knowledge! You've already completed this lesson.",
         };
       } else
-        return await updateUserGameData({ phase: 1, level: 2, score: 250 });
+        return await updateUserGameData({
+          phase: "Phase 1",
+          level: "Level 3",
+          score: 250,
+        });
     },
     onSuccess: (res) => {
       if (res.success) {
-        toast.success(res.message);
+        toast.success("Phase 1 level 2 completed");
+
         if (user.user_data)
           setUser({
             ...user,
             user_data: { ...user.user_data },
             game_data: {
               level: Math.max(user.game_data.level, 1),
-              phase: Math.max(user.game_data.phase, 1),
-              score: user.game_data.score + 250,
+              phase: Math.max(user.game_data.phase, 3),
+              totalScore: user.game_data.totalScore + 250,
               hasAnswer: true,
             },
           });
@@ -69,7 +78,6 @@ export default function Phase1Level2({
       toast.error("An unexpected error occurred. Please try again.");
     },
   });
-
   const returnStageComponent = useMemo(() => {
     if (stage === "lesson")
       return (
@@ -83,21 +91,27 @@ export default function Phase1Level2({
       return (
         <CryptoTest
           review={() => {
+            playSound("lesson");
             setStage("lesson");
           }}
           next={() => {
+            playSound("reward");
             setStage("awards");
           }}
+          close={close}
         />
       );
     if (stage === "awards")
       return (
         <Completed
           courseStartTime={courseStartTime}
-          close={handleCompletePhase1Level1}
+          close={() => {
+            playSound("level_complete");
+            handleCompletePhase1Level2();
+          }}
         />
       );
-  }, [stage, courseStartTime, close, handleCompletePhase1Level1]);
+  }, [stage, close, courseStartTime, handleCompletePhase1Level2, playSound]);
 
   return (
     <Modal isOpen={isOpen} onClose={close}>
@@ -115,6 +129,8 @@ function CryptoLesson({
   close: () => void;
   setCourseStartTime: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [step, setStep] = useState<"intro" | "course">("intro");
 
   useEffect(() => {
@@ -134,6 +150,7 @@ function CryptoLesson({
 
           <button
             onClick={() => {
+              playSound("lesson");
               setStep("course");
             }}
             className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
@@ -146,6 +163,7 @@ function CryptoLesson({
       {step === "course" && (
         <CryptoCourse
           next={() => {
+            playSound("lesson");
             setStage("test");
           }}
           close={close}
@@ -162,9 +180,19 @@ function CryptoCourse({
   next: () => void;
   close: () => void;
 }) {
+  const { playSound } = useSoundEffects();
+
+  const { pause } = useBackgroundMusic();
+
   const [courseStage, setCourseStage] = useState<"welcome" | "course">(
     "welcome"
   );
+
+  useEffect(() => {
+    if (courseStage === "welcome") pause();
+
+    return () => {};
+  }, [courseStage, pause]);
 
   return (
     <div className="size-full flex flex-col relative pt-20">
@@ -279,7 +307,7 @@ function CryptoCourse({
                   <p
                     className={`${baloo.className} text-2xl/8 text-[#A082F9] tracking-[1px] font-normal`}
                   >
-                    250 STP REWARD
+                    500 STP REWARD
                   </p>
                 </div>
               </div>
@@ -288,6 +316,7 @@ function CryptoCourse({
 
           <button
             onClick={() => {
+              playSound("lesson");
               setCourseStage("course");
             }}
             className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
@@ -334,18 +363,28 @@ function CryptoCourse({
                 width={35}
                 height={35}
               />
-              <p className="text-2xl/6 font-semibold text-white/80">+250 STP</p>
+              <p className="text-2xl/6 font-semibold text-white/80">+500 STP</p>
             </div>
           </div>
 
-          <div className="flex flex-col items-end gap-10 w-full max-w-5xl mx-auto">
-            <div className="relative flex w-full aspect-video">
-              <VideoWrapper className="absolute size-full -my-10" />
+          <div className="flex flex-col items-end w-full max-w-5xl mx-auto">
+            <div className="relative flex items-center justify-center w-full aspect-video">
+              <VideoWrapper className="absolute size-full" />
+
+              <video
+                className="size-[80%] object-cover relative rounded-2xl"
+                controls
+                autoPlay
+                playsInline
+                preload="metadata"
+              >
+                <source src="/gamification-lessons/P1L2.mp4" type="video/mp4" />
+              </video>
             </div>
 
             <button
               onClick={next}
-              className="text-[#181812B2] relative -mt-30 text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
+              className="text-[#181812B2] relative text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
             >
               Next
             </button>
@@ -359,12 +398,22 @@ function CryptoCourse({
 function CryptoTest({
   review,
   next,
+  close,
 }: {
   next: () => void;
   review: () => void;
+  close: () => void;
 }) {
+  const { playSound } = useSoundEffects();
+
+  const { play } = useBackgroundMusic();
+
   const [courseStage, setCourseStage] = useState(5);
   const [timer, setTimer] = useState(40);
+
+  useEffect(() => {
+    play();
+  }, [play]);
 
   useEffect(() => {
     setTimer(40);
@@ -434,7 +483,7 @@ function CryptoTest({
     <div className="w-screen h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar">
       <div className="size-full flex flex-col gap-16 relative pt-20">
         <div className="flex items-center justify-center gap-10 w-full max-w-5xl mx-auto">
-          <span onClick={close}>
+          <span className="cursor-pointer" onClick={close}>
             <svg
               width="26"
               height="25"
@@ -463,7 +512,7 @@ function CryptoTest({
 
           <div className="flex items-center shrink-0 gap-3">
             <Image src={"/coin-learn.png"} alt="coin" width={35} height={35} />
-            <p className="text-2xl/6 font-semibold text-white/80">+250 STP</p>
+            <p className="text-2xl/6 font-semibold text-white/80">+500 STP</p>
           </div>
         </div>
 
@@ -486,6 +535,7 @@ function CryptoTest({
 
               <button
                 onClick={() => {
+                  playSound("lesson");
                   setCourseStage((prev) => prev + 1);
                 }}
                 className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
@@ -601,10 +651,15 @@ function Completed({
   close: () => void;
   courseStartTime: number;
 }) {
+  const { playSound } = useSoundEffects();
+
   const [step, setStep] = useState(1);
   const next = () => {
     if (step == 3) close();
-    else setStep((prev) => prev + 1);
+    else {
+      playSound("lesson");
+      setStep((prev) => prev + 1);
+    }
   };
 
   const elapsedTime = useMemo(() => {
@@ -662,7 +717,10 @@ function Completed({
         <div className="fixed z-20 inset-0 flex items-center justify-center size-full">
           <div
             className="absolute inset-0 backdrop-blur-xl"
-            onClick={() => setShowBadge(false)}
+            onClick={() => {
+              playSound("lesson");
+              setShowBadge(false);
+            }}
           />
 
           <div className="flex relative flex-col items-center gap-10">
@@ -791,8 +849,8 @@ function Completed({
               <Image
                 src={"/stp-coin.png"}
                 alt="stp reward illustration"
-                width={210}
-                height={210}
+                width={250}
+                height={250}
                 className="relative"
               />
               <p

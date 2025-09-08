@@ -231,8 +231,8 @@ export const handleCryptoOnboarding = async (payload: {
 };
 
 export const updateUserGameData = async (gameData: {
-  phase: number;
-  level: number;
+  phase: string;
+  level: string;
   score: number;
 }) => {
   try {
@@ -240,7 +240,7 @@ export const updateUserGameData = async (gameData: {
 
     return {
       success: true,
-      message: `Phase ${gameData.phase} Level ${gameData.level} completed`,
+      message: "",
       user_data: res.data,
     };
   } catch (error: any) {

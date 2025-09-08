@@ -3,13 +3,15 @@
 import MissionChest from "@/component/popups/mission-chest";
 import Phase1Level1 from "@/component/popups/phase-1/level-1";
 import Phase1Level2 from "@/component/popups/phase-1/level-2";
+import Phase1Level3 from "@/component/popups/phase-1/level-3";
+import Phase2Level1 from "@/component/popups/phase-2/level-1";
 import Banner from "@/component/ui/banner";
 import { useAuth } from "@/context/auth-context";
+import useSoundEffects from "@/hooks/useSoundEffects";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { baloo } from "../fonts";
-import useSoundEffects from "@/hooks/useSoundEffects";
 
 export default function Gamification() {
   const { user } = useAuth();
@@ -40,6 +42,34 @@ export default function Gamification() {
           }}
         />
       );
+    if (showSelectedCourse === "Phase1Level3")
+      return (
+        <Phase1Level3
+          isOpen={!!showSelectedCourse}
+          closeCourse={() => {
+            setShowSelectedCourse(null);
+          }}
+        />
+      );
+
+    if (showSelectedCourse === "Phase2Level1")
+      return (
+        <Phase2Level1
+          isOpen={!!showSelectedCourse}
+          closeCourse={() => {
+            setShowSelectedCourse(null);
+          }}
+        />
+      );
+    // if (showSelectedCourse === "Phase2Level2")
+    //   return (
+    //     <Phase1Level3
+    //       isOpen={!!showSelectedCourse}
+    //       closeCourse={() => {
+    //         setShowSelectedCourse(null);
+    //       }}
+    //     />
+    //   );
 
     return null;
   }, [showSelectedCourse]);
@@ -121,6 +151,9 @@ export default function Gamification() {
           <div
             onClick={() => {
               playSound("lesson");
+
+              if (user.game_data.phase >= 1 && user.game_data.level >= 0)
+                setShowSelectedCourse("Phase1Level3");
             }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
               user.game_data.phase >= 1 && user.game_data.level >= 2
@@ -156,9 +189,11 @@ export default function Gamification() {
           <div
             onClick={() => {
               playSound("lesson");
+              if (user.game_data.phase >= 2 && user.game_data.level >= 1)
+                setShowSelectedCourse("Phase2Level1");
             }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
-              user.game_data.phase >= 2 && user.game_data.level >= 0
+              user.game_data.phase >= 2 && user.game_data.level >= 1
                 ? "cursor-pointer"
                 : "grayscale-100 && cursor-not-allowed"
             }`}
@@ -185,7 +220,7 @@ export default function Gamification() {
               playSound("lesson");
             }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
-              user.game_data.phase >= 2 && user.game_data.level >= 1
+              user.game_data.phase >= 2 && user.game_data.level >= 2
                 ? "cursor-pointer"
                 : "grayscale-100 && cursor-not-allowed"
             }`}
@@ -212,7 +247,7 @@ export default function Gamification() {
               playSound("lesson");
             }}
             className={`bg-[#24222A99] h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 ${
-              user.game_data.phase >= 2 && user.game_data.level >= 2
+              user.game_data.phase >= 2 && user.game_data.level >= 3
                 ? "cursor-pointer"
                 : "grayscale-100 && cursor-not-allowed"
             }`}
@@ -239,12 +274,12 @@ export default function Gamification() {
         <div
           onClick={() => {
             playSound("modal");
-            setShowMissionChestModal(true);
+            if (user.game_data.phase >= 3) setShowMissionChestModal(true);
           }}
           className={`bg-[#24222A99] ${
             baloo.className
           } h-[85px] rounded-[10px] py-[22px] px-6 min-w-xs flex items-center justify-between gap-4 shadow-[inset_9px_-9px_0px_0px_#A082F9] ${
-            user.game_data.phase >= 2
+            user.game_data.phase >= 3
               ? "cursor-pointer"
               : "grayscale-100 && cursor-not-allowed"
           }`}

@@ -2,6 +2,8 @@
 
 import { anton, baloo } from "@/app/fonts";
 import { useAuth } from "@/context/auth-context";
+import { useBackgroundMusic } from "@/context/bg-music-context";
+import useSoundEffects from "@/hooks/useSoundEffects";
 import { updateUserGameData } from "@/utils/action";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
@@ -12,7 +14,6 @@ import RayOfLight from "../../icons/ray-of-light";
 import VideoWrapper from "../../icons/video-wrapper";
 import Banner from "../../ui/banner";
 import Modal from "../../ui/modal";
-import useSoundEffects from "@/hooks/useSoundEffects";
 
 type Stages = "lesson" | "test" | "awards";
 
@@ -39,7 +40,7 @@ export default function Phase1Level1({
   const { mutate: handleCompletePhase1Level1 } = useMutation({
     mutationKey: ["phase-1-level-1-complete"],
     mutationFn: async () => {
-      if (user.game_data.phase >= 1 && user.game_data.level >= 1) {
+      if (user.game_data.phase >= 1 && user.game_data.level >= 2) {
         close();
         return {
           success: false,
@@ -47,19 +48,23 @@ export default function Phase1Level1({
             "Great job refreshing your knowledge! You've already completed this lesson.",
         };
       } else
-        return await updateUserGameData({ phase: 1, level: 2, score: 500 });
+        return await updateUserGameData({
+          phase: "Phase 1",
+          level: "Level 2",
+          score: 500,
+        });
     },
     onSuccess: (res) => {
       if (res.success) {
-        toast.success(res.message);
+        toast.success("Phase 1 level 1 completed");
         if (user.user_data)
           setUser({
             ...user,
             user_data: { ...user.user_data },
             game_data: {
               level: Math.max(user.game_data.level, 1),
-              phase: Math.max(user.game_data.phase, 1),
-              score: user.game_data.score + 250,
+              phase: Math.max(user.game_data.phase, 2),
+              totalScore: user.game_data.totalScore + 250,
               hasAnswer: true,
             },
           });
@@ -177,9 +182,17 @@ function CryptoCourse({
 }) {
   const { playSound } = useSoundEffects();
 
+  const { pause } = useBackgroundMusic();
+
   const [courseStage, setCourseStage] = useState<"welcome" | "course">(
     "welcome"
   );
+
+  useEffect(() => {
+    if (courseStage === "welcome") pause();
+
+    return () => {};
+  }, [courseStage, pause]);
 
   return (
     <div className="size-full flex flex-col relative pt-20">
@@ -354,14 +367,24 @@ function CryptoCourse({
             </div>
           </div>
 
-          <div className="flex flex-col items-end gap-10 w-full max-w-5xl mx-auto">
-            <div className="relative flex w-full aspect-video">
-              <VideoWrapper className="absolute size-full -my-10" />
+          <div className="flex flex-col items-end w-full max-w-5xl mx-auto">
+            <div className="relative flex items-center justify-center w-full aspect-video">
+              <VideoWrapper className="absolute size-full" />
+
+              <video
+                className="size-[80%] object-cover relative rounded-2xl"
+                controls
+                autoPlay
+                playsInline
+                preload="metadata"
+              >
+                <source src="/gamification-lessons/P1L1.mp4" type="video/mp4" />
+              </video>
             </div>
 
             <button
               onClick={next}
-              className="text-[#181812B2] relative -mt-30 text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
+              className="text-[#181812B2] relative text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
             >
               Next
             </button>
@@ -383,8 +406,14 @@ function CryptoTest({
 }) {
   const { playSound } = useSoundEffects();
 
+  const { play } = useBackgroundMusic();
+
   const [courseStage, setCourseStage] = useState(5);
   const [timer, setTimer] = useState(40);
+
+  useEffect(() => {
+    play();
+  }, [play]);
 
   useEffect(() => {
     setTimer(40);

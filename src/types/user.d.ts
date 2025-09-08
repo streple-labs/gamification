@@ -21,6 +21,6 @@ interface UserData {
 interface GamificationData {
   phase: number;
   level: number;
-  score: number;
+  totalScore: number;
   hasAnswer: boolean;
 }

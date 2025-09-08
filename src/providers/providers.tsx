@@ -4,6 +4,8 @@ import { Toaster } from "sonner";
 import QueryProvider from "./query-provider";
 import { AuthProvider } from "../context/auth-context";
 import { Next13ProgressBar } from "next13-progressbar";
+import { BackgroundMusicProvider } from "../context/bg-music-context";
+import BackgroundMusic from "../component/ui/bg-music";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -16,8 +18,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       />
       <QueryProvider>
         <AuthProvider>
-          <Toaster position="bottom-right" />
-          {children}
+          <BackgroundMusicProvider>
+            <Toaster position="bottom-right" />
+            <BackgroundMusic />
+            {children}
+          </BackgroundMusicProvider>
         </AuthProvider>
       </QueryProvider>
     </>

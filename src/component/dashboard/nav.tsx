@@ -32,7 +32,9 @@ export default function Navbar() {
         <div className="flex gap-4 items-center shrink-0">
           <div className="flex items-center gap-3">
             <Lightning />
-            <p className="text-xl/5 font-semibold">{game_data.score} STP</p>
+            <p className="text-xl/5 font-semibold">
+              {game_data.totalScore} STP
+            </p>
           </div>
 
           <Image

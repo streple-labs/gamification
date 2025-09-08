@@ -56,7 +56,7 @@ export default function CopyTrader({
               name="stp-amount"
               id="amount"
               min="50"
-              max={game_data.score}
+              max={game_data.totalScore}
               value={sliderValue}
               onChange={handleSliderChange}
               className="w-full"

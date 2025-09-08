@@ -2,8 +2,6 @@ export default function VideoWrapper(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
-      width="1469"
-      height="810"
       viewBox="0 0 1469 810"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
