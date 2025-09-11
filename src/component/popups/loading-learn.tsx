@@ -36,7 +36,7 @@ export default function LoadingLearn() {
   if (!loading) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#141314]">
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#141314] p-8">
       <div className="flex flex-col items-center justify-center w-full max-w-[488px]">
         <Image
           src={"/mascot-1.png"}
@@ -45,7 +45,7 @@ export default function LoadingLearn() {
           height={148}
         />
         <div className="w-full h-[45px] -rotate-3 bg-[#DCD8E6] relative">
-          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-xl leading-5 tracking-[1px] text-[#1F1D22]">
+          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-sm md:text-xl leading-5 tracking-[1px] text-[#1F1D22]">
             Loading...{percentage}%
           </p>
           <div
