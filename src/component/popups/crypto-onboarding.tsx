@@ -5,19 +5,23 @@ import Lightning from "@/assets/svg/purple-lightning";
 import { useAuth } from "@/context/auth-context";
 import useSoundEffects from "@/hooks/useSoundEffects";
 import { handleCryptoOnboarding } from "@/utils/action";
+import {
+  getRandomQuestions,
+  P1L1quizFormQuestions,
+} from "@/utils/question-bank";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { PiThumbsDown, PiThumbsUp } from "react-icons/pi";
 import { toast } from "sonner";
 import mascot3 from "../../../public/mascot-3.png";
-import BlandFace from "../icons/bland-face";
-import FrownFace from "../icons/frown-face";
 import RayOfLight from "../icons/ray-of-light";
-import SmileyFace from "../icons/smiley-face";
 import VideoWrapper from "../icons/video-wrapper";
 import Banner from "../ui/banner";
 import Modal from "../ui/modal";
+// import FrownFace from "../icons/frown-face";
+// import SmileyFace from "../icons/smiley-face";
+// import BlandFace from "../icons/bland-face";
 
 type Stages = "welcome" | "onboarding" | "lesson" | "awards";
 
@@ -29,7 +33,8 @@ export default function CryptoOnboarding() {
 
   useEffect(() => {
     setStage(
-      (localStorage.getItem("crypto-onboarding-stage") as Stages) || "welcome"
+      // (localStorage.getItem("crypto-onboarding-stage") as Stages) ||
+      "welcome"
     );
   }, []);
 
@@ -71,8 +76,8 @@ export default function CryptoOnboarding() {
             },
           });
         setStart(false);
-        localStorage.removeItem("crypto-onboarding-stage");
-        localStorage.removeItem("crypto-onboarding-course-stage");
+        // localStorage.removeItem("crypto-onboarding-stage");
+        // localStorage.removeItem("crypto-onboarding-course-stage");
       } else toast.error(res.message);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -155,7 +160,7 @@ function Welcome({ setStage }: { setStage: (stage: Stages) => void }) {
             onClick={() => {
               setStage("onboarding");
               playSound("lesson");
-              localStorage.setItem("crypto-onboarding-stage", "onboarding");
+              // localStorage.setItem("crypto-onboarding-stage", "onboarding");
             }}
             className="text-[#181812B2] w-[214px] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px]"
           >
@@ -193,14 +198,14 @@ function Onboarding({
   const Next = () => {
     if (step === 3) {
       playSound("lesson");
-      localStorage.setItem("crypto-onboarding-stage", "lesson");
+      // localStorage.setItem("crypto-onboarding-stage", "lesson");
       setStage("lesson");
     } else setStep(step + 1);
   };
   const Back = () => {
     if (step === 1) {
       playSound("lesson");
-      localStorage.setItem("crypto-onboarding-stage", "welcome");
+      // localStorage.setItem("crypto-onboarding-stage", "welcome");
       setStage("welcome");
     } else setStep(step - 1);
   };
@@ -459,8 +464,8 @@ function CryptoLesson({
   const { playSound } = useSoundEffects();
 
   const [step, setStep] = useState<CourseStages>(
-    (localStorage.getItem("crypto-onboarding-course-stage") as CourseStages) ||
-      "intro"
+    // (localStorage.getItem("crypto-onboarding-course-stage") as CourseStages) ||
+    "intro"
   );
 
   useEffect(() => {
@@ -468,11 +473,18 @@ function CryptoLesson({
   }, [setCourseStartTime]);
 
   return (
-    <div className="w-screen h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar p-4">
+    <div className="w-screen h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar">
       {step === "intro" && (
-        <div className="size-full flex flex-col justify-center items-center gap-6 relative">
+        <div className="size-full flex flex-col justify-center items-center gap-6 relative p-4">
           <div className="flex items-end md:items-center">
-            <Image src={"/mascot-4.png"} alt="" width={231} height={194} />
+            <Image
+              src={"/mascot-4.png"}
+              alt=""
+              width={231}
+              height={194}
+              quality={100}
+              className="w-[159px] h-[134px] md:w-[231px] md:h-[194px]"
+            />
             <p className="-ml-16 text-sm md:text-2xl leading-8 tracking-[1px] font-semibold drop-shadow-[0px_1px_0px] drop-shadow-[#A082F980]">
               Now let&apos;s start with your first lesson
             </p>
@@ -481,7 +493,7 @@ function CryptoLesson({
           <button
             onClick={() => {
               playSound("lesson");
-              localStorage.setItem("crypto-onboarding-course-stage", "course");
+              // localStorage.setItem("crypto-onboarding-course-stage", "course");
               setStep("course");
             }}
             className="text-[#181812B2] w-[214px] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px]"
@@ -495,7 +507,7 @@ function CryptoLesson({
         <CryptoCourse
           next={() => {
             playSound("lesson");
-            localStorage.setItem("crypto-onboarding-course-stage", "test");
+            // localStorage.setItem("crypto-onboarding-course-stage", "test");
             setStep("test");
           }}
           close={close}
@@ -506,12 +518,13 @@ function CryptoLesson({
         <CryptoTest
           review={() => {
             playSound("lesson");
-            localStorage.setItem("crypto-onboarding-course-stage", "course");
+            // localStorage.setItem("crypto-onboarding-course-stage", "course");
             setStep("course");
           }}
+          close={close}
           next={() => {
             playSound("reward");
-            localStorage.setItem("crypto-onboarding-stage", "awards");
+            // localStorage.setItem("crypto-onboarding-stage", "awards");
             setStage("awards");
           }}
         />
@@ -537,7 +550,7 @@ function CryptoCourse({
     <div className="size-full flex flex-col relative pt-20 px-4">
       {courseStage === "welcome" && (
         <span
-          className="absolute top-4 left-0 md:top-20 md:left-20 lg:top-30 lg:left-40 cursor-pointer"
+          className="absolute top-4 left-4 md:top-20 md:left-20 lg:top-30 lg:left-40 cursor-pointer"
           onClick={close}
         >
           <svg
@@ -659,8 +672,8 @@ function CryptoCourse({
 
       {courseStage === "course" && (
         <>
-          <div className="flex items-center justify-center gap-10 w-full max-w-5xl mx-auto">
-            <span onClick={close}>
+          <div className="flex items-center justify-center gap-4 md:gap-10 w-full max-w-5xl mx-auto relative">
+            <span className="cursor-pointer" onClick={close}>
               <svg
                 viewBox="0 0 26 25"
                 fill="none"
@@ -725,9 +738,11 @@ function CryptoCourse({
 function CryptoTest({
   review,
   next,
+  close,
 }: {
   next: () => void;
   review: () => void;
+  close: () => void;
 }) {
   const [courseStage, setCourseStage] = useState(5);
   const [timer, setTimer] = useState(40);
@@ -746,60 +761,26 @@ function CryptoTest({
   }, [courseStage]);
 
   const [quizForm, setQuizForm] = useState<Record<number, number | null>>({
-    6: null,
-    7: null,
-    8: null,
-    9: null,
+    0: null,
+    1: null,
+    2: null,
   });
   const [quizResults, setQuizResults] = useState<
     Record<number, boolean | null>
   >({
-    6: null,
-    7: null,
-    8: null,
-    9: null,
+    0: null,
+    1: null,
+    2: null,
   });
 
-  const quizFormQuestions: Record<
-    number,
-    { question: string; options: string[]; answer: number }
-  > = {
-    6: {
-      question: "What is blockchain?",
-      options: [
-        "A messaging app for traders",
-        "A public ledger that records transactions",
-        "A type of hardware wallet",
-      ],
-      answer: 1,
-    },
-    7: {
-      question: "Which of these is a stablecoin?",
-      options: ["USDT", "BTC", "ETH"],
-      answer: 0,
-    },
-    8: {
-      question: "Which of the following is not a cryptocurrency?",
-      options: ["Solana", "Ethereum", "Paypal"],
-      answer: 2,
-    },
-    9: {
-      question: "The smallest unit of Bitcoin is called a ______.",
-      options: ["Satoshi", "Bitlet", "Byte"],
-      answer: 0,
-    },
-  };
-  const quizFormAnswersDescription: Record<number, string> = {
-    6: "Blockchain is a decentralized digital ledger that securely records transactions across many computers in a way that ensures the records cannot be altered retroactively. Think of it like a public notebook where every transaction is permanently written down and visible to everyone in the network.",
-    7: "USDT is a stablecoin because it's tied to the value of a real-world currency like the US dollar, so its price stays stable. Coins like ETH, BTC, and DOGE go up and down in price a lot.",
-    8: "PayPal is a digital payment platform, not a cryptocurrency. The others—Ethereum, Solana, and Binance Coin—are actual crypto assets built on blockchain networks.",
-    9: "A Satoshi is the tiniest unit of Bitcoin, named after its creator, Satoshi Nakamoto. 100 million satoshis make up 1 full Bitcoin.",
-  };
+  const [quizFormQuestions] = useState(() =>
+    getRandomQuestions(P1L1quizFormQuestions, 3)
+  );
 
   return (
     <div className="size-full flex flex-col gap-16 relative pt-20">
-      <div className="flex items-center justify-center gap-10 w-full max-w-5xl mx-auto">
-        <span onClick={close}>
+      <div className="flex items-center justify-center gap-4 md:gap-10 w-full max-w-5xl mx-auto p-4">
+        <span className="cursor-pointer" onClick={close}>
           <svg
             viewBox="0 0 26 25"
             fill="none"
@@ -818,7 +799,7 @@ function CryptoTest({
           <div
             className="h-[22px] md:h-[38px] bg-[#503C8B] rounded-full flex items-center -my-px"
             style={{
-              width: `${(courseStage / 9) * 100}%`,
+              width: `${(courseStage / 8) * 100}%`,
             }}
           >
             <div className="h-2.5 w-full mx-4 md:mx-7 rounded-full bg-blend-overlay bg-gradient-to-br from-white/45 from-[30.58%] to-[#fbfafd22] to-[70.32%]" />
@@ -834,15 +815,22 @@ function CryptoTest({
       </div>
 
       {courseStage === 5 && (
-        <div className="size-full flex flex-col justify-center items-center gap-10 md:gap-20 lg:gap-40 relative">
+        <div className="size-full flex flex-col justify-center items-center gap-10 md:gap-20 lg:gap-40 relative p-4">
           <div className="flex items-end md:items-center">
-            <Image src={"/mascot-4.png"} alt="" width={231} height={194} />
-            <p className="-ml-16 text-sm md:text-2xl leading-8 tracking-[1px] font-semibold drop-shadow-[0px_1px_0px] drop-shadow-[#A082F980]">
+            <Image
+              src={"/mascot-4.png"}
+              alt=""
+              width={231}
+              height={194}
+              quality={100}
+              className="w-[159px] h-[134px] md:w-[231px] md:h-[194px]"
+            />
+            <p className="-ml-20 text-sm md:text-2xl leading-8 tracking-[1px] font-semibold drop-shadow-[0px_1px_0px] drop-shadow-[#A082F980]">
               Now let&apos;s answer some questions
             </p>
           </div>
 
-          <div className="w-full flex flex-wrap gap-4 items-center justify-between max-w-4xl">
+          <div className="w-full flex gap-4 items-center justify-between max-w-4xl">
             <button
               onClick={review}
               className={`text-[#B7B7AF] text-base font-bold flex items-center justify-center border-[2px] border-[#B7B7AF80] rounded-[10px] h-[60px] w-[191px]`}
@@ -864,96 +852,113 @@ function CryptoTest({
 
       {courseStage >= 6 && (
         <div className="size-full flex flex-col items-center">
-          <div className="max-w-4xl flex gap-3 w-full">
-            <Image
-              src={"/mascot-4.png"}
-              alt=""
-              width={100}
-              height={83}
-              quality={100}
-              className="w-[100px] h-[83px]"
-            />
-            <div className="flex flex-col gap-10 w-full">
-              <h4 className="text-2xl leading-[150%] tracking-[2px] font-semibold">
-                {quizFormQuestions[courseStage].question}
+          <div className="flex flex-col gap-10 w-full max-w-4xl p-4">
+            <div className="flex items-center gap-3">
+              <Image
+                src={"/mascot-4.png"}
+                alt=""
+                width={100}
+                height={83}
+                quality={100}
+                className="w-[65px] h-[60px] md:w-[100px] md:h-[83px]"
+              />
+              <h4 className="text-xl md:text-2xl leading-[150%] tracking-[2px] font-semibold drop-shadow-[#8066CF80] drop-shadow-xs">
+                {quizFormQuestions[courseStage - 6].question}
               </h4>
-              <div className="space-y-8 w-full">
-                {quizFormQuestions[courseStage].options.map((option, i) => (
-                  <button
-                    key={i}
-                    className={`w-full rounded-3xl border-[5px] ${
-                      quizForm[courseStage] === i &&
-                      quizResults[courseStage] === true
-                        ? "border-[#009632B2] shadow-[0px_5px_0px_0px_#00963299] bg-[#0096321A]"
-                        : quizForm[courseStage] === i &&
-                          quizResults[courseStage] === false
-                        ? "bg-[#F982821A] border-[#F98282B2] shadow-[0px_5px_0px_0px_#F9828299]"
-                        : "border-[#5E5C6680] shadow-[0px_5px_0px_0px_#473E3E40]"
-                    } text-white/50 font-base leading-[150%] tracking-[2px] text-start py-4 px-6 flex items-center gap-4 disabled:opacity-100!`}
-                    onClick={() => {
-                      setQuizForm((prev) => ({
-                        ...prev,
-                        [courseStage]: i,
-                      }));
-                      setQuizResults((prev) => ({
-                        ...prev,
-                        [courseStage]:
-                          i === quizFormQuestions[courseStage].answer,
-                      }));
-                    }}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
             </div>
-          </div>
-
-          <div className="mt-auto w-full bg-[#1F1E22] py-10">
-            <div className="w-full max-w-4xl flex flex-col gap-4 mx-auto">
-              <div className="w-full flex justify-between items-center">
+            <div className="lg:ml-[100px] space-y-4 md:space-y-8 w-full">
+              {quizFormQuestions[courseStage - 6].options.map((option, i) => (
                 <button
-                  className={`${
-                    quizResults[courseStage] === true
-                      ? "text-[#009632] border-[#009632]"
-                      : quizResults[courseStage] === false
-                      ? "text-[#F98282] border-[#F98282]"
-                      : "text-[#B7B7AF] border-[#B7B7AF80]"
-                  } text-base font-bold flex items-center justify-center gap-2.5 cursor-pointer border-[2px] rounded-[10px] h-[60px] w-[191px]`}
-                >
-                  {quizResults[courseStage] === true && (
-                    <PiThumbsUp color="#06C330" width={21} />
-                  )}
-                  {quizResults[courseStage] === false && (
-                    <PiThumbsDown color="#F98282" width={21} />
-                  )}
-                  {quizResults[courseStage] !== null
-                    ? `${quizResults[courseStage] ? "Correct" : "Incorrect"}`
-                    : `00:${timer}`}
-                </button>
-
-                <button
+                  key={i}
+                  disabled={quizResults[courseStage - 6] !== null}
+                  className={`w-full rounded-3xl border-[5px] ${
+                    quizForm[courseStage - 6] == i
+                      ? "border-[#A082F9B2] shadow-[0px_5px_0px_0px_#957CE099] bg-[#A082F91A]"
+                      : quizForm[courseStage - 6] === i &&
+                        quizResults[courseStage - 6] === true
+                      ? "border-[#009632B2] shadow-[0px_5px_0px_0px_#00963299] bg-[#0096321A]"
+                      : quizForm[courseStage - 6] === i &&
+                        quizResults[courseStage - 6] === false
+                      ? "bg-[#F982821A] border-[#F98282B2] shadow-[0px_5px_0px_0px_#F9828299]"
+                      : "border-[#5E5C6680] shadow-[0px_5px_0px_0px_#473E3E40]"
+                  } text-white/50 font-base leading-[150%] tracking-[2px] text-start py-4 px-6 flex items-center gap-4 disabled:opacity-100!`}
                   onClick={() => {
-                    if (courseStage === 9) next();
-                    else setCourseStage((prev) => prev + 1);
+                    setQuizForm((prev) => ({
+                      ...prev,
+                      [courseStage - 6]: i,
+                    }));
                   }}
-                  disabled={quizResults[courseStage] !== true}
-                  className={`${
-                    quizResults[courseStage] === true
-                      ? "text-[#181812B2] bg-[#009632]"
-                      : quizResults[courseStage] === false
-                      ? "text-[#000000B2] bg-[#F98282]"
-                      : "text-[#F1F0DFB2] bg-[#414139]"
-                  } text-base font-bold flex items-center justify-center rounded-[10px] h-[60px] w-[191px]`}
                 >
-                  Next
+                  {option}
                 </button>
-              </div>
-              {quizResults[courseStage] !== null && (
-                <p>{quizFormAnswersDescription[courseStage]}</p>
-              )}
+              ))}
             </div>
+
+            {quizResults[courseStage - 6] === null && (
+              <button
+                onClick={() => {
+                  setQuizResults((prev) => ({
+                    ...prev,
+                    [courseStage - 6]:
+                      courseStage - 6 ===
+                      quizFormQuestions[courseStage - 6].answer,
+                  }));
+                }}
+                disabled={quizForm[courseStage - 6] === null}
+                className={`${
+                  quizForm[courseStage - 6] === null && "grayscale-100"
+                } text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[15px] h-[55px] w-full md:w-[214px]`}
+              >
+                Check
+              </button>
+            )}
           </div>
+
+          {quizResults[courseStage - 6] !== null && (
+            <div className="mt-auto w-full bg-[#1F1E22] py-10 p-4">
+              <div className="w-full max-w-4xl flex flex-col gap-4 mx-auto">
+                <div className="w-full flex justify-between items-center">
+                  <button
+                    className={`${
+                      quizResults[courseStage - 6] === true
+                        ? "text-[#009632] border-[#009632]"
+                        : quizResults[courseStage - 6] === false
+                        ? "text-[#F98282] border-[#F98282]"
+                        : "text-[#B7B7AF] border-[#B7B7AF80]"
+                    } text-base font-bold flex items-center justify-center gap-2.5 cursor-pointer p-1 rounded-[10px] h-[60px]`}
+                  >
+                    {quizResults[courseStage - 6] === true && (
+                      <PiThumbsUp color="#06C330" width={21} />
+                    )}
+                    {quizResults[courseStage - 6] === false && (
+                      <PiThumbsDown color="#F98282" width={21} />
+                    )}
+                    {quizResults[courseStage - 6] !== null
+                      ? `${
+                          quizResults[courseStage - 6] ? "Correct" : "Incorrect"
+                        }`
+                      : `00:${timer}`}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      if (courseStage === 8) next();
+                      else setCourseStage((prev) => prev + 1);
+                    }}
+                    className={`${
+                      quizResults[courseStage - 6] === true
+                        ? "text-[#181812B2] bg-[#009632]"
+                        : quizResults[courseStage - 6] === false
+                        ? "text-[#000000B2] bg-[#F98282]"
+                        : "text-[#F1F0DFB2] bg-[#414139]"
+                    } text-base font-bold flex items-center justify-center rounded-[10px] h-[60px] w-[191px]`}
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -971,7 +976,7 @@ function Completed({
 
   const [step, setStep] = useState(1);
   const next = () => {
-    if (step === 4) {
+    if (step === 2) {
       playSound("level_complete");
       close();
     } else setStep((prev) => prev + 1);
@@ -1011,16 +1016,9 @@ function Completed({
     return () => clearInterval(interval);
   }, [lists]);
 
-  const [showBadge, setShowBadge] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setShowBadge(true);
-    }, 5000);
-  }, []);
-
-  const [review, setReview] = useState<"clear" | "okay" | "confusing" | null>(
-    null
-  );
+  // const [review, setReview] = useState<"clear" | "okay" | "confusing" | null>(
+  //   null
+  // );
 
   return (
     <div className="w-screen h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar">
@@ -1029,74 +1027,44 @@ function Completed({
         alt="spotlight"
         width={640}
         height={385.13}
-        className="absolute left-1/2 -translate-x-1/2 size-auto"
+        quality={100}
+        className="size-auto absolute left-1/2 -translate-x-1/2"
       />
 
-      {showBadge && (
-        <div className="fixed z-20 inset-0 flex items-center justify-center size-full">
-          <div
-            className="absolute inset-0 backdrop-blur-xl"
-            onClick={() => {
-              playSound("lesson");
-              setShowBadge(false);
-            }}
-          />
-
-          <div className="flex relative flex-col items-center gap-10">
-            <h2 className={`${baloo.className} text-[42px]/[50px]`}>
-              NEW BADGE UNLOCKED
-            </h2>
-            <div className="border border-[#c0bb4f] bg-[#19171d] backdrop-blur-3xl relative flex flex-col items-center justify-center rounded-[31px] w-[281px] h-[313px]">
-              <p className={`${baloo.className} text-2xl/[35px]`}>
-                CRYPTO INITIATE
-              </p>
-              <Image
-                src={"/wooden-staff.png"}
-                alt="wooden staff badge illustration"
-                width={111}
-                height={111}
-                className="relative"
-              />
-
-              <Image
-                src={"/eclipse-28.png"}
-                alt=""
-                width={100}
-                height={100}
-                className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="size-full flex flex-col items-center justify-center gap-20 relative">
+      <div className="size-full flex flex-col items-center justify-center gap-4 md:gap-10 lg:gap-20 p-4 relative">
         {step === 1 && (
           <div className="flex flex-col items-center">
             <Image src={"/mascot-5.png"} alt="" width={351} height={271} />
             <div className="gap-6 flex items-center justify-center flex-col">
-              <h2 className="text-4xl font-bold text-[#EEE311] max-w-[550px] h-20 text-center">
+              <h2 className="text-2xl md:text-4xl font-bold text-[#EEE311] max-w-[550px] h-16 md:h-20 text-center">
                 {word}
               </h2>
-              <p className="-mt-4 text-base text-[#939389]">
+              <p className="-mt-4 text-sm md:text-base text-[#939389]">
                 You are 30% closer to unlocking your Crypto Initiate badge
               </p>
 
-              <div className="flex gap-9">
+              <div className="flex gap-4 md:gap-9">
                 <div className="bg-[#24222A99] rounded-[10px] py-5 px-7 flex items-center flex-col justify-center gap-2">
-                  <Image src={"/target.png"} alt="" width={50} height={50} />
-                  <p className="text-base leading-8 tracking-[1px] text-white/80">
+                  <Image
+                    src={"/target.png"}
+                    alt="target"
+                    width={50}
+                    height={50}
+                    className="size-[30px] md:size-[50px]"
+                  />
+                  <p className="text-xs md:text-base leading-8 tracking-[1px] text-white/80">
                     30 %
                   </p>
                 </div>
                 <div className="bg-[#24222A99] rounded-[10px] py-5 px-7 flex items-center flex-col justify-center gap-2">
                   <Image
                     src={"/time-streak.png"}
-                    alt=""
+                    alt="time taken"
                     width={50}
                     height={50}
+                    className="size-[30px] md:size-[50px]"
                   />
-                  <p className="text-base leading-8 tracking-[1px] text-white/80">
+                  <p className="textxs md:text-base leading-8 tracking-[1px] text-white/80">
                     {elapsedTime}
                   </p>
                 </div>
@@ -1105,7 +1073,7 @@ function Completed({
           </div>
         )}
 
-        {step === 2 && (
+        {/* {step === 2 && (
           <div className="flex items-center justify-center flex-col gap-20">
             <h2 className="text-4xl font-bold text-[#EEE311]">
               2 daily quests completed
@@ -1151,20 +1119,15 @@ function Completed({
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
-        {step === 3 && (
+        {step === 2 && (
           <div className="flex items-center justify-center">
             <>
-              <RayOfLight className="absolute h-[340px] left-1/2 -translate-x-1/2 -top-10 rotate-[130deg]" />
-              <RayOfLight className="absolute h-[340px] left-2/5 -translate-x-2/5 -top-0 rotate-[80deg]" />
-              <RayOfLight className="absolute h-[340px] left-[35%] -translate-x-[35%] top-52" />
-              <RayOfLight className="absolute h-[340px] left-3/5 -translate-x-3/5 top-0 rotate-180" />
-              <RayOfLight className="absolute h-[340px] left-1/2 -translate-x-1/2 top-64 -rotate-[55deg]" />
-              <RayOfLight className="absolute h-[340px] left-[65%] -translate-x-[65%] top-44 -rotate-[120deg]" />
+              <RayOfLight className="absolute left-1/2 -translate-x-1/2 top-0 md:-top-4" />
             </>
 
-            <div className="flex items-center justify-center flex-col gap-6 mb-10 relative">
+            <div className="flex items-center justify-center flex-col gap-6 mb-30 relative">
               <Image
                 src={"/stp-coin.png"}
                 alt="stp reward illustration"
@@ -1173,7 +1136,7 @@ function Completed({
                 className="relative"
               />
               <p
-                className={`${baloo.className} text-[#F4E90E] text-[36px] relative`}
+                className={`${baloo.className} text-[#F4E90E] text-3xl md:text-[36px] relative`}
               >
                 +500 Coins
               </p>
@@ -1181,7 +1144,7 @@ function Completed({
           </div>
         )}
 
-        {step === 4 && (
+        {/* {step === 4 && (
           <div className="flex flex-col items-center justify-center gap-10">
             <h4
               className={`${baloo.className} text-[#F4E90E] text-[36px] relative drop-shadow-[#25251A80] drop-shadow-[0px_4px_4px]`}
@@ -1232,16 +1195,16 @@ function Completed({
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
-        <div className="w-full flex items-center justify-between max-w-5xl">
-          <button className="text-[#32322B] bg-[#F7F6F4] text-base font-bold flex items-center justify-center rounded-[10px] h-[60px] w-[191px]">
+        <div className="w-full flex flex-col-reverse md:flex-row gap-4 items-center justify-between max-w-5xl">
+          <button className="text-[#32322B] bg-[#F7F6F4] text-base font-bold flex items-center justify-center rounded-[10px] h-[60px] w-full md:w-[214px]">
             Share
           </button>
 
           <button
             onClick={next}
-            className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
+            className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-full md:w-[214px]"
           >
             Continue
           </button>
