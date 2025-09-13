@@ -96,7 +96,7 @@ export default function Gamification() {
               if (user.game_data.phase >= 1 && user.game_data.level >= 0)
                 setShowSelectedCourse("Phase1Level1");
             }}
-            className={`bg-[#24222A99] h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+            className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
               user.game_data.phase >= 1 && user.game_data.level >= 0
                 ? "cursor-pointer hover:border-4 hover:border-[#958F16]/50"
                 : "grayscale-100 && cursor-not-allowed"
@@ -127,7 +127,7 @@ export default function Gamification() {
               if (user.game_data.phase >= 1 && user.game_data.level >= 0)
                 setShowSelectedCourse("Phase1Level2");
             }}
-            className={`bg-[#24222A99] h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+            className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
               user.game_data.phase >= 1 && user.game_data.level >= 1
                 ? "cursor-pointer hover:border-4 hover:border-[#A082F980]"
                 : "grayscale-100 && cursor-not-allowed"
@@ -158,7 +158,7 @@ export default function Gamification() {
               if (user.game_data.phase >= 1 && user.game_data.level >= 0)
                 setShowSelectedCourse("Phase1Level3");
             }}
-            className={`bg-[#24222A99] max-md:col-span-2 h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+            className={`bg-[#24222A99] max-md:col-span-2 min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
               user.game_data.phase >= 1 && user.game_data.level >= 2
                 ? "cursor-pointer"
                 : "grayscale-100 && cursor-not-allowed"
@@ -196,7 +196,7 @@ export default function Gamification() {
               if (user.game_data.phase >= 2 && user.game_data.level >= 1)
                 setShowSelectedCourse("Phase2Level1");
             }}
-            className={`bg-[#24222A99] h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+            className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
               user.game_data.phase >= 2 && user.game_data.level >= 1
                 ? "cursor-pointer"
                 : "grayscale-100 && cursor-not-allowed"
@@ -224,7 +224,7 @@ export default function Gamification() {
             onClick={() => {
               playSound("lesson");
             }}
-            className={`bg-[#24222A99] h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+            className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
               user.game_data.phase >= 2 && user.game_data.level >= 2
                 ? "cursor-pointer"
                 : "grayscale-100 && cursor-not-allowed"
@@ -252,7 +252,7 @@ export default function Gamification() {
             onClick={() => {
               playSound("lesson");
             }}
-            className={`bg-[#24222A99] h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+            className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
               user.game_data.phase >= 2 && user.game_data.level >= 3
                 ? "cursor-pointer"
                 : "grayscale-100 && cursor-not-allowed"
@@ -285,7 +285,7 @@ export default function Gamification() {
           }}
           className={`bg-[#24222A99] ${
             baloo.className
-          } h-[85px] rounded-[10px] py-[22px] px-6 flex items-center justify-between gap-4 shadow-[inset_9px_-9px_0px_0px_#A082F9] ${
+          } min-h-[85px] rounded-[10px] py-[22px] px-6 flex items-center justify-between gap-4 shadow-[inset_9px_-9px_0px_0px_#A082F9] ${
             user.game_data.phase >= 3
               ? "cursor-pointer"
               : "grayscale-100 && cursor-not-allowed"

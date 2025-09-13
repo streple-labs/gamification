@@ -19,6 +19,8 @@ import RayOfLight from "../icons/ray-of-light";
 import VideoWrapper from "../icons/video-wrapper";
 import Banner from "../ui/banner";
 import Modal from "../ui/modal";
+import { FaChevronLeft } from "react-icons/fa6";
+import { GoX } from "react-icons/go";
 // import FrownFace from "../icons/frown-face";
 // import SmileyFace from "../icons/smiley-face";
 // import BlandFace from "../icons/bland-face";
@@ -212,7 +214,10 @@ function Onboarding({
 
   return (
     <div className="relative bg-[#141314] w-full max-md:h-screen md:w-4/5 lg:w-5xl md:rounded-[29px] p-8">
-      <div className="flex items-center justify-center flex-col gap-12 md:gap-16 max-w-3xl mx-auto h-full">
+      <div className="flex items-center justify-center flex-col gap-8 sm:gap-12 md:gap-16 max-w-3xl mx-auto h-full">
+        <span className="md:hidden w-full">
+          <FaChevronLeft onClick={Back} width={12} color="#FFFFFFCC" />
+        </span>
         <div className="w-full h-5 md:h-[36px] bg-[#F9F8F9] rounded-[46px]">
           <div
             className="h-[22px] md:h-[38px] bg-[#503C8B] rounded-full flex items-center -my-px"
@@ -430,7 +435,7 @@ function Onboarding({
           )}
         </div>
         <div className="w-full flex flex-wrap gap-4 items-center justify-between">
-          <button onClick={Back} className="text-base font-bold">
+          <button onClick={Back} className="max-md:hidden text-base font-bold">
             Back
           </button>
           <button
@@ -440,7 +445,7 @@ function Onboarding({
               (step === 3 && !formData.thirdQuestion)
             }
             onClick={Next}
-            className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px] disabled:opacity-50"
+            className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-full md:w-[214px] disabled:opacity-50"
           >
             Continue
           </button>
@@ -712,7 +717,7 @@ function CryptoCourse({
               <VideoWrapper className="absolute size-full" />
 
               <video
-                className="size-[80%] object-cover relative rounded-2xl"
+                className="size-full max-md:mt-6 md:size-[80%] object-cover relative rounded-2xl"
                 controls
                 autoPlay
                 playsInline
@@ -752,7 +757,7 @@ function CryptoTest({
     const interval = setInterval(() => {
       setTimer((prev) => {
         if (prev > 0) return prev - 1;
-        else setQuizResults((prev) => ({ ...prev, [courseStage]: false }));
+        else setQuizResults((prev) => ({ ...prev, [courseStage - 6]: false }));
         clearInterval(interval);
         return 0;
       });
@@ -778,9 +783,13 @@ function CryptoTest({
   );
 
   return (
-    <div className="size-full flex flex-col gap-16 relative pt-20">
+    <div className="size-full flex flex-col gap-4 sm:gap-8 md:gap-16 relative pt-20">
+      <span className="md:hidden w-full px-4">
+        <GoX onClick={close} width={12} color="#FFFFFFCC" />
+      </span>
+
       <div className="flex items-center justify-center gap-4 md:gap-10 w-full max-w-5xl mx-auto p-4">
-        <span className="cursor-pointer" onClick={close}>
+        <span className="max-md:hidden cursor-pointer" onClick={close}>
           <svg
             viewBox="0 0 26 25"
             fill="none"
@@ -833,7 +842,7 @@ function CryptoTest({
           <div className="w-full flex gap-4 items-center justify-between max-w-4xl">
             <button
               onClick={review}
-              className={`text-[#B7B7AF] text-base font-bold flex items-center justify-center border-[2px] border-[#B7B7AF80] rounded-[10px] h-[60px] w-[191px]`}
+              className={`max-md:hidden text-[#B7B7AF] text-base font-bold flex items-center justify-center border-[2px] border-[#B7B7AF80] rounded-[10px] h-[60px] w-[191px]`}
             >
               Review
             </button>
@@ -842,7 +851,7 @@ function CryptoTest({
               onClick={() => {
                 setCourseStage((prev) => prev + 1);
               }}
-              className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
+              className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[15px] md:rounded-[10px] h-[60px] w-full md:w-[214px]"
             >
               Next
             </button>
@@ -853,7 +862,7 @@ function CryptoTest({
       {courseStage >= 6 && (
         <div className="size-full flex flex-col items-center">
           <div className="flex flex-col gap-10 w-full max-w-4xl p-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
               <Image
                 src={"/mascot-4.png"}
                 alt=""
@@ -862,9 +871,45 @@ function CryptoTest({
                 quality={100}
                 className="w-[65px] h-[60px] md:w-[100px] md:h-[83px]"
               />
-              <h4 className="text-xl md:text-2xl leading-[150%] tracking-[2px] font-semibold drop-shadow-[#8066CF80] drop-shadow-xs">
+              <h4 className="text-sm xs:text-base sm:text-xl md:text-2xl leading-[150%] tracking-[2px] font-semibold drop-shadow-[#8066CF80] drop-shadow-xs">
                 {quizFormQuestions[courseStage - 6].question}
               </h4>
+
+              <div
+                className={`md:hidden size-10 rounded-full relative shrink-0 flex items-center justify-center text-sm ${baloo.className}`}
+              >
+                <svg
+                  className="absolute inset-0 w-full h-full transform -rotate-90"
+                  viewBox="0 0 100 100"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.1)"
+                    strokeWidth="8"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    fill="none"
+                    stroke="#A082F9"
+                    strokeWidth="10"
+                    strokeLinecap="round"
+                    strokeDasharray={`${
+                      ((40 - timer) / 40) * 100 * 2.827
+                    } 282.7`}
+                    className="transition-all duration-1000 ease-linear"
+                    style={{
+                      filter: `drop-shadow(0 0 8px '#19171D')`,
+                    }}
+                  />
+                </svg>
+
+                {timer}
+              </div>
             </div>
             <div className="lg:ml-[100px] space-y-4 md:space-y-8 w-full">
               {quizFormQuestions[courseStage - 6].options.map((option, i) => (
@@ -917,7 +962,7 @@ function CryptoTest({
           {quizResults[courseStage - 6] !== null && (
             <div className="mt-auto w-full bg-[#1F1E22] py-10 p-4">
               <div className="w-full max-w-4xl flex flex-col gap-4 mx-auto">
-                <div className="w-full flex justify-between items-center">
+                <div className="w-full flex flex-wrap gap-4 justify-between items-center">
                   <button
                     className={`${
                       quizResults[courseStage - 6] === true
@@ -951,7 +996,7 @@ function CryptoTest({
                         : quizResults[courseStage - 6] === false
                         ? "text-[#000000B2] bg-[#F98282]"
                         : "text-[#F1F0DFB2] bg-[#414139]"
-                    } text-base font-bold flex items-center justify-center rounded-[10px] h-[60px] w-[191px]`}
+                    } text-base font-bold flex items-center justify-center rounded-[10px] h-[60px] w-full md:w-[214px]`}
                   >
                     Next
                   </button>
