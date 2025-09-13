@@ -493,23 +493,14 @@ export default function TradingPost({
                       </div>
                     </div>
 
-                    <div className="flex items-center max-md:gap-3">
-                      <Image
-                        src={"/traders-badge-1.png"}
-                        aria-label="traders badge"
-                        alt="traders badge"
-                        width={24}
-                        height={24}
-                        className="size-4 md:size-6 shrink-0"
-                      />
-
-                      <button
-                        onClick={toggleCopyTraderModal}
-                        className="md:hidden flex items-center justify-center gap-2.5 py-2 px-2.5 rounded-[10px] border border-white/30 h-8 font-semibold text-xs tracking-[2px] text-white/80"
-                      >
-                        Copy now
-                      </button>
-                    </div>
+                    <Image
+                      src={"/traders-badge-1.png"}
+                      aria-label="traders badge"
+                      alt="traders badge"
+                      width={24}
+                      height={24}
+                      className="size-4 md:size-6 shrink-0"
+                    />
                   </div>
                 </Link>
 
@@ -541,7 +532,7 @@ export default function TradingPost({
 
                   <button
                     onClick={toggleCopyTraderModal}
-                    className="max-md:hidden flex items-center mx-auto justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-[156px] font-semibold text-xs tracking-[2px] text-white/80"
+                    className="flex items-center mx-auto justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-full md:w-[156px] font-semibold text-xs tracking-[2px] text-white/80"
                   >
                     Copy now
                   </button>

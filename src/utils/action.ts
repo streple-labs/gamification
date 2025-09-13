@@ -3,6 +3,7 @@
 
 import { cookies } from "next/headers";
 import api from "./axios";
+import { redirect } from "next/navigation";
 
 export const login = async (formData: { email: string; password: string }) => {
   try {
@@ -278,3 +279,5 @@ export const followTrader = async (trader_id: string) => {
     return { success: false, message: errorMessage };
   }
 };
+
+export const redirectToLogin = async () => redirect("/login");

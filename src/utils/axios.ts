@@ -4,8 +4,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { cookies } from "next/headers";
+import { redirectToLogin } from "./action";
 import { base_url, dev_url, live_url } from "./constants";
-import { clearToken } from "./queries";
 import { createNetworkError } from "./utils";
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -128,7 +128,7 @@ api.interceptors.response.use(
             failedRequestsQueue = [];
             isRefreshing = false;
 
-            await clearToken();
+            await redirectToLogin();
           }
         }
 

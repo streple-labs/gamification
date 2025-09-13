@@ -88,23 +88,23 @@ export default async function page({
         </svg>
       </span>
 
-      <div className="flex items-center justify-between gap-6 relative">
-        <div className="size-[130px] shrink-0 rounded-full flex items-center justify-center bg-gradient-to-b from-[#503C8B] to-[#BDB510] drop-shadow-[#00000040] drop-shadow-[0px_4px_4px]">
+      <div className="flex items-center flex-col lg:flex-row justify-between gap-4 md:gap-6 relative">
+        <div className="size-[60px] md:size-[130px] shrink-0 rounded-full flex items-center justify-center bg-gradient-to-b from-[#503C8B] to-[#BDB510] drop-shadow-[#00000040] drop-shadow-[0px_4px_4px]">
           <Image
             src={"/traders-pfp-1.jpg"}
             aria-label="traders profile picture"
             alt="traders profile picture"
             width={125}
             height={125}
-            className="rounded-full object-cover"
+            className="size-[55px] md:size-[125px] rounded-full object-cover"
           />
         </div>
-        <div className="flex flex-col gap-6 w-full">
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-[11px]">
+        <div className="flex flex-col gap-4 md:gap-6 w-full">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between w-full">
+            <div className="flex flex-col max-md:items-center gap-3 w-full">
+              <div className="flex items-center gap-3">
                 <p
-                  className={`${baloo.className} text-transparent bg-gradient-to-r from-white to-white/0 bg-clip-text`}
+                  className={`${baloo.className} text-sm md:text-base text-transparent bg-gradient-to-r from-white to-white/0 bg-clip-text`}
                 >
                   Mayaxx
                 </p>
@@ -116,10 +116,12 @@ export default async function page({
                     height={16}
                   />
 
-                  <p className="text-xs/5 tracking-[2px] font-normal">Bronze</p>
+                  <p className="text-[10px] md:text-xs leading-5 tracking-[2px] font-normal">
+                    Bronze
+                  </p>
                 </div>
               </div>
-              <p className="text-[#FFFFFFB2] text-xs/5 tracking-[2px] font-normal">
+              <p className="text-[#FFFFFFB2] text-[10px] md:text-xs leading-5 tracking-[2px] font-normal">
                 Making crypto trades with a focus on profitability.
               </p>
               <div className="flex items-center gap-3">
@@ -150,11 +152,11 @@ export default async function page({
                       </linearGradient>
                     </defs>
                   </svg>
-                  <p className="font-bold opacity-80 text-xs tracking-[2px] text-transparent bg-gradient-to-r from-white to-white/0 bg-clip-text">
+                  <p className="font-bold opacity-80 text-[10px] md:text-xs tracking-[2px] text-transparent bg-gradient-to-r from-white to-white/0 bg-clip-text">
                     Followers:
                   </p>
                 </div>
-                <p className="font-bold text-transparent text-xs tracking-[2px] bg-gradient-to-r from-white to-white/0 bg-clip-text">
+                <p className="font-bold text-transparent text-[10px] md:text-xs tracking-[2px] bg-gradient-to-r from-white to-white/0 bg-clip-text">
                   85/100
                 </p>
               </div>
@@ -168,35 +170,35 @@ export default async function page({
             </p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
-                <p className="font-semibold text-xs tracking-[2px] text-white/40">
+              <div className="p-3 rounded-[15px] flex flex-col max-md:items-center gap-1.5 bg-[#FFFFFF08]">
+                <p className="font-semibold text-[8px] sm:text-[10px] md:text-xs tracking-[2px] text-white/40">
                   Total win positions
                 </p>
-                <p className="font-semibold text-base tracking-[2px] text-white/80">
+                <p className="font-semibold text-xs sm:text-sm md:text-base tracking-[2px] text-white/80">
                   {traderProfileStat?.winningPosition.toFixed(2)}
                 </p>
               </div>
-              <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
-                <p className="font-semibold text-xs tracking-[2px] text-white/40">
+              <div className="p-3 rounded-[15px] flex flex-col max-md:items-center gap-1.5 bg-[#FFFFFF08]">
+                <p className="font-semibold text-[8px] sm:text-[10px] md:text-xs tracking-[2px] text-white/40">
                   Total positions
                 </p>
-                <p className="font-semibold text-base tracking-[2px] text-white/80">
+                <p className="font-semibold text-xs sm:text-sm md:text-base tracking-[2px] text-white/80">
                   {traderProfileStat?.totalPosition.toFixed(2)}
                 </p>
               </div>
-              <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
-                <p className="font-semibold text-xs tracking-[2px] text-white/40">
+              <div className="p-3 rounded-[15px] flex flex-col max-md:items-center gap-1.5 bg-[#FFFFFF08]">
+                <p className="font-semibold text-[8px] sm:text-[10px] md:text-xs tracking-[2px] text-white/40">
                   Win rate (%)
                 </p>
-                <p className="font-semibold text-base tracking-[2px] text-white/80">
+                <p className="font-semibold text-xs sm:text-sm md:text-base tracking-[2px] text-white/80">
                   {traderProfileStat?.winRate.toFixed(2)}%
                 </p>
               </div>
-              <div className="p-3 rounded-[15px] flex flex-col gap-1.5 bg-[#FFFFFF08]">
-                <p className="font-semibold text-xs tracking-[2px] text-white/40">
+              <div className="p-3 rounded-[15px] flex flex-col max-md:items-center gap-1.5 bg-[#FFFFFF08]">
+                <p className="font-semibold text-[8px] sm:text-[10px] md:text-xs tracking-[2px] text-white/40">
                   Profit to loss ratio
                 </p>
-                <p className="font-semibold text-base tracking-[2px] text-white/80">
+                <p className="font-semibold text-xs sm:text-sm md:text-base tracking-[2px] text-white/80">
                   {traderProfileStat?.profitToLossRatio.toFixed(2)}
                 </p>
               </div>
@@ -205,8 +207,8 @@ export default async function page({
         </div>
       </div>
 
-      <div className="flex items-center gap-6 relative">
-        <div className="w-2/5 h-[379px] border border-[#FFFFFF1A] bg-[#6151911A] rounded-[20px] p-6 flex flex-col gap-4">
+      <div className="flex flex-col lg:flex-row items-center gap-4 md:gap-6 relative">
+        <div className="w-full lg:w-2/5 h-[379px] border border-[#FFFFFF1A] bg-[#6151911A] rounded-[20px] p-6 flex flex-col gap-4">
           {traderProfilePerformanceError ? (
             <p className="w-full text-center text-red-500">
               {traderProfilePerformanceError}
@@ -215,7 +217,7 @@ export default async function page({
             <PerformanceTab data={traderProfilePerformance!} />
           )}
         </div>
-        <div className="w-3/5">
+        <div className="w-full lg:w-3/5">
           {traderDrawdownCurveError ? (
             <p className="w-full text-center text-red-500">
               {traderDrawdownCurveError}
