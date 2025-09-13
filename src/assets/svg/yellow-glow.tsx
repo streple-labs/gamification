@@ -6,6 +6,7 @@ export default function YellowBgGlow() {
       viewBox="0 0 317 207"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="w-[197px] h-[165px] md:w-[317px] md:h-[207px]"
     >
       <g
         style={{ mixBlendMode: "plus-lighter" }}

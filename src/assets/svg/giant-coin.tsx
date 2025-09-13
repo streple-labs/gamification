@@ -1,11 +1,10 @@
 export default function GiantCoin() {
   return (
     <svg
-      width="215"
-      height="165"
       viewBox="0 0 215 165"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="w-[133px] h-[133px] md:w-[215px] md:h-[165px]"
     >
       <g filter="url(#filter0_d_2804_699)">
         <mask

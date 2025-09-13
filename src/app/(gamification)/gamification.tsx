@@ -89,7 +89,7 @@ export default function Gamification() {
       <div className="space-y-4 md:space-y-8 w-full">
         <Banner label="PHASE 1 : CALL TO DISCOVERY" />
 
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 [&>div]:bg-blend-luminosity [&>div]:active:scale-95">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 [&>div]:bg-blend-luminosity [&>div]:active:scale-95">
           <div
             onClick={() => {
               playSound("lesson");
@@ -158,7 +158,7 @@ export default function Gamification() {
               if (user.game_data.phase >= 1 && user.game_data.level >= 0)
                 setShowSelectedCourse("Phase1Level3");
             }}
-            className={`bg-[#24222A99] max-md:col-span-2 min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+            className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
               user.game_data.phase >= 1 && user.game_data.level >= 2
                 ? "cursor-pointer"
                 : "grayscale-100 && cursor-not-allowed"
@@ -189,7 +189,7 @@ export default function Gamification() {
           disabled={user.game_data?.phase < 2}
         />
 
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6 [&>div]:active:scale-95">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 [&>div]:active:scale-95">
           <div
             onClick={() => {
               playSound("lesson");

@@ -211,5 +211,6 @@ export const getProtraderPerformanceCurve = async (
 
 export const clearToken = async () => {
   (await cookies()).delete("streple_auth_token");
+  (await cookies()).delete("streple_refresh_token");
   redirect("/login");
 };

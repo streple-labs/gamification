@@ -22,16 +22,16 @@ export default function MobileNav() {
           <p className="text-[10px] xs:text-xs">Learn to Earn</p>
         </Link>
         <Link
-          href={"#"}
+          href={"/trading-post"}
           className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
-            pathname === "/wallet" ? "text-[#A082F9]" : "text-[#F8F5FF80]"
+            pathname === "/trading-post" ? "text-[#A082F9]" : "text-[#F8F5FF80]"
           }`}
         >
           <BiCandles width={16} height={13} />
           <p className="text-[10px] xs:text-xs">Trading post</p>
         </Link>
         <Link
-          href={"#"}
+          href={"/coin"}
           className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
             pathname === "/coin" ? "text-[#A082F9]" : "text-[#F8F5FF80]"
           }`}
@@ -40,7 +40,7 @@ export default function MobileNav() {
           <p className="text-[10px] xs:text-xs">Coin</p>
         </Link>
         <Link
-          href={"#"}
+          href={"/leaderboard"}
           className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
             pathname === "/leaderboard" ? "text-[#A082F9]" : "text-[#F8F5FF80]"
           }`}
@@ -63,7 +63,7 @@ export default function MobileNav() {
           <p className="text-[10px] xs:text-xs">Leaderboard</p>
         </Link>
         <Link
-          href={"#"}
+          href={"/referral"}
           className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
             pathname === "/referral" ? "text-[#A082F9]" : "text-[#F8F5FF80]"
           }`}

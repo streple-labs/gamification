@@ -4,8 +4,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { base_url, dev_url, live_url } from "./constants";
+import { clearToken } from "./queries";
 import { createNetworkError } from "./utils";
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -97,10 +97,10 @@ api.interceptors.response.use(
         originalRequest._retry = true;
 
         if (!isRefreshing) {
-          const cookieStore = await cookies();
           isRefreshing = true;
           if (process.env.NODE_ENV === "development")
             console.log("Attempting to refresh access token...");
+
           try {
             const res = await axios.post(
               `${
@@ -128,9 +128,7 @@ api.interceptors.response.use(
             failedRequestsQueue = [];
             isRefreshing = false;
 
-            cookieStore.delete("streple_auth_token");
-            cookieStore.delete("streple_refresh_token");
-            return redirect("/login");
+            await clearToken();
           }
         }
 

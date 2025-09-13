@@ -59,7 +59,7 @@ TooltipProps) {
 
   const getPositionClasses = () => {
     const baseClasses =
-      "absolute z-50 border border-[#8066CF80] w-[300px] bg-[#A082F9] rounded-[12px] p-4 gap-2.5";
+      "absolute z-50 border border-[#8066CF80] w-[250px] md:w-[300px] bg-[#A082F9] rounded-lg md:rounded-xl p-2 md:p-4 gap-2.5";
 
     switch (position) {
       case "top":
@@ -100,7 +100,7 @@ TooltipProps) {
   // }, []);
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block text-xs md:text-base">
       <div
         ref={triggerRef}
         // onMouseEnter={showTooltip}
