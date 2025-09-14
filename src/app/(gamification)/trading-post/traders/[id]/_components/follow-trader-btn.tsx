@@ -44,7 +44,7 @@ export default function FollowTraderBtn({ trader_id }: { trader_id: string }) {
         onClick={() => {
           handleFollowTrader();
         }}
-        className="h-11 py-3 px-4 rounded-[20px] w-[172px] bg-[#B39FF0] flex items-center justify-center text-[#2C2C26] font-bold text-base/[150%] tracking-[2px]"
+        className="h-11 py-3 px-4 rounded-[20px] w-[172px] bg-[#B39FF0] flex items-center justify-center text-[#2C2C26] font-bold text-xs md:text-base leading-[150%] tracking-[2px]"
       >
         {isPending ? <Loader /> : "Copy"}
       </button>

@@ -121,7 +121,7 @@ export default async function page({
                   </p>
                 </div>
               </div>
-              <p className="text-[#FFFFFFB2] text-[10px] md:text-xs leading-5 tracking-[2px] font-normal">
+              <p className="text-[#FFFFFFB2] text-[10px] md:text-xs max-lg:text-center leading-5 tracking-[2px] font-normal">
                 Making crypto trades with a focus on profitability.
               </p>
               <div className="flex items-center gap-3">
@@ -170,7 +170,7 @@ export default async function page({
             </p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="p-3 rounded-[15px] flex flex-col max-md:items-center gap-1.5 bg-[#FFFFFF08]">
+              <div className="p-3 rounded-[15px] flex flex-col justify-between max-md:items-center gap-1.5 bg-[#FFFFFF08]">
                 <p className="font-semibold text-[8px] sm:text-[10px] md:text-xs tracking-[2px] text-white/40">
                   Total win positions
                 </p>
@@ -178,7 +178,7 @@ export default async function page({
                   {traderProfileStat?.winningPosition.toFixed(2)}
                 </p>
               </div>
-              <div className="p-3 rounded-[15px] flex flex-col max-md:items-center gap-1.5 bg-[#FFFFFF08]">
+              <div className="p-3 rounded-[15px] flex flex-col justify-between max-md:items-center gap-1.5 bg-[#FFFFFF08]">
                 <p className="font-semibold text-[8px] sm:text-[10px] md:text-xs tracking-[2px] text-white/40">
                   Total positions
                 </p>
@@ -186,7 +186,7 @@ export default async function page({
                   {traderProfileStat?.totalPosition.toFixed(2)}
                 </p>
               </div>
-              <div className="p-3 rounded-[15px] flex flex-col max-md:items-center gap-1.5 bg-[#FFFFFF08]">
+              <div className="p-3 rounded-[15px] flex flex-col justify-between max-md:items-center gap-1.5 bg-[#FFFFFF08]">
                 <p className="font-semibold text-[8px] sm:text-[10px] md:text-xs tracking-[2px] text-white/40">
                   Win rate (%)
                 </p>
@@ -194,12 +194,12 @@ export default async function page({
                   {traderProfileStat?.winRate.toFixed(2)}%
                 </p>
               </div>
-              <div className="p-3 rounded-[15px] flex flex-col max-md:items-center gap-1.5 bg-[#FFFFFF08]">
+              <div className="p-3 rounded-[15px] flex flex-col justify-between max-md:items-center gap-1.5 bg-[#FFFFFF08]">
                 <p className="font-semibold text-[8px] sm:text-[10px] md:text-xs tracking-[2px] text-white/40">
                   Profit to loss ratio
                 </p>
                 <p className="font-semibold text-xs sm:text-sm md:text-base tracking-[2px] text-white/80">
-                  {traderProfileStat?.profitToLossRatio.toFixed(2)}
+                  {traderProfileStat?.profitToLossRatio?.toFixed(2)}
                 </p>
               </div>
             </div>

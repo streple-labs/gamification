@@ -76,10 +76,10 @@ export default function PerformanceTab({
           <p className="text-xs text-white/60">90D</p>
         </div>
       </div>
-      <p className={`${baloo.className} font-base text-white/80 font-normal`}>
+      <p className={`${baloo.className} text-white/80 font-normal`}>
         Performance tab
       </p>
-      <div className="space-y-4 w-full text-base/[22px] font-normal">
+      <div className="space-y-4 w-full text-xs md:text-base/[22px] font-normal">
         <div className="flex items-center justify-between gap-4">
           <p className="text-white/50">Max drawdown</p>
           <p className="text-white/80">{data.maxDrawdown}%</p>

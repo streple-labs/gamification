@@ -47,7 +47,7 @@ export default function DrawdownCurve({
     periods.find((p) => p.value === currentPeriod)?.label || "7D";
 
   return (
-    <div className="w-full h-[379px] rounded-[20px] border border-[#FFFFFF1A] bg-[#6151911A] px-6 py-8 flex flex-col justify-between gap-8">
+    <div className="w-full h-[379px] rounded-[20px] border border-[#FFFFFF1A] bg-[#6151911A] px-3 py-5 md:px-6 md:py-8 flex flex-col justify-between gap-4 md:gap-8">
       <div className="w-full flex items-center justify-between relative">
         <p className={`${baloo.className} font-base text-white/80 font-normal`}>
           Drawdown curve
@@ -101,8 +101,14 @@ export default function DrawdownCurve({
             axisLine={false}
             tickLine={false}
             tickFormatter={formatChartDate}
+            className="text-[10px] lg:text-xs"
           />
-          <YAxis tickMargin={16} axisLine={false} tickLine={false} />
+          <YAxis
+            className="text-[10px] lg:text-xs"
+            tickMargin={16}
+            axisLine={false}
+            tickLine={false}
+          />
           <Tooltip />
 
           <Line
