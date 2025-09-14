@@ -3,6 +3,7 @@
 import { anton, baloo } from "@/app/fonts";
 import Lightning from "@/assets/svg/purple-lightning";
 import { useAuth } from "@/context/auth-context";
+import { useBackgroundMusic } from "@/context/bg-music-context";
 import useSoundEffects from "@/hooks/useSoundEffects";
 import { handleCryptoOnboarding } from "@/utils/action";
 import {
@@ -12,6 +13,8 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
+import { FaChevronLeft } from "react-icons/fa6";
+import { GoX } from "react-icons/go";
 import { PiThumbsDown, PiThumbsUp } from "react-icons/pi";
 import { toast } from "sonner";
 import mascot3 from "../../../public/mascot-3.png";
@@ -19,8 +22,6 @@ import RayOfLight from "../icons/ray-of-light";
 import VideoWrapper from "../icons/video-wrapper";
 import Banner from "../ui/banner";
 import Modal from "../ui/modal";
-import { FaChevronLeft } from "react-icons/fa6";
-import { GoX } from "react-icons/go";
 // import FrownFace from "../icons/frown-face";
 // import SmileyFace from "../icons/smiley-face";
 // import BlandFace from "../icons/bland-face";
@@ -73,7 +74,7 @@ export default function CryptoOnboarding() {
             game_data: {
               level: Math.max(user.game_data.level, 1),
               phase: Math.max(user.game_data.phase, 1),
-              totalScore: user.game_data.totalScore + 500,
+              totalScore: user.game_data.totalScore + 20,
               hasAnswer: true,
             },
           });
@@ -299,7 +300,7 @@ function Onboarding({
                     height={30}
                     className="size-6 md:size-[30px]"
                   />
-                  I understand crypto but what to go deeper
+                  I understand crypto but want to go deeper
                 </button>
               </div>
             </>
@@ -382,7 +383,7 @@ function Onboarding({
           {step === 3 && (
             <>
               <p className="text-shadow-2xs text-shadow-[#8066CF80] text-xl md:text-2xl font-semibold leading-[150%] tracking-[2px] text-white/60">
-                How familiar are you with crypto?
+                How much times a day can you set to grow your skills?
               </p>
               <div className="space-y-8 w-full">
                 <button
@@ -478,7 +479,7 @@ function CryptoLesson({
   }, [setCourseStartTime]);
 
   return (
-    <div className="w-screen h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar">
+    <div className="w-screen min-h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar">
       {step === "intro" && (
         <div className="size-full flex flex-col justify-center items-center gap-6 relative p-4">
           <div className="flex items-end md:items-center">
@@ -723,7 +724,10 @@ function CryptoCourse({
                 playsInline
                 preload="metadata"
               >
-                <source src="/gamification-lessons/P1L1.mp4" type="video/mp4" />
+                <source
+                  src="https://streplestorage.s3.eu-north-1.amazonaws.com/videos/streple-digital-ownership.mp4"
+                  type="video/mp4"
+                />
               </video>
             </div>
 
@@ -749,6 +753,10 @@ function CryptoTest({
   review: () => void;
   close: () => void;
 }) {
+  const { playSound } = useSoundEffects();
+
+  const { play } = useBackgroundMusic();
+
   const [courseStage, setCourseStage] = useState(5);
   const [timer, setTimer] = useState(40);
 
@@ -764,6 +772,10 @@ function CryptoTest({
     }, 1000);
     return () => clearInterval(interval);
   }, [courseStage]);
+
+  useEffect(() => {
+    play();
+  }, [play]);
 
   const [quizForm, setQuizForm] = useState<Record<number, number | null>>({
     0: null,
@@ -818,7 +830,7 @@ function CryptoTest({
         <div className="flex items-center shrink-0 gap-3">
           <Lightning />
           <p className="text-base md:text-2xl/6 font-semibold text-white/80">
-            5XP
+            15XP
           </p>
         </div>
       </div>
@@ -849,6 +861,7 @@ function CryptoTest({
 
             <button
               onClick={() => {
+                playSound("lesson");
                 setCourseStage((prev) => prev + 1);
               }}
               className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[15px] md:rounded-[10px] h-[60px] w-full md:w-[214px]"
@@ -1001,6 +1014,10 @@ function CryptoTest({
                     Next
                   </button>
                 </div>
+
+                <p className="text-xl font-semibold">
+                  {quizFormQuestions[courseStage - 6].info}
+                </p>
               </div>
             </div>
           )}
@@ -1037,30 +1054,6 @@ function Completed({
     else return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   }, [courseStartTime]);
 
-  const lists = useMemo(
-    () => [
-      "Brilliant work, Crypto Hero!",
-      "You’re a village guardian, Crypto Hero!",
-      "You’re a market star, Crypto Hero!",
-      "You’re a quick learner, Crypto Hero!",
-      "Your crypto journey is becoming real, Keep going!",
-      "You are getting closer to becoming a Copy commander",
-    ],
-    []
-  );
-  const [word, setWord] = useState("Brilliant work, Crypto Hero!");
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWord((prevWord) => {
-        const currentIndex = lists.indexOf(prevWord);
-        const nextIndex = (currentIndex + 1) % lists.length;
-        return lists[nextIndex];
-      });
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [lists]);
-
   // const [review, setReview] = useState<"clear" | "okay" | "confusing" | null>(
   //   null
   // );
@@ -1082,7 +1075,7 @@ function Completed({
             <Image src={"/mascot-5.png"} alt="" width={351} height={271} />
             <div className="gap-6 flex items-center justify-center flex-col">
               <h2 className="text-2xl md:text-4xl font-bold text-[#EEE311] max-w-[550px] h-16 md:h-20 text-center">
-                {word}
+                Brilliant work, Crypto Hero!
               </h2>
               <p className="-mt-4 text-sm md:text-base text-[#939389]">
                 You are 30% closer to unlocking your Crypto Initiate badge
@@ -1183,13 +1176,13 @@ function Completed({
               <p
                 className={`${baloo.className} text-[#F4E90E] text-3xl md:text-[36px] relative`}
               >
-                +500 Coins
+                +20 STP
               </p>
             </div>
           </div>
         )}
 
-        {/* {step === 4 && (
+        {/* {step === 3 && (
           <div className="flex flex-col items-center justify-center gap-10">
             <h4
               className={`${baloo.className} text-[#F4E90E] text-[36px] relative drop-shadow-[#25251A80] drop-shadow-[0px_4px_4px]`}
