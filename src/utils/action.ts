@@ -258,9 +258,9 @@ export const updateUserGameData = async (gameData: {
   }
 };
 
-export const followTrader = async (trader_id: string) => {
+export const followTrader = async (formData: FollowTraderPayload) => {
   try {
-    await api.post("/follow-trader", { followingId: trader_id });
+    await api.post("/follow-trader", { followingId: formData.trader_id });
 
     return {
       success: true,

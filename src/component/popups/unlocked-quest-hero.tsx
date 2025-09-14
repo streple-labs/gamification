@@ -16,7 +16,7 @@ export default function UnlockedQuestHero({
 
   return (
     <Modal isOpen={isOpen} onClose={close}>
-      <div className="relative bg-[url('/learn-bg.jpg')] bg-cover bg-center flex items-center justify-center bg-no-repeat w-5xl rounded-[29px] overflow-hidden min-h-[587px]">
+      <div className="relative bg-[url('/learn-bg.jpg')] bg-cover bg-center flex items-center justify-center bg-no-repeat w-full lg:w-5xl p-4 rounded-[29px] overflow-hidden max-lg:h-screen lg:min-h-[587px]">
         <div className="absolute size-full bg-[#141314] opacity-95" />
         <span className="absolute left-1/2 -translate-x-1/2 top-0">
           <PurpleSpotlight />
@@ -24,7 +24,7 @@ export default function UnlockedQuestHero({
 
         <div className="relative flex items-center justify-center flex-col gap-4 w-full max-w-3xl mx-auto">
           <h4
-            className={`${baloo.className} text-[32px] tracking-[2px] drop-shadow-[#CABAFA] drop-shadow-[0px_4px_4px] font-normal`}
+            className={`${baloo.className} text-2xl md:text-[32px] tracking-[2px] drop-shadow-[#CABAFA] drop-shadow-[0px_4px_4px] font-normal`}
           >
             You&apos;ve unlocked your quest Hero!
           </h4>
@@ -58,7 +58,7 @@ export default function UnlockedQuestHero({
                 if (showReward) close();
                 else setShowReward(true);
               }}
-              className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[229px]"
+              className="text-[#181812B2] text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-full md:w-[229px]"
             >
               {showReward ? "Continue" : "Collect reward"}
             </button>

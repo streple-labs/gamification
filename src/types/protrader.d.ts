@@ -44,3 +44,14 @@ type ProtraderProfilePerformance = {
 type ProtraderDrawdownCurve = { date: string; drawdown: number }[];
 
 type ProtraderPerformanceCurve = { date: string; cumulative: number }[];
+
+type FollowTraderPayload = {
+  trader_id: string;
+  amount: number;
+  stopLossRatio: number | undefined;
+  takeProfitRatio: number | undefined;
+  maxCopy: number | undefined;
+  slippageLimit: number | undefined;
+  marginMode: "trader" | "cross" | "isolated" | undefined;
+  leverage: "trader" | "cross" | "isolated" | undefined;
+};

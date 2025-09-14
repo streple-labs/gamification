@@ -14,12 +14,14 @@ import UnlockedQuestHero from "@/component/popups/unlocked-quest-hero";
 import Modal from "@/component/ui/modal";
 import Tooltip from "@/component/ui/tooltip";
 import { useAuth } from "@/context/auth-context";
+import { followTrader } from "@/utils/action";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
+import { toast } from "sonner";
 
 export default function TradingPost({
   traders,
@@ -60,19 +62,31 @@ export default function TradingPost({
     setCopyTraderModal((prev) => !prev);
   };
 
+  const [formData, setFormData] = useState<FollowTraderPayload>({
+    trader_id: "",
+    amount: 50,
+    stopLossRatio: undefined,
+    takeProfitRatio: undefined,
+    maxCopy: undefined,
+    slippageLimit: undefined,
+    marginMode: undefined,
+    leverage: undefined,
+  });
+
   const { mutate: handleCopyTrader, isPending: isCopyTraderLoading } =
     useMutation({
-      mutationKey: ["copy-trader"],
-      mutationFn: async (amount: number) => {
-        console.log(amount);
-        return new Promise((resolve) => setTimeout(resolve, 2000));
+      mutationKey: ["follow-trader"],
+      mutationFn: async () => await followTrader(formData),
+      onSuccess: (res) => {
+        if (res.success) {
+          toast.success(res.message);
+          setCopyTraderModal(false);
+          setShowUnlockQuestRewardModal(true);
+        } else toast.error(res.message);
       },
-      onSuccess: () => {
-        setCopyTraderModal(false);
-        setShowUnlockQuestRewardModal(true);
-      },
-      onError: (error) => {
-        console.error("Error copying trader:", error);
+      onError: (error: unknown) => {
+        console.error(error);
+        toast.error("An unexpected error occurred. Please try again.");
       },
     });
 
@@ -102,7 +116,7 @@ export default function TradingPost({
       )}
 
       <Modal isOpen={copyTraderModal} onClose={toggleCopyTraderModal}>
-        <div className="relative w-full max-h-[90vh] py-16 max-w-6xl bg-[#141314] rounded-[29px] space-y-10 overflow-y-auto hide-scrollbar">
+        <div className="relative w-full h-screen lg:max-h-[90vh] pt-16 max-w-6xl bg-[#141314] lg:rounded-[29px] space-y-10 overflow-y-auto hide-scrollbar">
           <h2
             className={`${baloo.className} w-full text-center drop-shadow-[0px_4px_4px] drop-shadow-[#CABAFA] text-2xl tracking-[2px]`}
           >
@@ -111,6 +125,8 @@ export default function TradingPost({
           <CopyTrader
             handleCopyTrader={handleCopyTrader}
             loading={isCopyTraderLoading}
+            formData={formData}
+            setFormData={setFormData}
           />
         </div>
       </Modal>
@@ -531,7 +547,13 @@ export default function TradingPost({
                   </Link>
 
                   <button
-                    onClick={toggleCopyTraderModal}
+                    onClick={() => {
+                      toggleCopyTraderModal();
+                      setFormData((prev) => ({
+                        ...prev,
+                        trader_id: trader.id,
+                      }));
+                    }}
                     className="flex items-center mx-auto justify-center gap-2.5 py-3 px-2.5 rounded-lg border border-white/30 h-[40px] w-full md:w-[156px] font-semibold text-xs tracking-[2px] text-white/80"
                   >
                     Copy now

@@ -30,7 +30,7 @@ export default function PerformanceTab({
           onClick={() => {
             setParams("daily");
           }}
-          className={`h-6 min-w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] border border-white/5 ${
+          className={`h-6 px-2 md:min-w-[72px] flex items-center justify-center cursor-pointer gap-1 md:gap-2 rounded-[5px] border border-white/5 ${
             !searchParams.get("performanceTabPeriod") ||
             searchParams.get("performanceTabPeriod") === "daily"
               ? "bg-[#5A58254D]"
@@ -43,7 +43,7 @@ export default function PerformanceTab({
           onClick={() => {
             setParams("7D");
           }}
-          className={`h-6 min-w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] border border-white/5 ${
+          className={`h-6 px-2 md:min-w-[72px] flex items-center justify-center cursor-pointer gap-1 md:gap-2 rounded-[5px] border border-white/5 ${
             searchParams.get("performanceTabPeriod") === "7D"
               ? "bg-[#5A58254D]"
               : "bg-white/5"
@@ -55,7 +55,7 @@ export default function PerformanceTab({
           onClick={() => {
             setParams("30D");
           }}
-          className={`h-6 min-w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] border border-white/5 ${
+          className={`h-6 px-2 md:min-w-[72px] flex items-center justify-center cursor-pointer gap-1 md:gap-2 rounded-[5px] border border-white/5 ${
             searchParams.get("performanceTabPeriod") === "30D"
               ? "bg-[#5A58254D]"
               : "bg-white/5"
@@ -67,7 +67,7 @@ export default function PerformanceTab({
           onClick={() => {
             setParams("90D");
           }}
-          className={`h-6 min-w-[72px] flex items-center justify-center cursor-pointer gap-2 rounded-[5px] border border-white/5 ${
+          className={`h-6 px-2 md:min-w-[72px] flex items-center justify-center cursor-pointer gap-1 md:gap-2 rounded-[5px] border border-white/5 ${
             searchParams.get("performanceTabPeriod") === "90D"
               ? "bg-[#5A58254D]"
               : "bg-white/5"
