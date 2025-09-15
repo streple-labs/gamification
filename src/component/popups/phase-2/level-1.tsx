@@ -3,7 +3,6 @@
 import { baloo } from "@/app/fonts";
 import Lightning from "@/assets/svg/purple-lightning";
 import { useAuth } from "@/context/auth-context";
-import { useBackgroundMusic } from "@/context/bg-music-context";
 import useSoundEffects from "@/hooks/useSoundEffects";
 import { updateUserGameData } from "@/utils/action";
 import {
@@ -193,12 +192,6 @@ function CryptoCourse({
   next: () => void;
   close: () => void;
 }) {
-  const { pause } = useBackgroundMusic();
-
-  useEffect(() => {
-    return () => {};
-  }, [pause]);
-
   return (
     <div className="size-full flex flex-col relative pt-20">
       <div className="flex items-center justify-center gap-4 md:gap-10 w-full max-w-5xl mx-auto relative">
@@ -276,8 +269,6 @@ function CryptoTest({
 }) {
   const { playSound } = useSoundEffects();
 
-  const { play } = useBackgroundMusic();
-
   const [courseStage, setCourseStage] = useState(5);
   const [timer, setTimer] = useState(40);
 
@@ -314,10 +305,6 @@ function CryptoTest({
     }, 1000);
     return () => clearInterval(interval);
   }, [courseStage, quizResults]);
-
-  useEffect(() => {
-    play();
-  }, [play]);
 
   return (
     <div className="size-full flex flex-col gap-4 sm:gap-8 md:gap-16 relative pt-20">

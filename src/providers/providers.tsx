@@ -1,11 +1,9 @@
 "use client";
 
-import { Toaster } from "sonner";
-import QueryProvider from "./query-provider";
-import { AuthProvider } from "../context/auth-context";
 import { Next13ProgressBar } from "next13-progressbar";
-import { BackgroundMusicProvider } from "../context/bg-music-context";
-import BackgroundMusic from "../component/ui/bg-music";
+import { Toaster } from "sonner";
+import { AuthProvider } from "../context/auth-context";
+import QueryProvider from "./query-provider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -18,11 +16,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       />
       <QueryProvider>
         <AuthProvider>
-          <BackgroundMusicProvider>
-            <Toaster position="bottom-right" />
-            <BackgroundMusic />
-            {children}
-          </BackgroundMusicProvider>
+          <Toaster position="bottom-right" />
+          {children}
         </AuthProvider>
       </QueryProvider>
     </>

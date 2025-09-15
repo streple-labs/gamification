@@ -3,7 +3,6 @@
 import { anton, baloo } from "@/app/fonts";
 import Lightning from "@/assets/svg/purple-lightning";
 import { useAuth } from "@/context/auth-context";
-import { useBackgroundMusic } from "@/context/bg-music-context";
 import useSoundEffects from "@/hooks/useSoundEffects";
 import { handleCryptoOnboarding } from "@/utils/action";
 import {
@@ -755,8 +754,6 @@ function CryptoTest({
 }) {
   const { playSound } = useSoundEffects();
 
-  const { play } = useBackgroundMusic();
-
   const [courseStage, setCourseStage] = useState(5);
   const [timer, setTimer] = useState(40);
 
@@ -772,10 +769,6 @@ function CryptoTest({
     }, 1000);
     return () => clearInterval(interval);
   }, [courseStage]);
-
-  useEffect(() => {
-    play();
-  }, [play]);
 
   const [quizForm, setQuizForm] = useState<Record<number, number | null>>({
     0: null,
