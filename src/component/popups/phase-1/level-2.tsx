@@ -308,7 +308,7 @@ function CryptoTest({
   }, [courseStage, quizResults]);
 
   return (
-    <div className="size-full max-lg:min-h-screen bg-[#141314] flex flex-col gap-4 sm:gap-8 md:gap-16 relative pt-20">
+    <div className="size-full bg-[#141314] flex flex-col gap-4 sm:gap-8 md:gap-16 relative pt-20">
       <span className="md:hidden w-full px-4">
         <GoX onClick={close} width={12} color="#FFFFFFCC" />
       </span>
@@ -387,7 +387,7 @@ function CryptoTest({
 
       {courseStage >= 6 && (
         <div className="size-full flex flex-col items-center">
-          <div className="flex flex-col gap-10 w-full max-w-4xl p-4">
+          <div className="flex flex-col  gap-4 md:gap-10 w-full max-w-4xl p-4">
             <div className="flex items-center gap-2 md:gap-3">
               <Image
                 src={"/mascot-4.png"}
@@ -471,7 +471,7 @@ function CryptoTest({
                   setQuizResults((prev) => ({
                     ...prev,
                     [courseStage - 6]:
-                      courseStage - 6 ===
+                      quizForm[courseStage - 6] ===
                       quizFormQuestions[courseStage - 6].answer,
                   }));
                 }}
@@ -486,9 +486,9 @@ function CryptoTest({
           </div>
 
           {quizResults[courseStage - 6] !== null && (
-            <div className="mt-auto w-full bg-[#1F1E22] py-10 p-4">
+            <div className="mt-auto w-full bg-[#1F1E22] py-4 md:py-10 p-4">
               <div className="w-full max-w-4xl flex flex-col gap-4 mx-auto">
-                <div className="w-full flex flex-wrap gap-4 justify-between items-center">
+                <div className="w-full flex flex-col md:flex-row gap-4 justify-between items-center">
                   <button
                     className={`${
                       quizResults[courseStage - 6] === true
@@ -511,6 +511,10 @@ function CryptoTest({
                       : `00:${timer}`}
                   </button>
 
+                  <p className="text-base md:hidden font-semibold">
+                    {quizFormQuestions[courseStage - 6].info}
+                  </p>
+
                   <button
                     onClick={() => {
                       if (courseStage === 8) next();
@@ -528,7 +532,7 @@ function CryptoTest({
                   </button>
                 </div>
 
-                <p className="text-xl font-semibold">
+                <p className="max-md:hidden text-xl font-semibold">
                   {quizFormQuestions[courseStage - 6].info}
                 </p>
               </div>
