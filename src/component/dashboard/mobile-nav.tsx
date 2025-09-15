@@ -5,9 +5,14 @@ import { usePathname } from "next/navigation";
 import { BiCandles } from "react-icons/bi";
 import { PiBookBookmark, PiCoinVertical } from "react-icons/pi";
 import ReferralIcon from "../icons/referral-icon";
+import { useAuth } from "@/context/auth-context";
 
 export default function MobileNav() {
   const pathname = usePathname();
+
+  const {
+    user: { game_data },
+  } = useAuth();
 
   return (
     <header className="lg:hidden fixed bottom-0 inset-x-0 h-[72px] border-t border-t-white/10 bg-[#211F22] z-50 px-[18px] sm:px-6 py-4">
@@ -21,15 +26,19 @@ export default function MobileNav() {
           <PiBookBookmark className="w-3.5 h-4" />
           <p className="text-[10px] xs:text-xs">Learn to Earn</p>
         </Link>
-        <Link
-          href={"/trading-post"}
-          className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
-            pathname === "/trading-post" ? "text-[#A082F9]" : "text-[#F8F5FF80]"
-          }`}
-        >
-          <BiCandles width={16} height={13} />
-          <p className="text-[10px] xs:text-xs">Trading post</p>
-        </Link>
+        {game_data.level >= 2 && game_data.level >= 3 && (
+          <Link
+            href={"/trading-post"}
+            className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
+              pathname === "/trading-post"
+                ? "text-[#A082F9]"
+                : "text-[#F8F5FF80]"
+            }`}
+          >
+            <BiCandles width={16} height={13} />
+            <p className="text-[10px] xs:text-xs">Trading post</p>
+          </Link>
+        )}
         <Link
           href={"/coin"}
           className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
