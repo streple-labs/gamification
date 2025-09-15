@@ -214,11 +214,11 @@ export default function Gamification() {
               onClick={() => {
                 playSound("lesson");
 
-                if (game_data.phase >= 1 && game_data.level >= 0)
+                if (game_data.phase >= 1 && game_data.level >= 1)
                   setShowSelectedCourse("Phase1Level3");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
-                game_data.phase >= 1 && game_data.level >= 2
+                game_data.phase >= 2
                   ? "cursor-pointer"
                   : "grayscale-100 && cursor-not-allowed"
               }
