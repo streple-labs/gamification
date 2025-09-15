@@ -307,7 +307,7 @@ function CryptoTest({
   }, [courseStage, quizResults]);
 
   return (
-    <div className="size-full flex flex-col gap-4 sm:gap-8 md:gap-16 relative pt-20">
+    <div className="size-full bg-[#141314] flex flex-col gap-4 sm:gap-8 md:gap-16 relative pt-20">
       <span className="md:hidden w-full px-4">
         <GoX onClick={close} width={12} color="#FFFFFFCC" />
       </span>
