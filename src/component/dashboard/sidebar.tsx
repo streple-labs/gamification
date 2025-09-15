@@ -1,49 +1,59 @@
 "use client";
 
+import { useAuth } from "@/context/auth-context";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { BiCandles } from "react-icons/bi";
 import { PiBookBookmark, PiCoinVertical } from "react-icons/pi";
 import ReferralIcon from "../icons/referral-icon";
 import Switch from "../ui/switch";
 
-const learn_nav_items = [
-  // {
-  //   name: "Quests",
-  //   href: "",
-  //   icon: PiMountains,
-  // },
-  // {
-  //   name: "Trophy hut",
-  //   href: "",
-  //   icon: PiTrophy,
-  // },
-  {
-    name: "Trading post",
-    href: "/trading-post",
-    icon: BiCandles,
-  },
-  {
-    name: "Coin pouch",
-    href: "/#",
-    icon: PiCoinVertical,
-  },
-  {
-    name: "Referral",
-    href: "/referral",
-    icon: ReferralIcon,
-  },
-  // {
-  //   name: "Leaderboard",
-  //   href: "",
-  //   icon: PiCrownSimple,
-  // },
-];
-
 export default function Sidebar() {
   const pathname = usePathname();
+
+  const {
+    user: { game_data },
+  } = useAuth();
+
+  const nav_items = useMemo(
+    () => [
+      // {
+      //   name: "Quests",
+      //   href: "",
+      //   icon: PiMountains,
+      // },
+      // {
+      //   name: "Trophy hut",
+      //   href: "",
+      //   icon: PiTrophy,
+      // },
+      game_data.level >= 2 && game_data.level >= 3
+        ? {
+            name: "Trading post",
+            href: "/trading-post",
+            icon: BiCandles,
+          }
+        : null,
+      {
+        name: "Coin pouch",
+        href: "/#",
+        icon: PiCoinVertical,
+      },
+      {
+        name: "Referral",
+        href: "/referral",
+        icon: ReferralIcon,
+      },
+      // {
+      //   name: "Leaderboard",
+      //   href: "",
+      //   icon: PiCrownSimple,
+      // },
+    ],
+    [game_data]
+  );
 
   useEffect(() => {
     function generateMonotoneNoise() {
@@ -122,24 +132,26 @@ export default function Sidebar() {
           </span>
         </Link>
 
-        {learn_nav_items.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            title={item.name}
-            aria-label={item.name}
-            className={`flex rounded-[10px] h-[43px] p-3 gap-3 items-center relative ${
-              pathname.startsWith(item.href)
-                ? "text-[#E3E3E8] bg-[#A082F926] border border-[#A082F9]"
-                : "text-[#F8F5FF80]"
-            }`}
-          >
-            <item.icon className="text-[#F8F5FF80]" />
-            <span className="text-sm font-normal leading-[100%] tracking-normal">
-              {item.name}
-            </span>
-          </Link>
-        ))}
+        {nav_items
+          .filter((item) => item !== null)
+          .map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              title={item.name}
+              aria-label={item.name}
+              className={`flex rounded-[10px] h-[43px] p-3 gap-3 items-center relative ${
+                pathname.startsWith(item.href)
+                  ? "text-[#E3E3E8] bg-[#A082F926] border border-[#A082F9]"
+                  : "text-[#F8F5FF80]"
+              }`}
+            >
+              <item.icon className="text-[#F8F5FF80]" />
+              <span className="text-sm font-normal leading-[100%] tracking-normal">
+                {item.name}
+              </span>
+            </Link>
+          ))}
 
         {/* <button
           className="flex rounded-[10px] h-[43px] p-3 gap-3 items-center"
