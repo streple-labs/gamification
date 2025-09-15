@@ -101,7 +101,7 @@ export default function ReferralCode() {
         </div>
       </Modal>
 
-      <div className="max-w-xs w-full space-y-3">
+      <div className="md:max-w-xs w-full space-y-3">
         <h6 className={`${baloo.className} text-white/60 text-base`}>
           Your referral link
         </h6>
