@@ -382,7 +382,7 @@ function Onboarding({
           {step === 3 && (
             <>
               <p className="text-shadow-2xs text-shadow-[#8066CF80] text-xl md:text-2xl font-semibold leading-[150%] tracking-[2px] text-white/60">
-                How much times a day can you set to grow your skills?
+                How much time a day can you set aside to grow your skills?
               </p>
               <div className="space-y-8 w-full">
                 <button
