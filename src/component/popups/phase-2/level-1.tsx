@@ -681,7 +681,7 @@ function Completed({
               <RayOfLight className="absolute left-1/2 -translate-x-1/2 top-0 md:-top-4" />
             </>
 
-            <div className="flex items-center justify-center flex-col gap-6 mb-30 relative">
+            <div className="flex items-center justify-center flex-col gap-4 md:gap-6 mb-40 md:mb-30 relative">
               <Image
                 src={"/stp-coin.png"}
                 alt="stp reward illustration"
@@ -751,7 +751,7 @@ function Completed({
           </div>
         )} */}
 
-        <div className="w-full flex flex-col-reverse md:flex-row gap-4 items-center justify-between max-w-5xl">
+        <div className="w-full relative flex flex-col-reverse md:flex-row gap-4 items-center justify-between max-w-5xl">
           <button className="text-[#32322B] bg-[#F7F6F4] text-base font-bold flex items-center justify-center rounded-[10px] h-[60px] w-full md:w-[214px]">
             Share
           </button>
