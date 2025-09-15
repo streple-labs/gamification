@@ -54,6 +54,7 @@ export const signup = async (formData: {
   fullName: string;
   email: string;
   password: string;
+  referral: string;
 }) => {
   try {
     const res = await api.post("/auth/register", formData);
