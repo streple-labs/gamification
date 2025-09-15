@@ -241,7 +241,7 @@ function CryptoCourse({
             preload="metadata"
           >
             <source
-              src="https://streplestorage.s3.eu-north-1.amazonaws.com/videos/streple-digital-ownership.mp4"
+              src="https://streplestorage.s3.eu-north-1.amazonaws.com/videos/streple-digital-forntier.mp4"
               type="video/mp4"
             />
           </video>
