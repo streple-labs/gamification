@@ -40,7 +40,7 @@ export default function MobileNav() {
           </Link>
         )}
         <Link
-          href={"/#"}
+          href={"#"}
           className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
             pathname === "/coin" ? "text-[#A082F9]" : "text-[#F8F5FF80]"
           }`}
@@ -49,7 +49,7 @@ export default function MobileNav() {
           <p className="text-[10px] xs:text-xs">Coin</p>
         </Link>
         <Link
-          href={"/#"}
+          href={"#"}
           className={`flex flex-col items-center gap-2.5 sm:text-sm md:text-base ${
             pathname === "/leaderboard" ? "text-[#A082F9]" : "text-[#F8F5FF80]"
           }`}
