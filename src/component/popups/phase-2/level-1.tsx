@@ -44,19 +44,20 @@ export default function Phase2Level1({
   const { mutate: handleCompletePhase2Level1 } = useMutation({
     mutationKey: ["phase-2-level-1-complete"],
     mutationFn: async () => {
-      if (user.game_data.phase >= 2 && user.game_data.level >= 2) {
+      if (user.game_data.phase === 2 && user.game_data.level === 1)
+        return await updateUserGameData({
+          phase: "Phase 2",
+          level: "Level 2",
+          score: 500,
+        });
+      else {
         close();
         return {
           success: false,
           message:
             "Great job refreshing your knowledge! You've already completed this lesson.",
         };
-      } else
-        return await updateUserGameData({
-          phase: "Phase 2",
-          level: "Level 2",
-          score: 500,
-        });
+      }
     },
     onSuccess: (res) => {
       if (res.success) {
@@ -142,7 +143,7 @@ function CryptoLesson({
   }, [setCourseStartTime]);
 
   return (
-    <div className="w-screen min-h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar">
+    <div className="w-screen min-h-screen relative bg-[#141314] overflow-y-auto hide-scrollbar px-4">
       {step === "intro" && (
         <div className="h-screen flex flex-col justify-center items-center gap-6 relative p-4">
           <div className="flex items-end md:items-center">

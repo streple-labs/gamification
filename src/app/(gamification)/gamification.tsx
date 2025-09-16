@@ -30,7 +30,7 @@ export default function Gamification() {
   const [highlightCurrentStage, setHighlightCurrentState] = useState(false);
 
   useEffect(() => {
-    if (game_data.level && game_data.level < 3) setHighlightCurrentState(true);
+    if (game_data.level && game_data.level <= 3) setHighlightCurrentState(true);
   }, [game_data]);
 
   const UserCourses = useMemo(() => {
@@ -120,11 +120,11 @@ export default function Gamification() {
             <div
               onClick={() => {
                 playSound("lesson");
-                if (game_data.phase >= 1 && game_data.level >= 0)
+                if (game_data.phase >= 1 && game_data.level >= 1)
                   setShowSelectedCourse("Phase1Level1");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
-                game_data.phase >= 1 && game_data.level >= 0
+                game_data.phase >= 1 && game_data.level >= 1
                   ? "cursor-pointer"
                   : "grayscale-100 && cursor-not-allowed"
               }
@@ -156,8 +156,8 @@ export default function Gamification() {
 
           <Tooltip
             isVisible={
-              game_data.phase === 1 &&
               game_data.level === 2 &&
+              game_data.phase === 1 &&
               highlightCurrentStage
             }
             position="bottom"
@@ -167,11 +167,11 @@ export default function Gamification() {
               onClick={() => {
                 playSound("lesson");
 
-                if (game_data.phase >= 1 && game_data.level >= 0)
+                if (game_data.phase >= 1 && game_data.level >= 2)
                   setShowSelectedCourse("Phase1Level2");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
-                game_data.phase >= 1 && game_data.level >= 1
+                game_data.phase >= 1 && game_data.level >= 2
                   ? "cursor-pointer"
                   : "grayscale-100 && cursor-not-allowed"
               }
@@ -214,10 +214,14 @@ export default function Gamification() {
               onClick={() => {
                 playSound("lesson");
 
-                if (game_data.phase >= 1 && game_data.level >= 1)
+                if (
+                  (game_data.phase === 1 && game_data.level === 3) ||
+                  game_data.phase >= 2
+                )
                   setShowSelectedCourse("Phase1Level3");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+                (game_data.phase === 1 && game_data.level == 3) ||
                 game_data.phase >= 2
                   ? "cursor-pointer"
                   : "grayscale-100 && cursor-not-allowed"
@@ -252,7 +256,7 @@ export default function Gamification() {
       <div className="space-y-4 md:space-y-8 w-full [&>div]:bg-blend-luminosity">
         <Banner
           label="PHASE 2 : WALK WITH THE WISE"
-          disabled={game_data?.phase < 2}
+          disabled={game_data.phase == 1}
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 [&>div]:active:scale-95">

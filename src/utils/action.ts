@@ -35,6 +35,7 @@ export const login = async (formData: { email: string; password: string }) => {
       success: true,
       message: "Login successful.",
       user_data,
+      status: 201,
     };
   } catch (error: any) {
     let errorMessage = "login failed. Please try again later.";
@@ -46,7 +47,12 @@ export const login = async (formData: { email: string; password: string }) => {
     } else if (error?.userMessage) errorMessage = error.userMessage;
     else if (error?.message) errorMessage = error.message;
 
-    return { success: false, message: errorMessage, user_data: null };
+    return {
+      success: false,
+      message: errorMessage,
+      user_data: null,
+      status: error.status,
+    };
   }
 };
 

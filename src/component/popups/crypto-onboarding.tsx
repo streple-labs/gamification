@@ -71,8 +71,8 @@ export default function CryptoOnboarding() {
             ...user,
             user_data: { ...user.user_data, ...formData, hasAnswer: true },
             game_data: {
-              level: Math.max(user.game_data.level, 1),
-              phase: Math.max(user.game_data.phase, 1),
+              phase: 1,
+              level: 2,
               totalScore: user.game_data.totalScore + 20,
               hasAnswer: true,
             },

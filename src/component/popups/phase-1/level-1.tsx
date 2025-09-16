@@ -44,19 +44,20 @@ export default function Phase1Level1({
   const { mutate: handleCompletePhase1Level1 } = useMutation({
     mutationKey: ["phase-1-level-1-complete"],
     mutationFn: async () => {
-      if (user.game_data.phase >= 1 && user.game_data.level >= 2) {
+      if (user.game_data.phase === 1 && user.game_data.level === 1)
+        return await updateUserGameData({
+          phase: "Phase 1",
+          level: "Level 2",
+          score: 20,
+        });
+      else {
         close();
         return {
           success: false,
           message:
             "Great job refreshing your knowledge! You've already completed this lesson.",
         };
-      } else
-        return await updateUserGameData({
-          phase: "Phase 1",
-          level: "Level 2",
-          score: 20,
-        });
+      }
     },
     onSuccess: (res) => {
       if (res.success) {
@@ -66,8 +67,8 @@ export default function Phase1Level1({
             ...user,
             user_data: { ...user.user_data },
             game_data: {
-              level: Math.max(user.game_data.level, 1),
-              phase: Math.max(user.game_data.phase, 2),
+              phase: 1,
+              level: 2,
               totalScore: user.game_data.totalScore + 20,
               hasAnswer: true,
             },

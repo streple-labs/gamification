@@ -35,8 +35,12 @@ export default function Banner({
     );
 
   return (
-    <div className="flex drop-shadow-[#EFEDF6B2] drop-shadow-xs">
-      <LeftSmall className={disabled ? "grayscale-100" : ""} />
+    <div
+      className={`${
+        disabled && "grayscale-100"
+      } flex drop-shadow-[#EFEDF6B2] drop-shadow-xs`}
+    >
+      <LeftSmall />
       <div
         className={`flex items-center justify-center max-md:-mx-0.5 px-2.5 py-3 h-[34px] md:h-[46px] bg-gradient-to-b from-[#CDBEF9] to-[#503C8B] ${
           disabled && "grayscale-100"
@@ -48,7 +52,7 @@ export default function Banner({
           {label}
         </p>
       </div>
-      <RightSmall className={disabled ? "grayscale-100" : ""} />
+      <RightSmall />
     </div>
   );
 }
