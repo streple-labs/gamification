@@ -2,7 +2,7 @@
 "use client";
 
 import { anton } from "@/app/fonts";
-import { login, resendOtp, verifyOtp } from "@/utils/action";
+import { login, resendOtp, verifyOtp } from "@/utils/api/action";
 import { base_url, RE_DIGIT } from "@/utils/constants";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -36,7 +36,11 @@ export default function Login() {
 
   const { mutate: handleLogin, isPending: loading } = useMutation({
     mutationKey: ["login"],
-    mutationFn: async () => await login(formData),
+    mutationFn: async () =>
+      await login({
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      }),
     onSuccess: (res) => {
       if (res.success) {
         router.push("/");
@@ -104,7 +108,7 @@ export default function Login() {
       await verifyOtp(
         {
           otp,
-          email: formData.email,
+          email: formData.email.trim().toLowerCase(),
         },
         "verify"
       ),
@@ -124,7 +128,10 @@ export default function Login() {
   const { mutate: handleResendOtp, isPending: isResendLoading } = useMutation({
     mutationKey: ["resend-otp"],
     mutationFn: async () =>
-      await resendOtp({ email: formData.email, purpose: "verify" }),
+      await resendOtp({
+        email: formData.email.trim().toLowerCase(),
+        purpose: "verify",
+      }),
     onSuccess: (res) => {
       if (res.success) {
         toast.success(

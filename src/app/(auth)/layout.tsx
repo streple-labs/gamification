@@ -1,6 +1,7 @@
 import { anton } from "@/app/fonts";
 import Image from "next/image";
 import Link from "next/link";
+import logo from '../../../public/streple-logo.png'
 
 export default function AuthLayout({
   children,
@@ -14,7 +15,7 @@ export default function AuthLayout({
         <div className="flex justify-between flex-col relative size-full">
           <Link href="">
             <Image
-              src="/streple-logo.png"
+              src={logo}
               alt="streple logo"
               width={112}
               height={33}
@@ -37,7 +38,7 @@ export default function AuthLayout({
       <div className="w-full lg:w-1/2 overflow-y-auto min-h-screen space-y-10 px-[5%] md:px-[5.76%] py-8 bg-[#1B191C] relative">
         <div className="w-full flex items-start lg:hidden">
           <Image
-            src="/streple-logo.png"
+            src={logo}
             alt="streple logo"
             width={112}
             height={33}

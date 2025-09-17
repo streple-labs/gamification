@@ -4,7 +4,7 @@ import { anton, baloo } from "@/app/fonts";
 import Lightning from "@/assets/svg/purple-lightning";
 import { useAuth } from "@/context/auth-context";
 import useSoundEffects from "@/hooks/useSoundEffects";
-import { handleCryptoOnboarding } from "@/utils/action";
+import { handleCryptoOnboarding } from "@/utils/api/action";
 import {
   getRandomQuestions,
   P1L1quizFormQuestions,

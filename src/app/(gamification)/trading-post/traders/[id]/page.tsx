@@ -8,7 +8,7 @@ import {
   getProtraderPerformanceCurve,
   getProtraderProfilePerformance,
   getProtraderProfileStat,
-} from "@/utils/queries";
+} from "@/utils/api/queries";
 import PerformanceTab from "./_components/performance-tab";
 import FollowTraderBtn from "./_components/follow-trader-btn";
 
@@ -22,10 +22,13 @@ export default async function page({
   const { id } = await params;
 
   const [
-    { trader: traderProfileStat, error: traderProfileStatError },
-    { trader: traderProfilePerformance, error: traderProfilePerformanceError },
-    { trader: traderDrawdownCurve, error: traderDrawdownCurveError },
-    { trader: traderPerformanceCurve, error: traderPerformanceCurveError },
+    { document: traderProfileStat, error: traderProfileStatError },
+    {
+      document: traderProfilePerformance,
+      error: traderProfilePerformanceError,
+    },
+    { document: traderDrawdownCurve, error: traderDrawdownCurveError },
+    { document: traderPerformanceCurve, error: traderPerformanceCurveError },
   ] = await Promise.all([
     getProtraderProfileStat(id),
     getProtraderProfilePerformance(

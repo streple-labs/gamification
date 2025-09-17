@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { resendOtp, signup, verifyOtp } from "@/utils/action";
+import { resendOtp, signup, verifyOtp } from "@/utils/api/action";
 import { RE_DIGIT } from "@/utils/constants";
 import { focusToNextInput } from "@/utils/utils";
 import { useMutation } from "@tanstack/react-query";
@@ -113,6 +113,7 @@ export default function Signup() {
     mutationFn: async () =>
       await signup({
         ...formData,
+        email: formData.email.trim().toLowerCase(),
         referral: searchParams.get("ref") || "",
       }),
     onSuccess: (res) => {

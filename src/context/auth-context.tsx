@@ -1,6 +1,10 @@
 "use client";
 
-import { clearToken, getSession, getUserGameProgress } from "@/utils/queries";
+import {
+  clearToken,
+  getSession,
+  getUserGameProgress,
+} from "@/utils/api/queries";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import React, { createContext, ReactNode, useContext, useState } from "react";

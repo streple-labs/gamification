@@ -14,7 +14,7 @@ import UnlockedQuestHero from "@/component/popups/unlocked-quest-hero";
 import Modal from "@/component/ui/modal";
 import Tooltip from "@/component/ui/tooltip";
 import { useAuth } from "@/context/auth-context";
-import { followTrader } from "@/utils/action";
+import { followTrader } from "@/utils/api/action";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";

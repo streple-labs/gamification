@@ -1,9 +1,11 @@
-import { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { CustomAxiosRequestConfig } from "@/types/auth";
+import { AxiosError } from "axios";
 
-interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
-  metadata?: {
-    startTime: Date;
-  };
+export class AuthenticationError extends Error {
+  constructor(message: string = "Authentication failed") {
+    super(message);
+    this.name = "AuthenticationError";
+  }
 }
 
 export function createNetworkError(

@@ -6,7 +6,7 @@ import ReferralCode from "./referral-code";
 export default function page() {
   return (
     <div className="space-y-10 w-full overflow-y-auto hide-scrollbar relative">
-      <div className="min-h-[145px] md:h-[207px] py-4 md:pt-[30px] pl-4 relative rounded-3xl overflow-hidden flex justify-between px-[52px]">
+      <div className="min-h-[145px] md:h-[207px] py-4 md:pt-[30px] px-4 md:px-[52px] relative rounded-3xl overflow-hidden flex justify-between">
         <Image
           src="/learn-bg.jpg"
           alt="background"

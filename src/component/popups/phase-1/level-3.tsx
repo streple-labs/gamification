@@ -4,7 +4,7 @@ import { baloo } from "@/app/fonts";
 import Lightning from "@/assets/svg/purple-lightning";
 import { useAuth } from "@/context/auth-context";
 import useSoundEffects from "@/hooks/useSoundEffects";
-import { updateUserGameData } from "@/utils/action";
+import { updateUserGameData } from "@/utils/api/action";
 import {
   getRandomQuestions,
   P1L3quizFormQuestions,

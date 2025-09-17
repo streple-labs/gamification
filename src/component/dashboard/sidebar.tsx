@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { BiCandles } from "react-icons/bi";
-import { PiBookBookmark, PiCoinVertical } from "react-icons/pi";
+import { PiBookBookmark, PiCoinVertical, PiCrownSimple } from "react-icons/pi";
 import ReferralIcon from "../icons/referral-icon";
 import Switch from "../ui/switch";
 
@@ -46,11 +46,11 @@ export default function Sidebar() {
         href: "/referral",
         icon: ReferralIcon,
       },
-      // {
-      //   name: "Leaderboard",
-      //   href: "",
-      //   icon: PiCrownSimple,
-      // },
+      {
+        name: "Leaderboard",
+        href: "/leaderboard",
+        icon: PiCrownSimple,
+      },
     ],
     [game_data]
   );

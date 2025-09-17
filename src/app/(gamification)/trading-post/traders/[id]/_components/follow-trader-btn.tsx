@@ -4,7 +4,7 @@ import { baloo } from "@/app/fonts";
 import CopyTrader from "@/component/form/copy-trader-form";
 import Loader from "@/component/ui/loader";
 import Modal from "@/component/ui/modal";
-import { followTrader } from "@/utils/action";
+import { followTrader } from "@/utils/api/action";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

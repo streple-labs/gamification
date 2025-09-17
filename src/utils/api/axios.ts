@@ -4,9 +4,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { cookies } from "next/headers";
-import { redirectToLogin } from "./action";
-import { base_url, dev_url, live_url } from "./constants";
-import { createNetworkError } from "./utils";
+import { base_url } from "../constants";
+import { AuthenticationError, createNetworkError } from "../utils";
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   metadata?: {
@@ -22,9 +21,6 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-
-let isRefreshing = false;
-let failedRequestsQueue: ((token: string) => void)[] = [];
 
 api.interceptors.request.use(
   async (config: CustomAxiosRequestConfig) => {
@@ -93,53 +89,8 @@ api.interceptors.response.use(
 
       console.error("🔥 Response Error:", errorInfo);
 
-      if (response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-
-        if (!isRefreshing) {
-          isRefreshing = true;
-          if (process.env.NODE_ENV === "development")
-            console.log("Attempting to refresh access token...");
-
-          try {
-            const res = await axios.post(
-              `${
-                process.env.NODE_ENV === "development" ? dev_url : live_url
-              }/api/auth/refresh`
-            );
-
-            const { token } = await res.data;
-
-            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-            // Re-run all the requests that were queued up
-            failedRequestsQueue.forEach((callback) => callback(token));
-            failedRequestsQueue = []; // Clear the queue
-
-            isRefreshing = false;
-
-            // Re-try the original failed request with the new token
-            originalRequest.headers["Authorization"] = `Bearer ${token}`;
-            return api(originalRequest);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } catch (refreshError: any) {
-            console.error("❌ Token refresh failed:", refreshError);
-
-            failedRequestsQueue = [];
-            isRefreshing = false;
-
-            await redirectToLogin();
-          }
-        }
-
-        // If a refresh is already in progress, add the failed request to a queue
-        return new Promise((resolve) => {
-          failedRequestsQueue.push((token) => {
-            originalRequest.headers["Authorization"] = `Bearer ${token}`;
-            resolve(api(originalRequest));
-          });
-        });
-      }
+      if (response.status === 401)
+        return Promise.reject(new AuthenticationError("Token refresh failed"));
     } else if (request) {
       console.error("🌐 Network Error:", {
         message: "No response received",
