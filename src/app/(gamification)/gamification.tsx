@@ -12,7 +12,7 @@ import useSoundEffects from "@/hooks/useSoundEffects";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
-import { baloo } from "../fonts";
+// import { baloo } from "../fonts";
 
 export default function Gamification() {
   const {
@@ -253,7 +253,8 @@ export default function Gamification() {
           </Tooltip>
         </div>
       </div>
-      <div className="space-y-4 md:space-y-8 w-full [&>div]:bg-blend-luminosity">
+
+      {/* <div className="space-y-4 md:space-y-8 w-full [&>div]:bg-blend-luminosity">
         <Banner
           label="PHASE 2 : WALK WITH THE WISE"
           disabled={game_data.phase == 1}
@@ -426,7 +427,7 @@ export default function Gamification() {
             <FaChevronRight width={9} color="#B59EF9" />
           </span>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
