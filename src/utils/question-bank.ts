@@ -3,7 +3,7 @@ export function getRandomQuestions(
     number,
     { question: string; options: string[]; answer: number; info: string }
   >,
-  count: number = 3
+  count: number
 ) {
   const keys = Object.keys(questions).map(Number);
   const actualCount = Math.min(count, keys.length);

@@ -8,7 +8,7 @@ import { useEffect, useMemo } from "react";
 import { BiCandles } from "react-icons/bi";
 import { PiBookBookmark, PiCoinVertical, PiCrownSimple } from "react-icons/pi";
 import ReferralIcon from "../icons/referral-icon";
-import Switch from "../ui/switch";
+// import Switch from "../ui/switch";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -168,14 +168,14 @@ export default function Sidebar() {
           </span>
         </button> */}
       </nav>
-      <div className="w-full rounded-[20px] px-8 py-5 flex items-center justify-center gap-4 bg-[#5A555C1A] relative">
+      {/* <div className="w-full rounded-[20px] px-8 py-5 flex items-center justify-center gap-4 bg-[#5A555C1A] relative">
         <p
           className={`text-sm font-normal leading-3 tracking-normal text-white/50`}
         >
           Crypto hustle
         </p>
         <Switch />
-      </div>
+      </div> */}
     </aside>
   );
 }

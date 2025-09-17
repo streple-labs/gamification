@@ -41,6 +41,8 @@ export default function Phase1Level1({
 
   const [courseStartTime, setCourseStartTime] = useState<number>(0);
 
+  const [stpCollected, setStpCollected] = useState(0);
+
   const { mutate: handleCompletePhase1Level1 } = useMutation({
     mutationKey: ["phase-1-level-1-complete"],
     mutationFn: async () => {
@@ -48,7 +50,7 @@ export default function Phase1Level1({
         return await updateUserGameData({
           phase: "Phase 1",
           level: "Level 2",
-          score: 20,
+          score: stpCollected,
         });
       else {
         close();
@@ -69,7 +71,7 @@ export default function Phase1Level1({
             game_data: {
               phase: 1,
               level: 2,
-              totalScore: user.game_data.totalScore + 20,
+              totalScore: user.game_data.totalScore + stpCollected,
               hasAnswer: true,
             },
           });
@@ -90,6 +92,7 @@ export default function Phase1Level1({
           setCourseStartTime={setCourseStartTime}
           close={close}
           setStage={setStage}
+          setStpCollected={setStpCollected}
         />
       );
     if (stage === "test")
@@ -104,6 +107,7 @@ export default function Phase1Level1({
             setStage("awards");
           }}
           close={close}
+          setStpCollected={setStpCollected}
         />
       );
     if (stage === "awards")
@@ -114,9 +118,17 @@ export default function Phase1Level1({
             playSound("level_complete");
             handleCompletePhase1Level1();
           }}
+          stpCollected={stpCollected}
         />
       );
-  }, [stage, close, courseStartTime, handleCompletePhase1Level1, playSound]);
+  }, [
+    stage,
+    close,
+    courseStartTime,
+    handleCompletePhase1Level1,
+    playSound,
+    stpCollected,
+  ]);
 
   return (
     <Modal isOpen={isOpen} onClose={close}>
@@ -129,10 +141,12 @@ function CryptoLesson({
   setStage,
   close,
   setCourseStartTime,
+  setStpCollected,
 }: {
   setStage: (stage: Stages) => void;
   close: () => void;
   setCourseStartTime: React.Dispatch<React.SetStateAction<number>>;
+  setStpCollected: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const { playSound } = useSoundEffects();
 
@@ -180,6 +194,7 @@ function CryptoLesson({
             setStage("test");
           }}
           close={close}
+          setStpCollected={setStpCollected}
         />
       )}
     </div>
@@ -189,9 +204,11 @@ function CryptoLesson({
 function CryptoCourse({
   next,
   close,
+  setStpCollected,
 }: {
   next: () => void;
   close: () => void;
+  setStpCollected: React.Dispatch<React.SetStateAction<number>>;
 }) {
   return (
     <div className="size-full flex flex-col relative pt-20 px-4">
@@ -249,7 +266,10 @@ function CryptoCourse({
         </div>
 
         <button
-          onClick={next}
+          onClick={() => {
+            setStpCollected((prev) => prev + 5);
+            next();
+          }}
           className="text-[#181812B2] relative text-base font-bold flex items-center justify-center shadow-[inset_4px_3px_2px_0px_#EDEBB680] border border-[#ACA40F80] bg-[#BDB510] rounded-[10px] h-[60px] w-[191px]"
         >
           Next
@@ -263,10 +283,12 @@ function CryptoTest({
   review,
   next,
   close,
+  setStpCollected,
 }: {
   next: () => void;
   review: () => void;
   close: () => void;
+  setStpCollected: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const { playSound } = useSoundEffects();
 
@@ -275,19 +297,15 @@ function CryptoTest({
 
   const [quizForm, setQuizForm] = useState<Record<number, number | null>>({
     0: null,
-    1: null,
-    2: null,
   });
   const [quizResults, setQuizResults] = useState<
     Record<number, boolean | null>
   >({
     0: null,
-    1: null,
-    2: null,
   });
 
   const [quizFormQuestions] = useState(() =>
-    getRandomQuestions(P1L1quizFormQuestions, 3)
+    getRandomQuestions(P1L1quizFormQuestions, 1)
   );
 
   useEffect(() => {
@@ -343,7 +361,7 @@ function CryptoTest({
         <div className="flex items-center shrink-0 gap-3">
           <Lightning />
           <p className="text-base md:text-2xl/6 font-semibold text-white/80">
-            15XP
+            5XP
           </p>
         </div>
       </div>
@@ -474,6 +492,11 @@ function CryptoTest({
                       quizForm[courseStage - 6] ===
                       quizFormQuestions[courseStage - 6].answer,
                   }));
+                  if (
+                    quizForm[courseStage - 6] ===
+                    quizFormQuestions[courseStage - 6].answer
+                  )
+                    setStpCollected((prev) => prev + 5);
                 }}
                 disabled={quizForm[courseStage - 6] === null}
                 className={`${
@@ -517,7 +540,7 @@ function CryptoTest({
 
                   <button
                     onClick={() => {
-                      if (courseStage === 8) next();
+                      if (courseStage === 6) next();
                       else setCourseStage((prev) => prev + 1);
                     }}
                     className={`${
@@ -547,9 +570,11 @@ function CryptoTest({
 function Completed({
   close,
   courseStartTime,
+  stpCollected,
 }: {
   close: () => void;
   courseStartTime: number;
+  stpCollected: number;
 }) {
   const { playSound } = useSoundEffects();
 
@@ -693,7 +718,7 @@ function Completed({
               <p
                 className={`${baloo.className} text-[#F4E90E] text-3xl md:text-[36px] relative`}
               >
-                +20 STP
+                +{stpCollected} STP
               </p>
             </div>
           </div>

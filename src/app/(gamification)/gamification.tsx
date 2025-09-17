@@ -13,7 +13,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { toast } from "sonner";
-// import { baloo } from "../fonts";
+import { baloo } from "../fonts";
 
 export default function Gamification() {
   const {
@@ -261,191 +261,193 @@ export default function Gamification() {
         </div>
       </div>
 
-      {/* <div className="space-y-4 md:space-y-8 w-full [&>div]:bg-blend-luminosity">
-        <Banner
-          label="PHASE 2 : WALK WITH THE WISE"
-          disabled={game_data.phase == 1}
-        />
+      {game_data.phase === 2 && (
+        <div className="space-y-4 md:space-y-8 w-full [&>div]:bg-blend-luminosity">
+          <Banner label="PHASE 2 : WALK WITH THE WISE" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 [&>div]:active:scale-95">
-          <Tooltip
-            isVisible={
-              game_data.phase === 2 &&
-              game_data.level === 1 &&
-              highlightCurrentStage
-            }
-            position="bottom"
-            content="Let's pick up where you left off"
-          >
-            <div
-              onClick={() => {
-                playSound("lesson");
-                if (game_data.phase >= 2 && game_data.level >= 1)
-                  setShowSelectedCourse("Phase2Level1");
-                else
-                  toast.info("Complete previous levels to unlock this stage");
-              }}
-              className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
-                game_data.phase >= 2 && game_data.level >= 1
-                  ? "cursor-pointer"
-                  : "grayscale-100 && cursor-not-allowed"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 [&>div]:active:scale-95">
+            <Tooltip
+              isVisible={
+                game_data.phase === 2 &&
+                game_data.level === 1 &&
+                highlightCurrentStage
               }
+              position="bottom"
+              content="Let's pick up where you left off"
+            >
+              <div
+                onClick={() => {
+                  playSound("lesson");
+                  if (game_data.phase >= 2 && game_data.level >= 1)
+                    setShowSelectedCourse("Phase2Level1");
+                  else
+                    toast.info("Complete previous levels to unlock this stage");
+                }}
+                className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+                  game_data.phase >= 2 && game_data.level >= 1
+                    ? "cursor-pointer"
+                    : "grayscale-100 && cursor-not-allowed"
+                }
              ${
                game_data.phase === 2 &&
                game_data.level === 1 &&
                "border-4 border-[#958F16]/50"
              }
             `}
-            >
-              <div className="flex flex-col md:flex-row md:items-center gap-3">
-                <Image
-                  src={"/what-is-copy-trading.png"}
-                  alt="what is copy trading illustration"
-                  width={40}
-                  height={40}
-                  className="size-8 md:size-10"
-                />
+              >
+                <div className="flex flex-col md:flex-row md:items-center gap-3">
+                  <Image
+                    src={"/what-is-copy-trading.png"}
+                    alt="what is copy trading illustration"
+                    width={40}
+                    height={40}
+                    className="size-8 md:size-10"
+                  />
 
-                <span className="inline-block text-xs/6 md:text-base/8 tracking-[1px] drop-shadow-xs drop-shadow-[#F4E90E80]">
-                  What is Copy-Trading
+                  <span className="inline-block text-xs/6 md:text-base/8 tracking-[1px] drop-shadow-xs drop-shadow-[#F4E90E80]">
+                    What is Copy-Trading
+                  </span>
+                </div>
+                <span className="max-md:hidden">
+                  <FaChevronRight width={9} color="#B59EF9" />
                 </span>
               </div>
-              <span className="max-md:hidden">
-                <FaChevronRight width={9} color="#B59EF9" />
-              </span>
-            </div>
-          </Tooltip>
+            </Tooltip>
 
-          <Tooltip
-            isVisible={
-              game_data.phase === 2 &&
-              game_data.level === 2 &&
-              highlightCurrentStage
-            }
-            position="bottom"
-            content="Let's pick up where you left off"
-          >
-            <div
-              onClick={() => {
-                playSound("lesson");
-                if (game_data.phase >= 2 && game_data.level >= 2)
-                  setShowSelectedCourse("Phase2Level2");
-                else
-                  toast.info("Complete previous levels to unlock this stage");
-              }}
-              className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
-                game_data.phase >= 2 && game_data.level >= 2
-                  ? "cursor-pointer"
-                  : "grayscale-100 && cursor-not-allowed"
+            <Tooltip
+              isVisible={
+                game_data.phase === 2 &&
+                game_data.level === 2 &&
+                highlightCurrentStage
               }
+              position="bottom"
+              content="Let's pick up where you left off"
+            >
+              <div
+                onClick={() => {
+                  playSound("lesson");
+                  if (game_data.phase >= 2 && game_data.level >= 2)
+                    setShowSelectedCourse("Phase2Level2");
+                  else
+                    toast.info("Complete previous levels to unlock this stage");
+                }}
+                className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+                  game_data.phase >= 2 && game_data.level >= 2
+                    ? "cursor-pointer"
+                    : "grayscale-100 && cursor-not-allowed"
+                }
               ${
                 game_data.phase === 2 &&
                 game_data.level === 2 &&
                 "border-4 border-[#A082F980]"
               }
             `}
-            >
-              <div className="flex flex-col md:flex-row md:items-center gap-3">
-                <Image
-                  src={"/choose-a-trader.png"}
-                  alt="choose a trader illustration"
-                  width={40}
-                  height={40}
-                  className="size-8 md:size-10"
-                />
+              >
+                <div className="flex flex-col md:flex-row md:items-center gap-3">
+                  <Image
+                    src={"/choose-a-trader.png"}
+                    alt="choose a trader illustration"
+                    width={40}
+                    height={40}
+                    className="size-8 md:size-10"
+                  />
 
-                <span className="inline-block text-xs/6 md:text-base/8 tracking-[1px] drop-shadow-xs drop-shadow-[#F4E90E80]">
-                  How to choose a trader
+                  <span className="inline-block text-xs/6 md:text-base/8 tracking-[1px] drop-shadow-xs drop-shadow-[#F4E90E80]">
+                    How to choose a trader
+                  </span>
+                </div>
+                <span className="max-md:hidden">
+                  <FaChevronRight width={9} color="#B59EF9" />
                 </span>
               </div>
-              <span className="max-md:hidden">
-                <FaChevronRight width={9} color="#B59EF9" />
-              </span>
-            </div>
-          </Tooltip>
+            </Tooltip>
 
-          <Tooltip
-            isVisible={
-              game_data.phase === 2 &&
-              game_data.level === 3 &&
-              highlightCurrentStage
-            }
-            position="bottom"
-            content="Let's pick up where you left off"
-          >
-            <div
-              onClick={() => {
-                playSound("lesson");
-                if (game_data.phase === 3)
-                  setShowSelectedCourse("Phase2Level3");
-                else
-                  toast.info("Complete previous levels to unlock this stage");
-              }}
-              className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
-                game_data.phase >= 2 && game_data.level >= 3
-                  ? "cursor-pointer"
-                  : "grayscale-100 && cursor-not-allowed"
+            <Tooltip
+              isVisible={
+                game_data.phase === 2 &&
+                game_data.level === 3 &&
+                highlightCurrentStage
               }
+              position="bottom"
+              content="Let's pick up where you left off"
+            >
+              <div
+                onClick={() => {
+                  playSound("lesson");
+                  if (game_data.phase === 3)
+                    setShowSelectedCourse("Phase2Level3");
+                  else
+                    toast.info("Complete previous levels to unlock this stage");
+                }}
+                className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
+                  game_data.phase >= 2 && game_data.level >= 3
+                    ? "cursor-pointer"
+                    : "grayscale-100 && cursor-not-allowed"
+                }
             ${
               game_data.phase === 2 &&
               game_data.level === 3 &&
               "border-4 border-[#958F16]/50"
             }
             `}
-            >
-              <div className="flex flex-col md:flex-row md:items-center gap-3">
-                <Image
-                  src={"/why-trades-work.png"}
-                  alt="why trades work illustration"
-                  width={40}
-                  height={40}
-                  className="size-8 md:size-10"
-                />
+              >
+                <div className="flex flex-col md:flex-row md:items-center gap-3">
+                  <Image
+                    src={"/why-trades-work.png"}
+                    alt="why trades work illustration"
+                    width={40}
+                    height={40}
+                    className="size-8 md:size-10"
+                  />
 
-                <span className="inline-block text-xs md:text-base/8 tracking-[1px] drop-shadow-xs drop-shadow-[#F4E90E80]">
-                  Why Trades Work
+                  <span className="inline-block text-xs md:text-base/8 tracking-[1px] drop-shadow-xs drop-shadow-[#F4E90E80]">
+                    Why Trades Work
+                  </span>
+                </div>
+                <span>
+                  <FaChevronRight width={9} color="#B59EF9" />
                 </span>
               </div>
-              <span>
-                <FaChevronRight width={9} color="#B59EF9" />
+            </Tooltip>
+          </div>
+        </div>
+      )}
+
+      {game_data.phase === 3 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 [&>div]:bg-blend-luminosity pt-4 [&>div]:active:scale-95">
+          <div
+            onClick={() => {
+              playSound("modal");
+              if (game_data.phase === 3) setShowMissionChestModal(true);
+              else toast.info("Complete previous levels to unlock this stage");
+            }}
+            className={`bg-[#24222A99] ${
+              baloo.className
+            } min-h-[85px] rounded-[10px] py-[22px] px-6 flex items-center justify-between gap-4 shadow-[inset_9px_-9px_0px_0px_#A082F9] ${
+              game_data.phase >= 3
+                ? "cursor-pointer"
+                : "grayscale-100 && cursor-not-allowed"
+            }`}
+          >
+            <div className="flex items-center relative">
+              <Image
+                src={"/treasure-chest.png"}
+                alt="treasure chest illustration"
+                width={91.08}
+                height={71.41}
+                className="rotate-[6.47deg] absolute -top-4 -left-4"
+              />
+
+              <span className="inline-block ml-20 text-[#E4DCFD] text-xl/8 tracking-[1px] drop-shadow-[#F4E90E80] drop-shadow-[0px_4px_0px]">
+                MISSION CHEST
               </span>
             </div>
-          </Tooltip>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 [&>div]:bg-blend-luminosity pt-4 [&>div]:active:scale-95">
-        <div
-          onClick={() => {
-            playSound("modal");
-            if (game_data.phase === 3) setShowMissionChestModal(true);
-            else toast.info("Complete previous levels to unlock this stage");
-          }}
-          className={`bg-[#24222A99] ${
-            baloo.className
-          } min-h-[85px] rounded-[10px] py-[22px] px-6 flex items-center justify-between gap-4 shadow-[inset_9px_-9px_0px_0px_#A082F9] ${
-            game_data.phase >= 3
-              ? "cursor-pointer"
-              : "grayscale-100 && cursor-not-allowed"
-          }`}
-        >
-          <div className="flex items-center relative">
-            <Image
-              src={"/treasure-chest.png"}
-              alt="treasure chest illustration"
-              width={91.08}
-              height={71.41}
-              className="rotate-[6.47deg] absolute -top-4 -left-4"
-            />
-
-            <span className="inline-block ml-20 text-[#E4DCFD] text-xl/8 tracking-[1px] drop-shadow-[#F4E90E80] drop-shadow-[0px_4px_0px]">
-              MISSION CHEST
+            <span>
+              <FaChevronRight width={9} color="#B59EF9" />
             </span>
           </div>
-          <span>
-            <FaChevronRight width={9} color="#B59EF9" />
-          </span>
         </div>
-      </div> */}
+      )}
     </>
   );
 }
