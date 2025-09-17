@@ -6,8 +6,15 @@ export function getRandomQuestions(
   count: number
 ) {
   const keys = Object.keys(questions).map(Number);
-  const shuffled = keys.sort(() => 0.5 - Math.random());
-  const selectedKeys = shuffled.slice(0, count);
+  const actualCount = Math.min(count, keys.length);
+
+  const shuffled = [...keys];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  const selectedKeys = shuffled.slice(0, actualCount);
 
   return selectedKeys.map((key) => ({
     id: key,
