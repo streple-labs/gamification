@@ -12,6 +12,7 @@ import useSoundEffects from "@/hooks/useSoundEffects";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
+import { toast } from "sonner";
 // import { baloo } from "../fonts";
 
 export default function Gamification() {
@@ -122,6 +123,8 @@ export default function Gamification() {
                 playSound("lesson");
                 if (game_data.phase >= 1 && game_data.level >= 1)
                   setShowSelectedCourse("Phase1Level1");
+                else
+                  toast.info("Complete previous levels to unlock this stage");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
                 game_data.phase >= 1 && game_data.level >= 1
@@ -169,6 +172,8 @@ export default function Gamification() {
 
                 if (game_data.phase >= 1 && game_data.level >= 2)
                   setShowSelectedCourse("Phase1Level2");
+                else
+                  toast.info("Complete previous levels to unlock this stage");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
                 game_data.phase >= 1 && game_data.level >= 2
@@ -219,6 +224,8 @@ export default function Gamification() {
                   game_data.phase >= 2
                 )
                   setShowSelectedCourse("Phase1Level3");
+                else
+                  toast.info("Complete previous levels to unlock this stage");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
                 (game_data.phase === 1 && game_data.level == 3) ||
@@ -275,6 +282,8 @@ export default function Gamification() {
                 playSound("lesson");
                 if (game_data.phase >= 2 && game_data.level >= 1)
                   setShowSelectedCourse("Phase2Level1");
+                else
+                  toast.info("Complete previous levels to unlock this stage");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
                 game_data.phase >= 2 && game_data.level >= 1
@@ -319,6 +328,10 @@ export default function Gamification() {
             <div
               onClick={() => {
                 playSound("lesson");
+                if (game_data.phase >= 2 && game_data.level >= 2)
+                  setShowSelectedCourse("Phase2Level2");
+                else
+                  toast.info("Complete previous levels to unlock this stage");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
                 game_data.phase >= 2 && game_data.level >= 2
@@ -363,6 +376,10 @@ export default function Gamification() {
             <div
               onClick={() => {
                 playSound("lesson");
+                if (game_data.phase === 3)
+                  setShowSelectedCourse("Phase2Level3");
+                else
+                  toast.info("Complete previous levels to unlock this stage");
               }}
               className={`bg-[#24222A99] min-h-[85px] rounded-[10px] p-4 md:py-[22px] md:px-6 flex items-center justify-between gap-4 ${
                 game_data.phase >= 2 && game_data.level >= 3
@@ -400,7 +417,8 @@ export default function Gamification() {
         <div
           onClick={() => {
             playSound("modal");
-            if (game_data.phase >= 3) setShowMissionChestModal(true);
+            if (game_data.phase === 3) setShowMissionChestModal(true);
+            else toast.info("Complete previous levels to unlock this stage");
           }}
           className={`bg-[#24222A99] ${
             baloo.className
